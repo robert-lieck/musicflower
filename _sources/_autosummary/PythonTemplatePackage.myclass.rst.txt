@@ -1,0 +1,31 @@
+PythonTemplatePackage.myclass
+=============================
+
+.. automodule:: PythonTemplatePackage.myclass
+
+   
+   
+   
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+   
+      MyClass
+   
+   
+
+   
+   
+   
+
+
+
