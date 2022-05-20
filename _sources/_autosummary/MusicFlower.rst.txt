@@ -1,7 +1,7 @@
-﻿PythonTemplatePackage
-=====================
+﻿MusicFlower
+===========
 
-.. automodule:: PythonTemplatePackage
+.. automodule:: MusicFlower
 
    
    
@@ -28,5 +28,5 @@
    :template: custom-module-template.rst
    :recursive:
 
-   PythonTemplatePackage.myclass
+   MusicFlower.myclass
 

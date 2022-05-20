@@ -1,6 +1,6 @@
 .. documentation master file; adapt to your liking (but should at least contain the root `toctree` directive).
 
-Welcome to PythonTemplatePackage's documentation!
+Welcome to MusicFlower's documentation!
 =================================================
 
 .. toctree::
@@ -17,7 +17,7 @@ Code examples are automatically tested
    Hello World
 
 
-.. autoclass:: PythonTemplatePackage.myclass.MyClass
+.. autoclass:: MusicFlower.myclass.MyClass
    :members:
 
 

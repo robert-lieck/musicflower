@@ -1,7 +1,7 @@
-PythonTemplatePackage.myclass.MyClass
-=====================================
+MusicFlower.myclass.MyClass
+===========================
 
-.. currentmodule:: PythonTemplatePackage.myclass
+.. currentmodule:: MusicFlower.myclass
 
 .. autoclass:: MyClass
    :members:

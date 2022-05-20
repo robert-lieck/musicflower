@@ -1,7 +1,7 @@
-PythonTemplatePackage.myclass
-=============================
+MusicFlower.myclass
+===================
 
-.. automodule:: PythonTemplatePackage.myclass
+.. automodule:: MusicFlower.myclass
 
    
    
