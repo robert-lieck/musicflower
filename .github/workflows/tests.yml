@@ -13,8 +13,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.9", "3.10"]
+        os: [ubuntu-latest] #, macos-latest, windows-latest]
+        python-version: ["3.10"]
     env:
       OS: ${{ matrix.os }}
       PYTHON: ${{ matrix.python-version }}
@@ -37,7 +37,7 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest --cov=PythonTemplatePackage --cov-report=xml --cov-report=html --junitxml=junit/test-results.xml
+        pytest --cov=MusicFlower --cov-report=xml --cov-report=html --junitxml=junit/test-results.xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:

@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from PythonTemplatePackage.myclass import MyClass
+from MusicFlower.myclass import MyClass
 
 
 class TestTemplate(TestCase):
