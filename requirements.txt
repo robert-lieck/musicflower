@@ -1,0 +1,5 @@
+numpy
+pitchscapes
+tqdm
+triangularmap
+plotly
