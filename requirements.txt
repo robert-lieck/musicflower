@@ -1,5 +1,10 @@
 numpy
-pitchscapes
 tqdm
-triangularmap
+scipy
+librosa
+
 plotly
+matplotlib
+
+triangularmap
+pitchscapes
