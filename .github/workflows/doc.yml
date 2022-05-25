@@ -20,8 +20,8 @@ jobs:
       - name: generate doc
         run: |
           pip install -r requirements.txt
-          pip install -r docs/requirements.txt
-          cd docs/
+          pip install -r doc/requirements.txt
+          cd doc/
           make html
           make linkcheck
 
