@@ -16,14 +16,25 @@ import librosa.display
 
 import pitchscapes.reader as rd
 
-from TriangularMap import TMap
+from triangularmap import TMap
 
 
-def get_cache_file_name(file_name, n, remove_extension=False):
+def get_cache_file_path(file_path: str, n: int, remove_extension: bool = False):
+    """
+    For a given file path and resolution, return the associated cache file path, which corresponds to the original file
+    path appended with `_<n>.pickle`, where `<n>` is replaced with the actual resolution.
+
+    :param file_path: path to the original file
+    :param n: resolution of the pitch scape
+    :param remove_extension: remove the original file extension before appending `_<n>.pickle` (if the same file is used
+     with different extensions, for instance, \*.mxl for a MusicXML file and \*.ogg for an associated audio file,
+     removing the extension leads to name conflicts for the cache files)
+    :return: path to the cache file
+    """
     if remove_extension:
-        return os.path.splitext(file_name)[0] + f"_n{n}.pickle"
+        return os.path.splitext(file_path)[0] + f"_n{n}.pickle"
     else:
-        return file_name + f"_n{n}.pickle"
+        return file_path + f"_n{n}.pickle"
 
 
 def audio_scape(n_time_intervals, file_path, normalise=True, top_down=False):
@@ -53,33 +64,47 @@ def audio_scape(n_time_intervals, file_path, normalise=True, top_down=False):
     return flattened
 
 
-def load_file(file_name: str, n: int, use_cache=False, recompute_cache=False, audio_ext=(".wav", ".mp3", ".ogg"),
-              **kwargs) -> np.ndarray:
+def load_file(file_path: str, n: int, use_cache=False, recompute_cache=False, audio=None,
+              audio_ext=(".wav", ".mp3", ".ogg"), top_down=True, **kwargs) -> np.ndarray:
     """
-    Reads a single file and computes the corresponding pitch class distribution.
+    Reads a single file and computes its pitch scape with resolution *n*.
+
+    :param file_path: path to file to load
+    :param n: resolution of pitch scape, i.e., the number of equally-sized time intervals to split the piece into
+    :param use_cache: whether to use/reuse cached results; these are stored in cache files specific for each resolution
+     *n* (see :meth:`~MusicFlower.loader.get_cache_file_path`). The **kwargs** are stored with the cache files and
+     checked for consistency; an error is raised if they do not match the provided **kwargs**. If **use_cache** is
+     `True` and a cache file exists, the cached result is loaded (after checking **kwargs** for consistency) and
+     returned; if the cache file does not exist, the result is computed and stored in a newly created cache file. This
+     behaviour can be changed by using **recompute_cache**.
+    :param recompute_cache: if caching is used, always recompute the result and overwrite potentially existing cache
+     files
+    :param audio: specifies that this is an audio file (**audio_ext** is ignored)
+    :param audio_ext: assumes all files with an extension in this list to be audio files, all other files to be symbolic
+    :param top_down: use the top-down ordering for flattening the triangular map (as used by the :class:`TMap` class);
+     if `False` the start-to-end convention from the `pitchscapes` library is used
+    :param kwargs: kwargs to passed to the :meth:`pitchscapes.reader.sample_scape` function of the pitchscapes library;
+     by default `normalise=True` is used, but this is overwritten by an explicitly specified argument
     :rtype: np.ndarray
-    :param file_name: path of file to read from
-    :param n: resolution at which to sample the piece.
-    :param sample_scape_kwargs: kwargs to pass to pitchscapes.reader.sample_scape of the pitchscapes library.
-                   important arguments are: . normalize: boolean indicating whether to normalize the counts row-wise
-                                            . prior_counts : integer indicating the prior counts when computing the pcd
-    :return: np.ndarray of shape ((n * (n+1)) / 2 , 12)
+    :return: array of shape (k , 12), where :math:`k=n(n+1)/2`
     """
+    # normalise by default
+    kwargs = dict(normalise=True) | kwargs
     # argument Checks
     if n < 1:
         raise ValueError('Resolution should be a positive integer bigger than 1')
-    if file_name is None:
+    if file_path is None:
         raise ValueError('File_name is None')
-    if not os.path.isfile(file_name):
-        raise FileNotFoundError(f'File {file_name} was not found')
-    if not os.access(file_name, os.R_OK):
-        raise ValueError(f'File {file_name} could not be read. Please verify permissions.')
-    if not os.path.isfile(file_name):
-        raise ValueError(f'File {file_name} should be a file not a directory')
+    if not os.path.isfile(file_path):
+        raise FileNotFoundError(f'File {file_path} was not found')
+    if not os.access(file_path, os.R_OK):
+        raise ValueError(f'File {file_path} could not be read. Please verify permissions.')
+    if not os.path.isfile(file_path):
+        raise ValueError(f'File {file_path} should be a file not a directory')
 
     # get cache file
     if use_cache:
-        cache_file_name = get_cache_file_name(file_name, n)
+        cache_file_name = get_cache_file_path(file_path, n)
         cache_file_exists = os.path.exists(cache_file_name)
     else:
         cache_file_name = None
@@ -88,66 +113,70 @@ def load_file(file_name: str, n: int, use_cache=False, recompute_cache=False, au
     # load from cache or compute from scratch
     if use_cache and cache_file_exists and not recompute_cache:
         with open(cache_file_name, 'rb') as cache_file:
-            pitch_class_distribution, cached_kwargs = pickle.load(cache_file)
+            pdc, cached_kwargs = pickle.load(cache_file)
         if not cached_kwargs == kwargs:
             raise ValueError(f"provided sample_scape_kwargs are different from cache file:\n"
                              f"    provided: {kwargs}\n"
                              f"    cache file: {cached_kwargs}\n"
                              f"Use recompute_cache=True to recompute and overwrite")
     else:
-        if file_name.endswith(audio_ext):
-            pitch_class_distribution = audio_scape(n_time_intervals=n,
-                                                   file_path=file_name,
-                                                   **kwargs)
+        if audio or (audio is None and file_path.endswith(audio_ext)):
+            pdc = audio_scape(n_time_intervals=n,
+                              file_path=file_path,
+                              **kwargs)
         else:
-            pitch_class_distribution = rd.sample_scape(n_time_intervals=n,
-                                                       file_path=file_name,
-                                                       **kwargs)
+            pdc = rd.sample_scape(n_time_intervals=n,
+                                  file_path=file_path,
+                                  **kwargs)
         if use_cache:
             with open(cache_file_name, 'wb') as cache_file:
-                pickle.dump((pitch_class_distribution, kwargs), cache_file)
+                pickle.dump((pdc, kwargs), cache_file)
 
-    return pitch_class_distribution
+    if top_down:
+        return pdc[TMap.get_reindex_top_down_from_start_end(TMap.n_from_size1d(pdc.shape[0])), ...]
+    else:
+        return pdc
 
 
 def _parallel_load_file_wrapper(file_name, kwargs):
     """
-    Take additional kwargs as single argument and unpack.
+    Wrapper for parallelisation; takes kwargs provided as dict and unpacks them when calling
+    :meth:`~MusicFlower.loader.load_file`.
     """
     return file_name, load_file(file_name, **kwargs)
 
 
-def load_corpus(file_names: Iterable[str], parallel=False, top_down=True, sort_func=lambda x: x, **kwargs) -> tuple[np.ndarray, list]:
+def load_corpus(file_paths: Iterable, parallel: bool = False, sort_func: callable = lambda x: x,
+                **kwargs) -> tuple[np.ndarray, list]:
     """
-    Computes pitch scape distributions for a collection of files.
+    This is essentially a wrapper for parallelisation around the :meth:`~MusicFlower.loader.load_file` function, which
+    computes pitch scapes for a set of files.
+
+    :param file_paths: an iterable of file paths to read
+    :param parallel: parallelise loading
+    :param sort_func: function that takes a file path and returns a key for sorting the result
+    :param kwargs: kwargs passed to the :meth:`~MusicFlower.loader.load_file` function
     :rtype: np.ndarray
-    :param file_names: Iterable[str], an iterable of file paths to read in the corpus.
-    :param n: resolution at which to sample the pieces.
-    :param kwargs: kwargs to pass to the load_file function.
-    :return: np.ndarray of shape(len(file_names) , n * (n+1) / 2, 12) corresponding to the pitchscape for each file.
+    :return: array of shape (k, l, 12) where k is the number of files and :math:`l=n(n+1)/2` is the number of points in
+     a pitch scape of resolution :math:`n`.
     """
     if parallel:
         with Pool() as pool:
             scape_list = []
-            for file_name, scape in tqdm(pool.istarmap(_parallel_load_file_wrapper, product(file_names, [kwargs])),
-                                         total=len(file_names)):
+            for file_name, scape in tqdm(pool.istarmap(_parallel_load_file_wrapper, product(file_paths, [kwargs])),
+                                         total=len(file_paths)):
                 scape_list.append((file_name, scape[None]))
     else:
         scape_list = []
-        for file_name in tqdm(file_names):
-            scape = load_file(file_name=file_name, **kwargs)
+        for file_name in tqdm(file_paths):
+            scape = load_file(file_path=file_name, **kwargs)
             scape_list.append((file_name, scape[None]))
 
     sorted_scape_list = sorted(scape_list, key=lambda x: sort_func(x[0]))
     final_array = np.concatenate([x[1] for x in sorted_scape_list], axis=0)
-    file_names = [x[0] for x in sorted_scape_list]
+    file_paths = [x[0] for x in sorted_scape_list]
 
-    if top_down:
-        return final_array[:, TMap.get_reindex_top_down_from_start_end(TMap.n_from_size1d(final_array.shape[1])), ...],\
-               file_names
-    else:
-        return final_array, \
-               file_names
+    return final_array, file_paths
 
 
 def get_chroma(file_name, cqt=False, normal=False, harm=False, filter=False, smooth=True, asdict=False,

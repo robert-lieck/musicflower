@@ -1,7 +1,6 @@
 #  Copyright (c) 2022 Robert Lieck.
 
 import numpy as np
-from scipy import interpolate
 
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
@@ -9,7 +8,9 @@ import matplotlib.pyplot as plt
 import pitchscapes.plotting as pt
 from pitchscapes.keyfinding import KeyEstimator
 
-from TriangularMap import TMap
+from triangularmap import TMap
+
+from MusicFlower.util import time_traces, surface_scape_indices
 
 # use colouring along circle of fifths (not chromatic)
 pt.set_circle_of_fifths(True)
@@ -17,17 +18,27 @@ pt.set_circle_of_fifths(True)
 
 def key_colors(pcds: np.ndarray, alpha=False) -> np.ndarray:
     """
-    Given an array of Kx12 PCDs, returns a Kx4 array of RGBA colors.
+    Given an array of PCDs, returns a corresponding array of RGB or RGBA colors.
 
-    :param pcds: array of Kx12 PCDs
-    :param alpha: whether to return alpha values or just RGB
-    :return: Kx4 array of RGBA colors
+    :param pcds: array of shape (..., 12) where can be any number of leading dimensions
+    :param alpha: whether to return alpha values (i.e. RGBA colours) or just RGB
+    :return: array of shape (..., 3) or (..., 4) with RGB/RGBA colors
     """
+    assert pcds.shape[-1] == 12, f"last dimension of 'pcds' must be of size 12 but is of size {pcds.shape[-1]}"
+    # reshape if necessary
+    shape = pcds.shape
+    if len(shape) > 2:
+        pcds = pcds.reshape(-1, 12)
+    # get scores and colours
     k = KeyEstimator()
     scores = k.get_score(pcds)
     colors = pt.key_scores_to_color(scores, circle_of_fifths=True)
+    # remove alpha if requested
     if not alpha:
         colors = colors[:, :3]
+    # reshape back if necessary
+    if len(shape) > 2:
+        colors = colors.reshape(shape[:-1] + (colors.shape[-1],))
     return colors
 
 
@@ -36,7 +47,7 @@ def plot_key_scape(c):
     plt.show()
 
 
-def create_or_update_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs):
+def create_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs):
     kwargs = dict(legend=dict(itemsizing='constant'),
                   title={
                       'x': 0.5,
@@ -66,82 +77,6 @@ def create_or_update_fig(fig=None, trace=None, dark=True, axes_off=True, **kwarg
     return fig
 
 
-def trisurf(triangles, decimals=None):
-    """
-    Convert a Nx3x3 array of N triangles in 3D space, defined via their corners, into x, y, z coordinate arrays, and
-    i, j, k index arrays as used by Plotly's Mesh3d function. Additionally, a return index r is return that can be used
-    to reconstruct information associated  with the original points.
-
-    :param triangles: Nx3x3 array of triangle vertices in 3D space (last dimension is x-y-z coordinate)
-    :param decimals: decimals to use for rounding using numpy.around to improve point identification
-    (default: None i.e. do not round)
-    :return: x, y, z, i, j, k, r
-    """
-    # asser shape is OK
-    assert triangles.shape[1:] == (3, 3), f"'triangles' has to have shape Nx3x3 but has shape {triangles.shape}"
-    # round if requested
-    if decimals is not None:
-        triangles = np.around(triangles, decimals=decimals)
-    # flatten to array of 3D points
-    triangle_points = triangles.reshape(-1, 3)
-    # get unique points (this also sorts!)
-    unique_points, return_index = np.unique(triangle_points, axis=0, return_index=True)
-    # convert to array of tuples for index finding
-    triangle_points_as_tuples = np.array([tuple(x) for x in triangle_points], dtype="f,f,f")
-    unique_points_as_tuples = np.array([tuple(x) for x in unique_points], dtype="f,f,f")
-    # find indices of triangle points (relies on sorted unique points)
-    triangle_point_indices = np.searchsorted(unique_points_as_tuples, triangle_points_as_tuples)
-    # reshape to array of 3D indices
-    triangle_point_indices = triangle_point_indices.reshape(-1, 3)
-    # return separate arrays
-    return (unique_points[:, 0], unique_points[:, 1], unique_points[:, 2],
-            triangle_point_indices[:, 0], triangle_point_indices[:, 1], triangle_point_indices[:, 2],
-            return_index)
-
-
-def surface_scape_indices(n):
-    """
-    Return i, j, k point indices for triangles creating a scape surface of size n
-
-    :param n: size
-    :return: i, j, k
-    """
-    index_map = TMap(np.arange(TMap.size1d_from_n(n)))
-    i, j, k = [], [], []
-    for d in range(n - 1):
-        a_slice = index_map.dslice(d)
-        b_slice = index_map.dslice(d + 1)
-        # triangles with tip up
-        i.append(a_slice)
-        j.append(b_slice[1:])
-        k.append(b_slice[:-1])
-        # triangles with tip down
-        if d < n - 2:
-            c_slice = index_map.dslice(d + 2)
-            i.append(b_slice[:-1])
-            j.append(b_slice[1:])
-            k.append(c_slice[1:-1])
-    return np.concatenate(i), np.concatenate(j), np.concatenate(k)
-
-
-def time_traces(x, y, z, colors, m):
-    xyz = TMap(np.concatenate([x[:, None], y[:, None], z[:, None]], axis=-1))
-    colors = TMap(colors)
-    n = colors.n
-    xyz_out = np.zeros((m, n, 3))
-    colors_out = np.ones((m, n, 3))
-    for depth in range(n):
-        for arr, arr_out in [(xyz, xyz_out), (colors, colors_out)]:
-            for i in range(3):
-                if depth == 0:
-                    arr_out[:, depth, i] = arr.dslice(depth)[0, i]
-                else:
-                    arr_out[:, depth, i] = interpolate.interp1d(np.linspace(0, 1, depth + 1),
-                                                                arr.dslice(depth)[:, i],
-                                                                copy=False)(np.linspace(0, 1, m))
-    return xyz_out, colors_out
-
-
 def grouplegend_kwargs(group, groupname, name):
     kwargs = {}
     if group is not None:
@@ -168,9 +103,14 @@ def grouplegend_kwargs(group, groupname, name):
     return kwargs
 
 
-def plot_points(x, y, z, colors, name=None, groupname=None, group=None, fig=None):
+def plot_points(x, y, z, colors, name=None, groupname=None, group=None, marker_kwargs=()):
+    if name is True:
+        name = "points"
+    if name is False:
+        name = None
+    marker_kwargs = dict(color=colors, opacity=1, line=dict(width=0), size=0.3) | dict(marker_kwargs)
     trace = go.Scatter3d(x=x, y=y, z=z,
-                         mode='markers', marker=dict(color=colors, opacity=1, line=dict(width=0), size=0.3),
+                         mode='markers', marker=marker_kwargs,
                          **grouplegend_kwargs(group, groupname, name),
                          hoverinfo='skip',
                          # legendgroup=label,
@@ -183,56 +123,76 @@ def plot_points(x, y, z, colors, name=None, groupname=None, group=None, fig=None
                          # )),
                          # showlegend=True,  # always show (as separate trace or to represent group)
                          )
-    if fig is not None:
-        create_or_update_fig(fig=fig, trace=trace)
     return trace
 
 
-def plot_tip(x, y, z, colors, name=None, groupname=None, group=None, fig=None):
+def plot_tip(x, y, z, colors, name=None, groupname=None, group=None):
+    if name is True:
+        name = "tip"
+    if name is False:
+        name = None
     kwargs = grouplegend_kwargs(group, groupname, name)
     if group:
         kwargs |= dict(hovertemplate=group + "<extra></extra>",)
     trace = go.Scatter3d(x=x[:1], y=y[:1], z=z[:1],
                          mode='markers', marker=dict(color=colors, opacity=1, line=dict(width=0), size=5),
                          **kwargs)
-    if fig is not None:
-        create_or_update_fig(fig=fig, trace=trace)
     return trace
 
 
-def plot_surface(x, y, z, colors, name=None, groupname=None, group=None, fig=None):
+def plot_surface(x, y, z, colors, name=None, groupname=None, group=None):
+    if name is True:
+        name = "surface"
+    if name is False:
+        name = None
     kwargs = grouplegend_kwargs(group, groupname, name)
     if group:
         kwargs |= dict(hovertemplate=group + "<extra></extra>", )
-    i, j, k = surface_scape_indices(TMap.n_from_size1d(colors.shape[0]))
+    i, j, k = surface_scape_indices(x, -1)
     trace = go.Mesh3d(x=x, y=y, z=z, i=i, j=j, k=k, vertexcolor=colors, opacity=0.2, **kwargs)
-    if fig is not None:
-        create_or_update_fig(fig=fig, trace=trace)
     return trace
 
 
-def plot_border(x, y, z, colors, name=None, groupname=None, group=None, fig=None):
+def plot_border(x, y, z, colors, name=None, groupname=None, group=None):
+    if name is True:
+        name = "border"
+    if name is False:
+        name = None
     n = TMap.n_from_size1d(colors.shape[0])
-    trace = go.Scatter3d(x=np.concatenate([TMap(x).sslice[0], TMap(x).eslice[n], TMap(x).lslice(1)]),
-                         y=np.concatenate([TMap(y).sslice[0], TMap(y).eslice[n], TMap(y).lslice(1)]),
-                         z=np.concatenate([TMap(z).sslice[0], TMap(z).eslice[n], TMap(z).lslice(1)]),
+    trace = go.Scatter3d(x=np.concatenate([TMap(x).sslice[0], TMap(x).eslice[n], np.flip(TMap(x).lslice(1))]),
+                         y=np.concatenate([TMap(y).sslice[0], TMap(y).eslice[n], np.flip(TMap(y).lslice(1))]),
+                         z=np.concatenate([TMap(z).sslice[0], TMap(z).eslice[n], np.flip(TMap(z).lslice(1))]),
                          mode='lines', line=dict(color=np.concatenate([TMap(colors).sslice[0],
                                                                        TMap(colors).eslice[n],
                                                                        TMap(colors).lslice(1)])),
                          **grouplegend_kwargs(group, groupname, name),
                          hoverinfo='skip')
-    if fig is not None:
-        create_or_update_fig(fig=fig, trace=trace)
     return trace
 
 
-def plot_time_traces(x, y, z, colors, n_steps, group=None):
+def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int, group: str = None
+                     ) -> list[go.Scatter3d]:
+    """
+    Plot equally spaced traces from the top to the bottom of the triangle. These can be added to a figure and
+    animated with a slider using the :meth:`~MusicFlower.plotting.add_time_slider` function. The input arrays must
+    have the same length compatible with a valid triangular map (i.e. a length of :math:`n(n+1)/2` for some integer
+    :math:`n`).
+
+    :param x: array with x-coordinates
+    :param y: array with y-coordinates
+    :param z: array with z-coordinates
+    :param colors: array with RGB colours
+    :param n_steps: number time intervals; `n_steps` + 1 traces are created (incl. time zero and one)
+    :param group: optional name of a group of traces in the legend (allows for switching the time traces on/off with
+     together with the other traces in that legend group)
+    :return: a list of `n_steps` + 1 Plotly :class:`Scatter3d` plots
+    """
     xyz_traces, colors_traces = time_traces(x=x, y=y, z=z, colors=colors, m=n_steps)
     time_trace_plots = []
     kwargs = dict(showlegend=False)
     if group is not None:
         kwargs |= dict(legendgroup=group)
-    for i in range(n_steps):
+    for i in range(n_steps + 1):
         frame = go.Scatter3d(x=xyz_traces[i, :, 0],
                              y=xyz_traces[i, :, 1],
                              z=xyz_traces[i, :, 2],
@@ -246,13 +206,51 @@ def add_time_slider(frame_traces, fig):
     frame_traces = np.array(frame_traces).T
     time_steps = frame_traces.shape[0]
     fig.update(frames=[go.Frame(data=frame_traces[i].tolist(), name=f"{i}") for i in range(time_steps)])
-    fig.update_layout(sliders=[dict(steps=[dict(method='animate',
-                                                args=[[f"{k}"],
-                                                      dict(mode='immediate',
-                                                           frame=dict(duration=300),
-                                                           transition=dict(duration=0))],
-                                                label=f"{k / time_steps}")
-                                           for k in range(time_steps)])])
+    fig.update_layout(sliders=[
+        dict(steps=[dict(method='animate',
+                         args=[[f"{k}"],
+                               dict(mode='immediate',
+                                    frame=dict(duration=300),
+                                    transition=dict(duration=0))],
+                         label=f"{k / (time_steps - 1)}")
+                    for k in range(time_steps)],
+             yanchor= 'top'
+             )])
+
+
+def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fig=None,
+             n_time_traces: int = 200, group: str = None,
+             separate_items: bool = False, groupname: str = None,
+             do_plot_points: bool = True, do_plot_tip: bool = True, do_plot_surface: bool = True,
+             do_plot_border: bool = True, do_plot_time_traces: bool = False):
+    if fig is None:
+        fig = create_fig()
+    if groupname is None:
+        groupname_kwargs = {}
+    else:
+        groupname_kwargs = dict(groupname=groupname)
+    # plot points as scatter plot
+    if do_plot_points:
+        fig.add_trace(plot_points(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+        groupname_kwargs = {}
+    # plot tip as larger marker
+    if do_plot_tip:
+        fig.add_trace(plot_tip(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+        groupname_kwargs = {}
+    # create surface
+    if do_plot_surface:
+        fig.add_trace(plot_surface(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+        groupname_kwargs = {}
+    # trace triangle border
+    if do_plot_border:
+        fig.add_trace(plot_border(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+        groupname_kwargs = {}
+    # add time traces
+    if do_plot_time_traces:
+        add_time_slider(frame_traces=[plot_time_traces(x=x, y=y, z=z, colors=colors, group=group, n_steps=n_time_traces)],
+                        fig=fig)
+    # return figure
+    return fig
 
 
 def toggle_group_items_separately(toggle_separately, fig):
