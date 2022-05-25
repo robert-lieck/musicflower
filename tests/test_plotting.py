@@ -5,7 +5,7 @@ from unittest import TestCase
 import numpy as np
 from numpy.testing import assert_array_equal
 
-from MusicFlower.util import trisurf
+from musicflower.util import trisurf
 
 
 class TestPlotting(TestCase):

@@ -7,4 +7,4 @@ API Summary
    :template: custom-module-template.rst
    :recursive:
 
-   MusicFlower
+   musicflower

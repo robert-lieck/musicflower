@@ -1,10 +1,10 @@
 # MusicFlower
 
-[![tests](https://github.com/robert-lieck/MusicFlower/actions/workflows/tests.yml/badge.svg)](https://github.com/robert-lieck/MusicFlower/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/robert-lieck/MusicFlower/branch/main/graph/badge.svg?token=D3G3NI02UB)](https://codecov.io/gh/robert-lieck/MusicFlower)
+[![tests](https://github.com/robert-lieck/musicflower/actions/workflows/tests.yml/badge.svg)](https://github.com/robert-lieck/musicflower/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/robert-lieck/musicflower/branch/main/graph/badge.svg?token=D3G3NI02UB)](https://codecov.io/gh/robert-lieck/musicflower)
 
-![build](https://github.com/robert-lieck/MusicFlower/workflows/build/badge.svg)
-[![PyPI version](https://badge.fury.io/py/MusicFlower.svg)](https://badge.fury.io/py/MusicFlower)
+![build](https://github.com/robert-lieck/musicflower/workflows/build/badge.svg)
+[![PyPI version](https://badge.fury.io/py/musicflower.svg)](https://badge.fury.io/py/musicflower)
 
-[![docs](https://github.com/robert-lieck/MusicFlower/actions/workflows/docs.yml/badge.svg)](https://github.com/robert-lieck/MusicFlower/actions/workflows/docs.yml)
+[![docs](https://github.com/robert-lieck/musicflower/actions/workflows/docs.yml/badge.svg)](https://github.com/robert-lieck/musicflower/actions/workflows/docs.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)

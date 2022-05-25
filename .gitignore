@@ -132,3 +132,6 @@ dmypy.json
 doc/_build
 doc/_autosummary
 doc/auto_examples
+
+# PyCharm
+.idea/

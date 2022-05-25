@@ -10,9 +10,9 @@ This is a brief walk through some basic MusicFlower functionality.
 # ------------------------
 #
 # We are using a MusicXML file as it is small enough to ship with the documentation.
-# It can be loaded using the :meth:`~MusicFlower.loader.load_file` function
+# It can be loaded using the :meth:`~musicflower.loader.load_file` function
 
-from MusicFlower.loader import load_file
+from musicflower.loader import load_file
 
 # path to file
 file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'
@@ -23,7 +23,7 @@ scape = load_file(file_path=file_path, n=resolution)
 
 # %%
 # The result can be visualised in a key scape plot.
-from MusicFlower.plotting import plot_key_scape
+from musicflower.plotting import plot_key_scape
 plot_key_scape(scape)
 
 # %%
@@ -32,17 +32,17 @@ import pitchscapes.plotting as pt
 _ = pt.key_legend()
 
 # %%
-# The array returned by :meth:`~MusicFlower.loader.load_file` contains the triangular map of pitch-class distributions
+# The array returned by :meth:`~musicflower.loader.load_file` contains the triangular map of pitch-class distributions
 # (PCDs) that is visualised above. To use NumPy's efficient linear storage, it is flattened by starting at the top and
 # then going row by row, thus, it contains a total number of n(n+1)/2 PCDs.
 print(scape.shape)
 print(resolution * (resolution + 1) / 2)
 
 # %%
-# The :meth:`~MusicFlower.plotting.key_colors` function can be used to get the corresponding triangular map of colours
+# The :meth:`~musicflower.plotting.key_colors` function can be used to get the corresponding triangular map of colours
 # as RGB in [0, 1]. These are computed by matching each PCD against templates for the 12 major and 12 minor keys and
 # then interpolating between the respective colours shown in the legend above.
-from MusicFlower.plotting import key_colors
+from musicflower.plotting import key_colors
 colors = key_colors(scape)
 print(colors.shape)
 
@@ -79,10 +79,10 @@ print(tmap.eslice[3])  # end indices run from 1 to n
 # The discrete Fourier transform of a PCD contains musically relevant information. In particular, the 5th coefficient
 # is strongest for distributions that correspond to diatonic scales and can therefore be associated to the tonality of a
 # piece: its amplitude indicates how "strongly tonal" the piece is (e.g. atonal/12-tone pieces have a low amplitude);
-# its phase maps to the circle of fifths. The :meth:`~MusicFlower.util.get_fourier_component` function provides
+# its phase maps to the circle of fifths. The :meth:`~musicflower.util.get_fourier_component` function provides
 # amplitudes and phases of an array of PCDs
 
-from MusicFlower.util import get_fourier_component
+from musicflower.util import get_fourier_component
 amplitude, phase = get_fourier_component(pcds=scape, fourier_component=5)
 
 
@@ -97,11 +97,11 @@ amplitude, phase = get_fourier_component(pcds=scape, fourier_component=5)
 #
 # We use spherical or cylindrical coordinates with the *phase* as the azimuthal/horizontal angle, the *duration*
 # for the radial component, and the *amplitude* for the vertical component/angle (cylinder/sphere). This is done
-# by the :meth:`~MusicFlower.util.remap_to_xyz` function, which also provides some additional tweaks (see its
+# by the :meth:`~musicflower.util.remap_to_xyz` function, which also provides some additional tweaks (see its
 # documentation for details). Note that *time* is not explicitly represented anymore, but can be included through
 # interactive animations (see below).
 
-from MusicFlower.util import remap_to_xyz
+from musicflower.util import remap_to_xyz
 x, y, z = remap_to_xyz(amplitude=amplitude, phase=phase)
 
 # %%
@@ -109,7 +109,7 @@ x, y, z = remap_to_xyz(amplitude=amplitude, phase=phase)
 # ------------------------
 # This can be visualised in a 3D plot as follows
 
-from MusicFlower.plotting import plot_all
+from musicflower.plotting import plot_all
 plot_all(x=x, y=y, z=z, colors=colors)
 
 

@@ -10,7 +10,7 @@ from pitchscapes.keyfinding import KeyEstimator
 
 from triangularmap import TMap
 
-from MusicFlower.util import time_traces, surface_scape_indices
+from musicflower.util import time_traces, surface_scape_indices
 
 # use colouring along circle of fifths (not chromatic)
 pt.set_circle_of_fifths(True)
@@ -174,7 +174,7 @@ def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.nda
                      ) -> list[go.Scatter3d]:
     """
     Plot equally spaced traces from the top to the bottom of the triangle. These can be added to a figure and
-    animated with a slider using the :meth:`~MusicFlower.plotting.add_time_slider` function. The input arrays must
+    animated with a slider using the :meth:`~musicflower.plotting.add_time_slider` function. The input arrays must
     have the same length compatible with a valid triangular map (i.e. a length of :math:`n(n+1)/2` for some integer
     :math:`n`).
 

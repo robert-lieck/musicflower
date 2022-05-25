@@ -18,7 +18,7 @@ Code examples are automatically tested
    Hello World
 
 
-.. .. autoclass:: MusicFlower.myclass.MyClass
+.. .. autoclass:: musicflower.myclass.MyClass
 ..   :members:
 
 

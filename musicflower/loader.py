@@ -5,7 +5,7 @@ import pickle
 from typing import Iterable
 from itertools import product
 
-from MusicFlower import istarmap # patch Pool
+from musicflower import istarmap # patch Pool
 from multiprocessing import Pool
 from tqdm import tqdm
 import numpy as np
@@ -72,7 +72,7 @@ def load_file(file_path: str, n: int, use_cache=False, recompute_cache=False, au
     :param file_path: path to file to load
     :param n: resolution of pitch scape, i.e., the number of equally-sized time intervals to split the piece into
     :param use_cache: whether to use/reuse cached results; these are stored in cache files specific for each resolution
-     *n* (see :meth:`~MusicFlower.loader.get_cache_file_path`). The **kwargs** are stored with the cache files and
+     *n* (see :meth:`~musicflower.loader.get_cache_file_path`). The **kwargs** are stored with the cache files and
      checked for consistency; an error is raised if they do not match the provided **kwargs**. If **use_cache** is
      `True` and a cache file exists, the cached result is loaded (after checking **kwargs** for consistency) and
      returned; if the cache file does not exist, the result is computed and stored in a newly created cache file. This
@@ -141,7 +141,7 @@ def load_file(file_path: str, n: int, use_cache=False, recompute_cache=False, au
 def _parallel_load_file_wrapper(file_name, kwargs):
     """
     Wrapper for parallelisation; takes kwargs provided as dict and unpacks them when calling
-    :meth:`~MusicFlower.loader.load_file`.
+    :meth:`~musicflower.loader.load_file`.
     """
     return file_name, load_file(file_name, **kwargs)
 
@@ -149,13 +149,13 @@ def _parallel_load_file_wrapper(file_name, kwargs):
 def load_corpus(file_paths: Iterable, parallel: bool = False, sort_func: callable = lambda x: x,
                 **kwargs) -> tuple[np.ndarray, list]:
     """
-    This is essentially a wrapper for parallelisation around the :meth:`~MusicFlower.loader.load_file` function, which
+    This is essentially a wrapper for parallelisation around the :meth:`~musicflower.loader.load_file` function, which
     computes pitch scapes for a set of files.
 
     :param file_paths: an iterable of file paths to read
     :param parallel: parallelise loading
     :param sort_func: function that takes a file path and returns a key for sorting the result
-    :param kwargs: kwargs passed to the :meth:`~MusicFlower.loader.load_file` function
+    :param kwargs: kwargs passed to the :meth:`~musicflower.loader.load_file` function
     :rtype: np.ndarray
     :return: array of shape (k, l, 12) where k is the number of files and :math:`l=n(n+1)/2` is the number of points in
      a pitch scape of resolution :math:`n`.

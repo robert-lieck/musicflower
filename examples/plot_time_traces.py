@@ -23,7 +23,7 @@ colors = np.random.uniform(0, 1, x.shape + (3,))
 # %%
 # Plot with time traces
 
-from MusicFlower.plotting import create_fig, plot_points, plot_all
+from musicflower.plotting import create_fig, plot_points, plot_all
 # create figure with axes etc
 fig = create_fig(dark=False, axes_off=False)
 # plot points (a bit larger than default)

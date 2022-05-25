@@ -7,14 +7,14 @@ with open("requirements.txt", "r") as fh:
     install_requires = fh.read().splitlines()
 
 setuptools.setup(
-    name="MusicFlower",
+    name="musicflower",
     version="0.0.1",
     author="Robert Lieck",
     author_email="robert.lieck@durham.ac.uk",
     description="",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/robert-lieck/MusicFlower",
+    url="https://github.com/robert-lieck/musicflower",
     packages=setuptools.find_packages(exclude=['tests']),
     install_requires=install_requires,
     include_package_data=True,
