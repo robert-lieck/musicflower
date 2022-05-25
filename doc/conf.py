@@ -61,7 +61,7 @@ html_show_sourcelink = False
 imgmath_image_format='svg'
 # intersphinx mappings
 intersphinx_mapping = {
-    'triangularmap': ('https://robert-lieck.github.io/TriangularMap', None),
+    'triangularmap': ('https://robert-lieck.github.io/triangularmap', None),
     'pitchscapes': ('https://robert-lieck.github.io/pitchscapes', None),
 }
 

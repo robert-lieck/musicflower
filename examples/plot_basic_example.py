@@ -50,7 +50,7 @@ print(colors.shape)
 # Triangular Maps
 # ---------------
 # To handle this kind of flattened triangular maps, the :class:`~triangularmap.tmap.TMap` class from the
-# `triangularmap <https://robert-lieck.github.io/TriangularMap>`_ package can be used. It takes
+# `TriangularMap <https://robert-lieck.github.io/TriangularMap>`_ package can be used. It takes
 # a linear storage and allows for efficiently accessing its content as if it was a triangular map (see
 # triangularmap documentation for more details). For multidimensional arrays, the first dimension is assumed to
 # represent the triangular map.
