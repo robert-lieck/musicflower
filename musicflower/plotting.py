@@ -187,7 +187,7 @@ def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.nda
      together with the other traces in that legend group)
     :return: a list of `n_steps` + 1 Plotly :class:`Scatter3d` plots
     """
-    xyz_traces, colors_traces = time_traces(x=x, y=y, z=z, colors=colors, m=n_steps)
+    xyz_traces, colors_traces = time_traces(x=x, y=y, z=z, colors=colors, n_steps=n_steps)
     time_trace_plots = []
     kwargs = dict(showlegend=False)
     if group is not None:

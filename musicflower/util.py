@@ -84,12 +84,11 @@ def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float =
     return x, y, z
 
 
-def time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, m: int
-                ) -> tuple[np.ndarray, np.ndarray]:
+def time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int,
+                axis=0) -> tuple[np.ndarray, np.ndarray]:
     """
-    Compute `m` + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
-    input arrays must have the same length compatible with a valid triangular map (i.e. a length of :math:`n(n+1)/2`
-    for some integer :math:`n`).
+    Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
+    input arrays can have an arbitrary number of additional batch dimensions.
 
     Each trace has the same number of points as there are rows in the triangular map. As time runs from 0 to 1, the
     points run from left to right along the rows, interpolating linearly between points.
@@ -97,24 +96,36 @@ def time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray,
     :param x: array with x-coordinates
     :param y: array with y-coordinates
     :param z: array with z-coordinates
-    :param colors: array with RGB colours
-    :param m: create `m` + 1 traces from time 0 to time 1
-    :return: xyz, colors: two arrays of shape (m + 1, n, 3) with xyz-coordinates and colours
+    :param colors: array with RGB colours (last dimension must correspond to colours and have size 3)
+    :param n_steps: create `n_steps` + 1 traces from time 0 to time 1
+    :param axis: Axis of the input arrays that corresponds to the triangular map. It must have a compatible length (i.e.
+     a length of :math:`n(n+1)/2` for some integer :math:`n`).
+    :return: xyz, colors: two arrays of shape (n_steps + 1, n, ..., 3) with xyz-coordinates and colours, where `...`
+     corresponds to any additional batch dimensions.
     """
-    xyz = TMap(np.concatenate([x[:, None], y[:, None], z[:, None]], axis=-1))
+    assert x.shape == y.shape == z.shape == colors.shape[:-1]
+    assert colors.shape[-1] == 3
+    assert len(colors.shape) >= 2
+    xyz = np.concatenate([x[..., None], y[..., None], z[..., None]], axis=-1)
+    if axis != 0:
+        xyz = np.moveaxis(xyz, axis, 0)
+        colors = np.moveaxis(colors, axis, 0)
+    batch_shape = xyz.shape[1:-1]
+    xyz = TMap(xyz)
     colors = TMap(colors)
     n = colors.n
-    xyz_out = np.zeros((m + 1, n, 3))
-    colors_out = np.ones((m + 1, n, 3))
+    xyz_out = np.zeros((n_steps + 1, n) + batch_shape + (3,))
+    colors_out = np.ones((n_steps + 1, n) + batch_shape + (3,))
     for depth in range(n):
         for arr, arr_out in [(xyz, xyz_out), (colors, colors_out)]:
-            for i in range(3):
-                if depth == 0:
-                    arr_out[:, depth, i] = arr.dslice(depth)[0, i]
-                else:
-                    arr_out[:, depth, i] = interpolate.interp1d(np.linspace(0, 1, depth + 1),
-                                                                arr.dslice(depth)[:, i],
-                                                                copy=False)(np.linspace(0, 1, m + 1))
+            # for i in range(3):
+            if depth == 0:
+                arr_out[:, depth, ..., :] = arr.dslice(depth)[0, ..., :]
+            else:
+                arr_out[:, depth, ..., :] = interpolate.interp1d(np.linspace(0, 1, depth + 1),
+                                                              arr.dslice(depth)[..., :],
+                                                              axis=0,
+                                                              copy=False)(np.linspace(0, 1, n_steps + 1))
     return xyz_out, colors_out
 
 
