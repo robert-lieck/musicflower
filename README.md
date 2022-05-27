@@ -6,5 +6,5 @@
 ![build](https://github.com/robert-lieck/musicflower/workflows/build/badge.svg)
 [![PyPI version](https://badge.fury.io/py/musicflower.svg)](https://badge.fury.io/py/musicflower)
 
-[![docs](https://github.com/robert-lieck/musicflower/actions/workflows/docs.yml/badge.svg)](https://github.com/robert-lieck/musicflower/actions/workflows/docs.yml)
+[![doc](https://github.com/robert-lieck/musicflower/actions/workflows/doc.yml/badge.svg)](https://github.com/robert-lieck/musicflower/actions/workflows/doc.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
