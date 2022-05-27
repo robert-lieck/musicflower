@@ -98,10 +98,9 @@
 <h1>musicflower.util.time_traces<a class="headerlink" href="#musicflower-util-time-traces" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="musicflower.util.time_traces">
-<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">time_traces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#time_traces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.time_traces" title="Permalink to this definition"></a></dt>
-<dd><p>Compute <cite>m</cite> + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
-input arrays must have the same length compatible with a valid triangular map (i.e. a length of <span class="math">n(n+1)/2</span>
-for some integer <span class="math">n</span>).</p>
+<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">time_traces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#time_traces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.time_traces" title="Permalink to this definition"></a></dt>
+<dd><p>Compute <cite>n_steps</cite> + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
+input arrays can have an arbitrary number of additional batch dimensions.</p>
 <p>Each trace has the same number of points as there are rows in the triangular map. As time runs from 0 to 1, the
 points run from left to right along the rows, interpolating linearly between points.</p>
 <dl class="field-list simple">
@@ -110,15 +109,18 @@ points run from left to right along the rows, interpolating linearly between poi
 <li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with x-coordinates</p></li>
 <li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with y-coordinates</p></li>
 <li><p><strong>z</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with z-coordinates</p></li>
-<li><p><strong>colors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with RGB colours</p></li>
-<li><p><strong>m</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – create <cite>m</cite> + 1 traces from time 0 to time 1</p></li>
+<li><p><strong>colors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with RGB colours (last dimension must correspond to colours and have size 3)</p></li>
+<li><p><strong>n_steps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – create <cite>n_steps</cite> + 1 traces from time 0 to time 1</p></li>
+<li><p><strong>axis</strong> – Axis of the input arrays that corresponds to the triangular map. It must have a compatible length (i.e.
+a length of <span class="math">n(n+1)/2</span> for some integer <span class="math">n</span>).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>xyz, colors: two arrays of shape (m + 1, n, 3) with xyz-coordinates and colours</p>
+<dd class="field-odd"><p>xyz, colors: two arrays of shape (n_steps + 1, n, …, 3) with xyz-coordinates and colours, where <cite>…</cite>
+corresponds to any additional batch dimensions.</p>
 </dd>
 </dl>
 </dd></dl>

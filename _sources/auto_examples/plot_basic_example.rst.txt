@@ -29,7 +29,7 @@ Loading a File
 ------------------------
 
 We are using a MusicXML file as it is small enough to ship with the documentation.
-It can be loaded using the :meth:`~musicflower.loader.load_file` function
+It can be loaded using the :func:`~musicflower.loader.load_file` function
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-24
 
@@ -75,11 +75,12 @@ The result can be visualised in a key scape plot.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 30-31
+.. GENERATED FROM PYTHON SOURCE LINES 30-32
 
-More functionality, such as a legend for the used colours, is available via the PitchScapes library
+More functionality, such as a legend for the used colours, is available via the
+`PitchScapes <https://robert-lieck.github.io/pitchscapes/>`_ library
 
-.. GENERATED FROM PYTHON SOURCE LINES 31-34
+.. GENERATED FROM PYTHON SOURCE LINES 32-35
 
 .. code-block:: default
 
@@ -98,13 +99,13 @@ More functionality, such as a legend for the used colours, is available via the 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-38
+.. GENERATED FROM PYTHON SOURCE LINES 36-39
 
-The array returned by :meth:`~musicflower.loader.load_file` contains the triangular map of pitch-class distributions
+The array returned by :func:`~musicflower.loader.load_file` contains the triangular map of pitch-class distributions
 (PCDs) that is visualised above. To use NumPy's efficient linear storage, it is flattened by starting at the top and
 then going row by row, thus, it contains a total number of n(n+1)/2 PCDs.
 
-.. GENERATED FROM PYTHON SOURCE LINES 38-41
+.. GENERATED FROM PYTHON SOURCE LINES 39-42
 
 .. code-block:: default
 
@@ -127,13 +128,13 @@ then going row by row, thus, it contains a total number of n(n+1)/2 PCDs.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-45
+.. GENERATED FROM PYTHON SOURCE LINES 43-46
 
-The :meth:`~musicflower.plotting.key_colors` function can be used to get the corresponding triangular map of colours
+The :func:`~musicflower.plotting.key_colors` function can be used to get the corresponding triangular map of colours
 as RGB in [0, 1]. These are computed by matching each PCD against templates for the 12 major and 12 minor keys and
 then interpolating between the respective colours shown in the legend above.
 
-.. GENERATED FROM PYTHON SOURCE LINES 45-49
+.. GENERATED FROM PYTHON SOURCE LINES 46-50
 
 .. code-block:: default
 
@@ -156,7 +157,7 @@ then interpolating between the respective colours shown in the legend above.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-57
+.. GENERATED FROM PYTHON SOURCE LINES 51-58
 
 Triangular Maps
 ---------------
@@ -166,7 +167,7 @@ a linear storage and allows for efficiently accessing its content as if it was a
 triangularmap documentation for more details). For multidimensional arrays, the first dimension is assumed to
 represent the triangular map.
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-63
+.. GENERATED FROM PYTHON SOURCE LINES 58-64
 
 .. code-block:: default
 
@@ -196,11 +197,11 @@ represent the triangular map.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 The functionalities include slicing at a specific level/depth (this returns *views* of the underlying storage)
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-68
+.. GENERATED FROM PYTHON SOURCE LINES 66-69
 
 .. code-block:: default
 
@@ -223,14 +224,14 @@ The functionalities include slicing at a specific level/depth (this returns *vie
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-73
+.. GENERATED FROM PYTHON SOURCE LINES 70-74
 
 and slicing "skewed columns" for a specific start/end index (this returns *copies* of the underlying storage, note the
 different syntax using square brackets), which always run left-to-right (i.e. bottom-up for start-slices, top-down for
 end-slices)
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-76
+.. GENERATED FROM PYTHON SOURCE LINES 74-77
 
 .. code-block:: default
 
@@ -253,17 +254,17 @@ end-slices)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-84
+.. GENERATED FROM PYTHON SOURCE LINES 78-85
 
 Mapping to Fourier Space
 ------------------------
 The discrete Fourier transform of a PCD contains musically relevant information. In particular, the 5th coefficient
 is strongest for distributions that correspond to diatonic scales and can therefore be associated to the tonality of a
 piece: its amplitude indicates how "strongly tonal" the piece is (e.g. atonal/12-tone pieces have a low amplitude);
-its phase maps to the circle of fifths. The :meth:`~musicflower.util.get_fourier_component` function provides
+its phase maps to the circle of fifths. The :func:`~musicflower.util.get_fourier_component` function provides
 amplitudes and phases of an array of PCDs
 
-.. GENERATED FROM PYTHON SOURCE LINES 84-89
+.. GENERATED FROM PYTHON SOURCE LINES 85-90
 
 .. code-block:: default
 
@@ -279,7 +280,7 @@ amplitudes and phases of an array of PCDs
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 90-103
+.. GENERATED FROM PYTHON SOURCE LINES 91-104
 
 Mapping to 3D Space
 -------------------
@@ -291,11 +292,11 @@ used to map each PCD to a point in 3D space as follows.
 
 We use spherical or cylindrical coordinates with the *phase* as the azimuthal/horizontal angle, the *duration*
 for the radial component, and the *amplitude* for the vertical component/angle (cylinder/sphere). This is done
-by the :meth:`~musicflower.util.remap_to_xyz` function, which also provides some additional tweaks (see its
+by the :func:`~musicflower.util.remap_to_xyz` function, which also provides some additional tweaks (see its
 documentation for details). Note that *time* is not explicitly represented anymore, but can be included through
 interactive animations (see below).
 
-.. GENERATED FROM PYTHON SOURCE LINES 103-107
+.. GENERATED FROM PYTHON SOURCE LINES 104-108
 
 .. code-block:: default
 
@@ -310,13 +311,13 @@ interactive animations (see below).
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 108-111
+.. GENERATED FROM PYTHON SOURCE LINES 109-112
 
 3D Plot
 ------------------------
 This can be visualised in a 3D plot as follows
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-116
+.. GENERATED FROM PYTHON SOURCE LINES 112-117
 
 .. code-block:: default
 
@@ -498,7 +499,7 @@ This can be visualised in a 3D plot as follows
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 117-124
+.. GENERATED FROM PYTHON SOURCE LINES 118-125
 
 Time as Animation
 -------------------------
@@ -508,7 +509,7 @@ map to the point at the bottom corresponding to the current slider position. In 
 this would simply be a straight line from the top down to the bottom; in the 3D plot it winds through tonal space
 (also see :doc:`plot_time_traces`).
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-126
+.. GENERATED FROM PYTHON SOURCE LINES 125-127
 
 .. code-block:: default
 
@@ -18220,7 +18221,7 @@ this would simply be a straight line from the top down to the bottom; in the 3D 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  4.089 seconds)
+   **Total running time of the script:** ( 0 minutes  4.182 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_basic_example.py:
