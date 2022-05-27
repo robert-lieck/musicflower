@@ -1,0 +1,6 @@
+musicflower.istarmap.istarmap
+=============================
+
+.. currentmodule:: musicflower.istarmap
+
+.. autofunction:: istarmap

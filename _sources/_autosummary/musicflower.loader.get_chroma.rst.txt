@@ -1,0 +1,6 @@
+musicflower.loader.get\_chroma
+==============================
+
+.. currentmodule:: musicflower.loader
+
+.. autofunction:: get_chroma

@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_surface
+==================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_surface

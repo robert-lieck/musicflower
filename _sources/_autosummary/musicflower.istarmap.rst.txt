@@ -1,0 +1,30 @@
+musicflower.istarmap
+====================
+
+.. automodule:: musicflower.istarmap
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      istarmap
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

@@ -1,0 +1,6 @@
+musicflower.util.get\_fourier\_component
+========================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: get_fourier_component

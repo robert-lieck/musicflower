@@ -1,0 +1,6 @@
+musicflower.util.start\_duration
+================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: start_duration

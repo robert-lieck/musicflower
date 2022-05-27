@@ -1,0 +1,6 @@
+musicflower.plotting.add\_time\_slider
+======================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: add_time_slider

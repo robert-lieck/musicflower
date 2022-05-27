@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>musicflower.plotting &mdash; musicflower  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> musicflower
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">MusicFlower Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">musicflower</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>musicflower.plotting</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for musicflower.plotting</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright (c) 2022 Robert Lieck.</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">pitchscapes.plotting</span> <span class="k">as</span> <span class="nn">pt</span>
+<span class="kn">from</span> <span class="nn">pitchscapes.keyfinding</span> <span class="kn">import</span> <span class="n">KeyEstimator</span>
+
+<span class="kn">from</span> <span class="nn">triangularmap</span> <span class="kn">import</span> <span class="n">TMap</span>
+
+<span class="kn">from</span> <span class="nn">musicflower.util</span> <span class="kn">import</span> <span class="n">time_traces</span><span class="p">,</span> <span class="n">surface_scape_indices</span>
+
+<span class="c1"># use colouring along circle of fifths (not chromatic)</span>
+<span class="n">pt</span><span class="o">.</span><span class="n">set_circle_of_fifths</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="key_colors"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.key_colors.html#musicflower.plotting.key_colors">[docs]</a><span class="k">def</span> <span class="nf">key_colors</span><span class="p">(</span><span class="n">pcds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an array of PCDs, returns a corresponding array of RGB or RGBA colors.</span>
+
+<span class="sd">    :param pcds: array of shape (..., 12) where can be any number of leading dimensions</span>
+<span class="sd">    :param alpha: whether to return alpha values (i.e. RGBA colours) or just RGB</span>
+<span class="sd">    :return: array of shape (..., 3) or (..., 4) with RGB/RGBA colors</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">pcds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">12</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;last dimension of &#39;pcds&#39; must be of size 12 but is of size </span><span class="si">{</span><span class="n">pcds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="c1"># reshape if necessary</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">pcds</span><span class="o">.</span><span class="n">shape</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">pcds</span> <span class="o">=</span> <span class="n">pcds</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="c1"># get scores and colours</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="n">KeyEstimator</span><span class="p">()</span>
+    <span class="n">scores</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">get_score</span><span class="p">(</span><span class="n">pcds</span><span class="p">)</span>
+    <span class="n">colors</span> <span class="o">=</span> <span class="n">pt</span><span class="o">.</span><span class="n">key_scores_to_color</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">circle_of_fifths</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># remove alpha if requested</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">alpha</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+    <span class="c1"># reshape back if necessary</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">colors</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],))</span>
+    <span class="k">return</span> <span class="n">colors</span></div>
+
+
+<div class="viewcode-block" id="plot_key_scape"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_key_scape.html#musicflower.plotting.plot_key_scape">[docs]</a><span class="k">def</span> <span class="nf">plot_key_scape</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="n">pt</span><span class="o">.</span><span class="n">scape_plot_from_array</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">reindex_start_end_from_top_down</span><span class="p">(</span><span class="n">pt</span><span class="o">.</span><span class="n">counts_to_colors</span><span class="p">(</span><span class="n">c</span><span class="p">)))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="create_fig"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.create_fig.html#musicflower.plotting.create_fig">[docs]</a><span class="k">def</span> <span class="nf">create_fig</span><span class="p">(</span><span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dark</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axes_off</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">itemsizing</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">),</span>
+                  <span class="n">title</span><span class="o">=</span><span class="p">{</span>
+                      <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+                      <span class="s1">&#39;xanchor&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                  <span class="p">})</span> <span class="o">|</span> <span class="n">kwargs</span>
+    <span class="k">if</span> <span class="n">dark</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">template</span><span class="o">=</span><span class="s1">&#39;plotly_dark&#39;</span><span class="p">,</span>
+            <span class="n">paper_bgcolor</span><span class="o">=</span><span class="s1">&#39;rgba(0,0,0,1)&#39;</span><span class="p">,</span>
+            <span class="n">plot_bgcolor</span><span class="o">=</span><span class="s1">&#39;rgba(0,0,0,1)&#39;</span>
+
+        <span class="p">)</span> <span class="o">|</span> <span class="n">kwargs</span>
+    <span class="k">if</span> <span class="n">axes_off</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">scene</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">xaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                                 <span class="n">yaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+                                 <span class="n">zaxis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span> <span class="o">|</span> <span class="n">kwargs</span>
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">trace</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">trace</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">trace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="grouplegend_kwargs"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.grouplegend_kwargs.html#musicflower.plotting.grouplegend_kwargs">[docs]</a><span class="k">def</span> <span class="nf">grouplegend_kwargs</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">groupname</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">legendgroup</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>  <span class="c1"># trace is part of this group</span>
+    <span class="k">if</span> <span class="n">groupname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># this trace acts as representative of the group</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;If &#39;groupname&#39; is specified, &#39;group&#39; must also be specified (and not be None).&quot;</span><span class="p">)</span>
+        <span class="c1"># no separate name</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># no separate name for this trace --&gt; takes the group name to act as representative</span>
+            <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">groupname</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># separate name for group and this trace</span>
+            <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">legendgrouptitle_text</span><span class="o">=</span><span class="n">groupname</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="c1"># always show (either with separate name or only to represent group)</span>
+        <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># this trace is NOT the representative of a group (but may be part of a group and also be shown sparately)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># trace is NOT shown</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">showlegend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># trace is shown separately</span>
+    <span class="k">return</span> <span class="n">kwargs</span></div>
+
+
+<div class="viewcode-block" id="plot_points"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_points.html#musicflower.plotting.plot_points">[docs]</a><span class="k">def</span> <span class="nf">plot_points</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">marker_kwargs</span><span class="o">=</span><span class="p">()):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;points&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">marker_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">(</span><span class="n">marker_kwargs</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span>
+                         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;markers&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker_kwargs</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">grouplegend_kwargs</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">groupname</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                         <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">&#39;skip&#39;</span><span class="p">,</span>
+                         <span class="c1"># legendgroup=label,</span>
+                         <span class="c1"># **(dict(</span>
+                         <span class="c1">#     # separate labels for group and this trace</span>
+                         <span class="c1">#     legendgrouptitle_text=label, name=&quot;points&quot;,</span>
+                         <span class="c1"># ) if separate_items else dict(</span>
+                         <span class="c1">#     # use this trace to represent whole group</span>
+                         <span class="c1">#     name=label</span>
+                         <span class="c1"># )),</span>
+                         <span class="c1"># showlegend=True,  # always show (as separate trace or to represent group)</span>
+                         <span class="p">)</span>
+    <span class="k">return</span> <span class="n">trace</span></div>
+
+
+<div class="viewcode-block" id="plot_tip"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_tip.html#musicflower.plotting.plot_tip">[docs]</a><span class="k">def</span> <span class="nf">plot_tip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;tip&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">grouplegend_kwargs</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">groupname</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">group</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hovertemplate</span><span class="o">=</span><span class="n">group</span> <span class="o">+</span> <span class="s2">&quot;&lt;extra&gt;&lt;/extra&gt;&quot;</span><span class="p">,)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">[:</span><span class="mi">1</span><span class="p">],</span>
+                         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;markers&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trace</span></div>
+
+
+<div class="viewcode-block" id="plot_surface"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_surface.html#musicflower.plotting.plot_surface">[docs]</a><span class="k">def</span> <span class="nf">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;surface&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">grouplegend_kwargs</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">groupname</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">group</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">hovertemplate</span><span class="o">=</span><span class="n">group</span> <span class="o">+</span> <span class="s2">&quot;&lt;extra&gt;&lt;/extra&gt;&quot;</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">surface_scape_indices</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Mesh3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span><span class="p">,</span> <span class="n">vertexcolor</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trace</span></div>
+
+
+<div class="viewcode-block" id="plot_border"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_border.html#musicflower.plotting.plot_border">[docs]</a><span class="k">def</span> <span class="nf">plot_border</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;border&quot;</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size1d</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">TMap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">sslice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">TMap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">eslice</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">TMap</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lslice</span><span class="p">(</span><span class="mi">1</span><span class="p">))]),</span>
+                         <span class="n">y</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">TMap</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sslice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">TMap</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">eslice</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">TMap</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">lslice</span><span class="p">(</span><span class="mi">1</span><span class="p">))]),</span>
+                         <span class="n">z</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">TMap</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">sslice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">TMap</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">eslice</span><span class="p">[</span><span class="n">n</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">TMap</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">.</span><span class="n">lslice</span><span class="p">(</span><span class="mi">1</span><span class="p">))]),</span>
+                         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">TMap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span><span class="o">.</span><span class="n">sslice</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                                                       <span class="n">TMap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span><span class="o">.</span><span class="n">eslice</span><span class="p">[</span><span class="n">n</span><span class="p">],</span>
+                                                                       <span class="n">TMap</span><span class="p">(</span><span class="n">colors</span><span class="p">)</span><span class="o">.</span><span class="n">lslice</span><span class="p">(</span><span class="mi">1</span><span class="p">)])),</span>
+                         <span class="o">**</span><span class="n">grouplegend_kwargs</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">groupname</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+                         <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">&#39;skip&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">trace</span></div>
+
+
+<div class="viewcode-block" id="plot_time_traces"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_time_traces.html#musicflower.plotting.plot_time_traces">[docs]</a><span class="k">def</span> <span class="nf">plot_time_traces</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span>
+                     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot equally spaced traces from the top to the bottom of the triangle. These can be added to a figure and</span>
+<span class="sd">    animated with a slider using the :meth:`~musicflower.plotting.add_time_slider` function. The input arrays must</span>
+<span class="sd">    have the same length compatible with a valid triangular map (i.e. a length of :math:`n(n+1)/2` for some integer</span>
+<span class="sd">    :math:`n`).</span>
+
+<span class="sd">    :param x: array with x-coordinates</span>
+<span class="sd">    :param y: array with y-coordinates</span>
+<span class="sd">    :param z: array with z-coordinates</span>
+<span class="sd">    :param colors: array with RGB colours</span>
+<span class="sd">    :param n_steps: number time intervals; `n_steps` + 1 traces are created (incl. time zero and one)</span>
+<span class="sd">    :param group: optional name of a group of traces in the legend (allows for switching the time traces on/off with</span>
+<span class="sd">     together with the other traces in that legend group)</span>
+<span class="sd">    :return: a list of `n_steps` + 1 Plotly :class:`Scatter3d` plots</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xyz_traces</span><span class="p">,</span> <span class="n">colors_traces</span> <span class="o">=</span> <span class="n">time_traces</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">n_steps</span><span class="p">)</span>
+    <span class="n">time_trace_plots</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">|=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">legendgroup</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">xyz_traces</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                             <span class="n">y</span><span class="o">=</span><span class="n">xyz_traces</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span>
+                             <span class="n">z</span><span class="o">=</span><span class="n">xyz_traces</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">],</span>
+                             <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lines&#39;</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">colors_traces</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:],</span> <span class="n">width</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span>
+                             <span class="n">hoverinfo</span><span class="o">=</span><span class="s1">&#39;skip&#39;</span><span class="p">)</span>
+        <span class="n">time_trace_plots</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">time_trace_plots</span></div>
+
+
+<div class="viewcode-block" id="add_time_slider"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.add_time_slider.html#musicflower.plotting.add_time_slider">[docs]</a><span class="k">def</span> <span class="nf">add_time_slider</span><span class="p">(</span><span class="n">frame_traces</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
+    <span class="n">frame_traces</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">frame_traces</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">time_steps</span> <span class="o">=</span> <span class="n">frame_traces</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">frames</span><span class="o">=</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Frame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">frame_traces</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time_steps</span><span class="p">)])</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">sliders</span><span class="o">=</span><span class="p">[</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;animate&#39;</span><span class="p">,</span>
+                         <span class="n">args</span><span class="o">=</span><span class="p">[[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span>
+                               <span class="nb">dict</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;immediate&#39;</span><span class="p">,</span>
+                                    <span class="n">frame</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mi">300</span><span class="p">),</span>
+                                    <span class="n">transition</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mi">0</span><span class="p">))],</span>
+                         <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="n">time_steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time_steps</span><span class="p">)],</span>
+             <span class="n">yanchor</span><span class="o">=</span> <span class="s1">&#39;top&#39;</span>
+             <span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="plot_all"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.plot_all.html#musicflower.plotting.plot_all">[docs]</a><span class="k">def</span> <span class="nf">plot_all</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">n_time_traces</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">separate_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">groupname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">do_plot_points</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">do_plot_tip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">do_plot_surface</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+             <span class="n">do_plot_border</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">do_plot_time_traces</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">fig</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">create_fig</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">groupname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">groupname_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">groupname_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">groupname</span><span class="o">=</span><span class="n">groupname</span><span class="p">)</span>
+    <span class="c1"># plot points as scatter plot</span>
+    <span class="k">if</span> <span class="n">do_plot_points</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">plot_points</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">separate_items</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="o">**</span><span class="n">groupname_kwargs</span><span class="p">))</span>
+        <span class="n">groupname_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># plot tip as larger marker</span>
+    <span class="k">if</span> <span class="n">do_plot_tip</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">plot_tip</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">separate_items</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="o">**</span><span class="n">groupname_kwargs</span><span class="p">))</span>
+        <span class="n">groupname_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># create surface</span>
+    <span class="k">if</span> <span class="n">do_plot_surface</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">separate_items</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="o">**</span><span class="n">groupname_kwargs</span><span class="p">))</span>
+        <span class="n">groupname_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># trace triangle border</span>
+    <span class="k">if</span> <span class="n">do_plot_border</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">plot_border</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">separate_items</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="o">**</span><span class="n">groupname_kwargs</span><span class="p">))</span>
+        <span class="n">groupname_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># add time traces</span>
+    <span class="k">if</span> <span class="n">do_plot_time_traces</span><span class="p">:</span>
+        <span class="n">add_time_slider</span><span class="p">(</span><span class="n">frame_traces</span><span class="o">=</span><span class="p">[</span><span class="n">plot_time_traces</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">n_time_traces</span><span class="p">)],</span>
+                        <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+    <span class="c1"># return figure</span>
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<div class="viewcode-block" id="toggle_group_items_separately"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.toggle_group_items_separately.html#musicflower.plotting.toggle_group_items_separately">[docs]</a><span class="k">def</span> <span class="nf">toggle_group_items_separately</span><span class="p">(</span><span class="n">toggle_separately</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">toggle_separately</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">legend_groupclick</span><span class="o">=</span><span class="s1">&#39;toggleitem&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">legend_groupclick</span><span class="o">=</span><span class="s1">&#39;togglegroup&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../_autosummary/musicflower.plotting.main.html#musicflower.plotting.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="k">pass</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

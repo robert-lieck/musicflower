@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_all
+==============================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_all

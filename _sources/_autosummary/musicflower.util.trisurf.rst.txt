@@ -1,0 +1,6 @@
+musicflower.util.trisurf
+========================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: trisurf

@@ -1,0 +1,6 @@
+musicflower.loader.load\_corpus
+===============================
+
+.. currentmodule:: musicflower.loader
+
+.. autofunction:: load_corpus

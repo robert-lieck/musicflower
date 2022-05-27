@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_points
+=================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_points

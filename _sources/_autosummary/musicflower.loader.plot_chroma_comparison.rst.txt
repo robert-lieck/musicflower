@@ -1,0 +1,6 @@
+musicflower.loader.plot\_chroma\_comparison
+===========================================
+
+.. currentmodule:: musicflower.loader
+
+.. autofunction:: plot_chroma_comparison

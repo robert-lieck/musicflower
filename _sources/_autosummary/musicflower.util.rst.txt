@@ -1,0 +1,38 @@
+musicflower.util
+================
+
+.. automodule:: musicflower.util
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      bezier
+      get_fourier_component
+      main
+      remap_to_xyz
+      show_bezier
+      start_duration
+      surface_scape_indices
+      time_traces
+      trisurf
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

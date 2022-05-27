@@ -1,0 +1,6 @@
+musicflower.util.surface\_scape\_indices
+========================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: surface_scape_indices

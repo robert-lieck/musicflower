@@ -1,0 +1,6 @@
+musicflower.loader.get\_cache\_file\_path
+=========================================
+
+.. currentmodule:: musicflower.loader
+
+.. autofunction:: get_cache_file_path

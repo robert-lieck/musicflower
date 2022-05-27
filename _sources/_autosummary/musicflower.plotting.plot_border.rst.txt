@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_border
+=================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_border

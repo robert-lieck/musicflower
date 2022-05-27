@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_key\_scape
+=====================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_key_scape

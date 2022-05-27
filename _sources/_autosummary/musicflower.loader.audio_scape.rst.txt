@@ -1,0 +1,6 @@
+musicflower.loader.audio\_scape
+===============================
+
+.. currentmodule:: musicflower.loader
+
+.. autofunction:: audio_scape

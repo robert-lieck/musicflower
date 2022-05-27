@@ -1,0 +1,6 @@
+musicflower.plotting.create\_fig
+================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: create_fig

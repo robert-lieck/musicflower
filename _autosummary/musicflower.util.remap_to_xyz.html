@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>musicflower.util.remap_to_xyz &mdash; musicflower  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="musicflower.util.show_bezier" href="musicflower.util.show_bezier.html" />
+    <link rel="prev" title="musicflower.util.main" href="musicflower.util.main.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> musicflower
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">MusicFlower Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="musicflower.html">musicflower</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="musicflower.istarmap.html">musicflower.istarmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.loader.html">musicflower.loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.plotting.html">musicflower.plotting</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="musicflower.util.html">musicflower.util</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.bezier.html">musicflower.util.bezier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.get_fourier_component.html">musicflower.util.get_fourier_component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.main.html">musicflower.util.main</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">musicflower.util.remap_to_xyz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.show_bezier.html">musicflower.util.show_bezier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.start_duration.html">musicflower.util.start_duration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.surface_scape_indices.html">musicflower.util.surface_scape_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.time_traces.html">musicflower.util.time_traces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.trisurf.html">musicflower.util.trisurf</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">musicflower</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
+          <li><a href="musicflower.html">musicflower</a> &raquo;</li>
+          <li><a href="musicflower.util.html">musicflower.util</a> &raquo;</li>
+      <li>musicflower.util.remap_to_xyz</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="musicflower-util-remap-to-xyz">
+<h1>musicflower.util.remap_to_xyz<a class="headerlink" href="#musicflower-util-remap-to-xyz" title="Permalink to this headline"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="musicflower.util.remap_to_xyz">
+<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">remap_to_xyz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inner_radius=0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spherical=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rescale_func=&lt;ufunc</span> <span class="pre">'sqrt'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis=-1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#remap_to_xyz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.remap_to_xyz" title="Permalink to this definition"></a></dt>
+<dd><p>Map a triangular map with amplitudes and phases to 3D space. The <cite>axis</cite> representing the triangular map must have a
+size of <span class="math">k=n(n+1)/2</span> for some integer <span class="math">n</span> to represent a valid triangular map (<span class="math">n</span> is the
+resolution of the triangular map). The default is <cite>axis=-1</cite>, that is, the last axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>amplitude</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with amplitudes in the interval <span class="math">[0, 1]</span></p></li>
+<li><p><strong>phase</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with phases in radians</p></li>
+<li><p><strong>inner_radius</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>) – an offset to avoid collapsing points at the center</p></li>
+<li><p><strong>inverted</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – invert the radial dimension</p></li>
+<li><p><strong>spherical</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – use spherical coordinates to map to the upper half-sphere (zero amplitudes map to the zenith/top;
+amplitudes of one map to the horizontal plane); if <cite>False</cite>, cylindrical coordinates are used (the amplitude is used
+as the vertical dimension)</p></li>
+<li><p><strong>rescale_func</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">callable</span></code>) – function to rescale amplitudes; this should monotonically rescale the interval <span class="math">[0, 1]</span>;
+the default uses np.sqrt, which distorts towards high amplitudes, i.e., it “opens up the top of the flower”.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – axis of the input arrays that represents the triangular map</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>x, y, z: 1D arrays of length <span class="math">k</span> containing the Cartesian coordinates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="musicflower.util.main.html" class="btn btn-neutral float-left" title="musicflower.util.main" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="musicflower.util.show_bezier.html" class="btn btn-neutral float-right" title="musicflower.util.show_bezier" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

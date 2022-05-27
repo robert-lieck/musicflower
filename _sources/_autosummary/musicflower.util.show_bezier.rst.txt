@@ -1,0 +1,6 @@
+musicflower.util.show\_bezier
+=============================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: show_bezier

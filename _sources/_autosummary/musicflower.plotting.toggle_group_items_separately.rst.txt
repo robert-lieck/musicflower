@@ -1,0 +1,6 @@
+musicflower.plotting.toggle\_group\_items\_separately
+=====================================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: toggle_group_items_separately

@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_time\_traces
+=======================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_time_traces

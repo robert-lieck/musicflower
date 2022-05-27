@@ -1,0 +1,6 @@
+musicflower.plotting.plot\_tip
+==============================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: plot_tip

@@ -1,0 +1,6 @@
+musicflower.plotting.key\_colors
+================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: key_colors

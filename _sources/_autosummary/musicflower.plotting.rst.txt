@@ -1,0 +1,42 @@
+musicflower.plotting
+====================
+
+.. automodule:: musicflower.plotting
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      add_time_slider
+      create_fig
+      grouplegend_kwargs
+      key_colors
+      main
+      plot_all
+      plot_border
+      plot_key_scape
+      plot_points
+      plot_surface
+      plot_time_traces
+      plot_tip
+      toggle_group_items_separately
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+

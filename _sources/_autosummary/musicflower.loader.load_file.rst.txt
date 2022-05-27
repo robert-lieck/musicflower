@@ -1,0 +1,6 @@
+musicflower.loader.load\_file
+=============================
+
+.. currentmodule:: musicflower.loader
+
+.. autofunction:: load_file

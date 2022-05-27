@@ -1,7 +1,7 @@
-﻿MusicFlower
+﻿musicflower
 ===========
 
-.. automodule:: MusicFlower
+.. automodule:: musicflower
 
    
    
@@ -28,5 +28,8 @@
    :template: custom-module-template.rst
    :recursive:
 
-   MusicFlower.myclass
+   musicflower.istarmap
+   musicflower.loader
+   musicflower.plotting
+   musicflower.util
 

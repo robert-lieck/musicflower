@@ -1,0 +1,6 @@
+musicflower.plotting.main
+=========================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: main

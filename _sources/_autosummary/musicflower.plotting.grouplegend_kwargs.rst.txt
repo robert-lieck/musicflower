@@ -1,0 +1,6 @@
+musicflower.plotting.grouplegend\_kwargs
+========================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: grouplegend_kwargs
