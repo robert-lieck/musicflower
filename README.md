@@ -8,3 +8,7 @@
 
 [![doc](https://github.com/robert-lieck/musicflower/actions/workflows/doc.yml/badge.svg)](https://github.com/robert-lieck/musicflower/actions/workflows/doc.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+For more information, have a look at the [documentation](https://robert-lieck.github.io/musicflower/).
+
+![logo](doc/logo_96.png)
