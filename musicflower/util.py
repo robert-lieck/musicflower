@@ -1,5 +1,7 @@
 #  Copyright (c) 2022 Robert Lieck.
 
+from typing import Union, Tuple
+
 import numpy as np
 from scipy import interpolate
 import matplotlib.pyplot as plt
@@ -7,7 +9,7 @@ import matplotlib.pyplot as plt
 from triangularmap import TMap
 
 
-def get_fourier_component(pcds: np.ndarray, fourier_component: int) -> tuple[np.ndarray, np.ndarray]:
+def get_fourier_component(pcds: np.ndarray, fourier_component: int) -> Tuple[np.ndarray, np.ndarray]:
     """
     Compute the amplitude and phase of a specific Fourier component.
 
@@ -32,7 +34,7 @@ def start_duration(n):
 
 def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float = 0.4, inverted: bool = False,
                  spherical: bool = True, rescale_func: callable = np.sqrt, axis: int = -1
-                 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+                 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Map a triangular map with amplitudes and phases to 3D space. The `axis` representing the triangular map must have a
     size of :math:`k=n(n+1)/2` for some integer :math:`n` to represent a valid triangular map (:math:`n` is the
@@ -85,7 +87,7 @@ def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float =
 
 
 def time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int,
-                axis=0) -> tuple[np.ndarray, np.ndarray]:
+                axis=0) -> Tuple[np.ndarray, np.ndarray]:
     """
     Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
     input arrays can have an arbitrary number of additional batch dimensions.
@@ -162,7 +164,7 @@ def trisurf(triangles, decimals=None):
             return_index)
 
 
-def surface_scape_indices(n: int | np.ndarray, axis: int = None) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def surface_scape_indices(n: Union[int, np.ndarray], axis: int = None) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Return `i`, `j`, `k` point indices for triangles spanned between points of a triangular map.
 
@@ -224,16 +226,15 @@ def surface_scape_indices(n: int | np.ndarray, axis: int = None) -> tuple[np.nda
 def bezier(t, p):
     if len(p.shape) > 1:
         t = t[:, None]
-    match p.shape[0]:
-        case 2:
-            return (1 - t) * p[0] + t * p[1]
-        case 3:
-            return (1 - t) * ((1 - t) * p[0] + t * p[1]) + t * ((1 - t) * p[1] + t * p[2])
-        case 4:
-            return (1 - t) ** 3 * p[0] + 3 * (1 - t) ** 2 * t * p[1] + 3 * (1 - t) * t ** 2 * p[2] + t ** 3 * p[3]
-        case _:
-            raise NotImplementedError("Bezier curve only implemented for 2–4 points, i.e., 0–2 control points "
-                                      "(linear, quadratic, cubic)")
+    if p.shape[0] == 2:
+        return (1 - t) * p[0] + t * p[1]
+    elif p.shape[0] == 3:
+        return (1 - t) * ((1 - t) * p[0] + t * p[1]) + t * ((1 - t) * p[1] + t * p[2])
+    elif p.shape[0] == 4:
+        return (1 - t) ** 3 * p[0] + 3 * (1 - t) ** 2 * t * p[1] + 3 * (1 - t) * t ** 2 * p[2] + t ** 3 * p[3]
+    else:
+        raise NotImplementedError("Bezier curve only implemented for 2–4 points, i.e., 0–2 control points "
+                                  "(linear, quadratic, cubic)")
 
 
 def show_bezier(p):

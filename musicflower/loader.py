@@ -2,7 +2,7 @@
 
 import os
 import pickle
-from typing import Iterable
+from typing import Iterable, Tuple
 from itertools import product
 
 from musicflower import istarmap # patch Pool
@@ -89,7 +89,7 @@ def load_file(file_path: str, n: int, use_cache=False, recompute_cache=False, au
     :return: array of shape (k , 12), where :math:`k=n(n+1)/2`
     """
     # normalise by default
-    kwargs = dict(normalise=True) | kwargs
+    kwargs = {**dict(normalise=True), **kwargs}
     # argument Checks
     if n < 1:
         raise ValueError('Resolution should be a positive integer bigger than 1')
@@ -147,7 +147,7 @@ def _parallel_load_file_wrapper(file_name, kwargs):
 
 
 def load_corpus(file_paths: Iterable, parallel: bool = False, sort_func: callable = lambda x: x,
-                **kwargs) -> tuple[np.ndarray, list]:
+                **kwargs) -> Tuple[np.ndarray, list]:
     """
     This is essentially a wrapper for parallelisation around the :meth:`~musicflower.loader.load_file` function, which
     computes pitch scapes for a set of files.

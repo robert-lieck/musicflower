@@ -1,5 +1,7 @@
 #  Copyright (c) 2022 Robert Lieck.
 
+from typing import List
+
 import numpy as np
 
 import plotly.graph_objects as go
@@ -48,22 +50,21 @@ def plot_key_scape(c):
 
 
 def create_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs):
-    kwargs = dict(legend=dict(itemsizing='constant'),
-                  title={
-                      'x': 0.5,
-                      'xanchor': 'center',
-                  }) | kwargs
+    kwargs = {**dict(legend=dict(itemsizing='constant'),
+                     title={
+                         'x': 0.5,
+                         'xanchor': 'center',
+                     }), **kwargs}
     if dark:
-        kwargs = dict(
+        kwargs = {**dict(
             template='plotly_dark',
             paper_bgcolor='rgba(0,0,0,1)',
             plot_bgcolor='rgba(0,0,0,1)'
-
-        ) | kwargs
+        ), **kwargs}
     if axes_off:
-        kwargs = dict(scene=dict(xaxis=dict(visible=False),
-                                 yaxis=dict(visible=False),
-                                 zaxis=dict(visible=False))) | kwargs
+        kwargs = {**dict(scene=dict(xaxis=dict(visible=False),
+                                    yaxis=dict(visible=False),
+                                    zaxis=dict(visible=False))), **kwargs}
     if fig is None:
         if trace is None:
             fig = go.Figure(layout=kwargs)
@@ -80,7 +81,7 @@ def create_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs):
 def grouplegend_kwargs(group, groupname, name):
     kwargs = {}
     if group is not None:
-        kwargs |= dict(legendgroup=group)  # trace is part of this group
+        kwargs = {**dict(legendgroup=group), **kwargs}  # trace is part of this group
     if groupname is not None:
         # this trace acts as representative of the group
         if group is None:
@@ -88,18 +89,18 @@ def grouplegend_kwargs(group, groupname, name):
         # no separate name
         if name is None:
             # no separate name for this trace --> takes the group name to act as representative
-            kwargs |= dict(name=groupname)
+            kwargs = {**dict(name=groupname), **kwargs}
         else:
             # separate name for group and this trace
-            kwargs |= dict(legendgrouptitle_text=groupname, name=name)
+            kwargs = {**dict(legendgrouptitle_text=groupname, name=name), **kwargs}
         # always show (either with separate name or only to represent group)
-        kwargs |= dict(showlegend=True)
+        kwargs = {**dict(showlegend=True), **kwargs}
     else:
         # this trace is NOT the representative of a group (but may be part of a group and also be shown sparately)
         if name is None:
-            kwargs |= dict(showlegend=False)  # trace is NOT shown
+            kwargs = {**dict(showlegend=False), **kwargs}  # trace is NOT shown
         else:
-            kwargs |= dict(name=name, showlegend=True)  # trace is shown separately
+            kwargs = {**dict(name=name, showlegend=True), **kwargs}  # trace is shown separately
     return kwargs
 
 
@@ -108,21 +109,11 @@ def plot_points(x, y, z, colors, name=None, groupname=None, group=None, marker_k
         name = "points"
     if name is False:
         name = None
-    marker_kwargs = dict(color=colors, opacity=1, line=dict(width=0), size=0.3) | dict(marker_kwargs)
+    marker_kwargs = {**dict(color=colors, opacity=1, line=dict(width=0), size=0.3), **dict(marker_kwargs)}
     trace = go.Scatter3d(x=x, y=y, z=z,
                          mode='markers', marker=marker_kwargs,
                          **grouplegend_kwargs(group, groupname, name),
-                         hoverinfo='skip',
-                         # legendgroup=label,
-                         # **(dict(
-                         #     # separate labels for group and this trace
-                         #     legendgrouptitle_text=label, name="points",
-                         # ) if separate_items else dict(
-                         #     # use this trace to represent whole group
-                         #     name=label
-                         # )),
-                         # showlegend=True,  # always show (as separate trace or to represent group)
-                         )
+                         hoverinfo='skip')
     return trace
 
 
@@ -133,7 +124,7 @@ def plot_tip(x, y, z, colors, name=None, groupname=None, group=None):
         name = None
     kwargs = grouplegend_kwargs(group, groupname, name)
     if group:
-        kwargs |= dict(hovertemplate=group + "<extra></extra>",)
+        kwargs = {**dict(hovertemplate=group + "<extra></extra>"), **kwargs}
     trace = go.Scatter3d(x=x[:1], y=y[:1], z=z[:1],
                          mode='markers', marker=dict(color=colors, opacity=1, line=dict(width=0), size=5),
                          **kwargs)
@@ -147,7 +138,7 @@ def plot_surface(x, y, z, colors, name=None, groupname=None, group=None):
         name = None
     kwargs = grouplegend_kwargs(group, groupname, name)
     if group:
-        kwargs |= dict(hovertemplate=group + "<extra></extra>", )
+        kwargs = {**dict(hovertemplate=group + "<extra></extra>"), **kwargs}
     i, j, k = surface_scape_indices(x, -1)
     trace = go.Mesh3d(x=x, y=y, z=z, i=i, j=j, k=k, vertexcolor=colors, opacity=0.2, **kwargs)
     return trace
@@ -171,7 +162,7 @@ def plot_border(x, y, z, colors, name=None, groupname=None, group=None):
 
 
 def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int, group: str = None
-                     ) -> list[go.Scatter3d]:
+                     ) -> List[go.Scatter3d]:
     """
     Plot equally spaced traces from the top to the bottom of the triangle. These can be added to a figure and
     animated with a slider using the :meth:`~musicflower.plotting.add_time_slider` function. The input arrays must
