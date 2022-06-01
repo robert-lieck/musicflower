@@ -6,11 +6,21 @@ import importlib.util
 
 
 class TestExamples(TestCase):
-    def test_examples(self):
-        """Run all the examples from the documentation."""
+
+    cwd = None
+
+    def setUp(self) -> None:
+        self.cwd = os.getcwd()
         examples_dir = 'examples'
         self.assertTrue(os.path.isdir(examples_dir))
         os.chdir(examples_dir)
+
+    def tearDown(self) -> None:
+        os.chdir(self.cwd)
+        self.cwd = None
+
+    def test_examples(self):
+        """Run all the examples from the documentation."""
         for dir_path, dir_names, file_names in os.walk("."):
             for file in file_names:
                 full_path = os.path.join(dir_path, file)
