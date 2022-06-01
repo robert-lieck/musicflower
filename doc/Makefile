@@ -17,6 +17,12 @@ help:
 
 .PHONY: help Makefile
 
+# Remove build directory, examples, and autosummary files
+clean:
+	rm -rf $(BUILDDIR)/*
+	rm -rf auto_examples/
+	rm -rf _autosummary/
+
 # Auto rebuild with sphinx-autobuild
 livehtml:
 	sphinx-autobuild "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

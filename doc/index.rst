@@ -3,23 +3,18 @@
 Welcome to MusicFlower's documentation!
 =================================================
 
+Have a look at the :ref:`sphx_glr_auto_examples` for some examples.
+
+
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 3
    :caption: Contents:
 
    auto_examples/index.rst
    api_summary
 
-.. ...add more elements to table of contents
-
-Code examples are automatically tested
-
-   >>> print("Hello World")
-   Hello World
-
-
 .. .. autoclass:: musicflower.myclass.MyClass
-..   :members:
+.. ..   :members:
 
 
 .. Indices and tables

@@ -14,6 +14,10 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../'))
 
+# for Plotly in Sphinx gallery examples
+import plotly.io as pio
+pio.renderers.default = 'sphinx_gallery'
+
 
 # -- Project information -----------------------------------------------------
 
@@ -55,6 +59,17 @@ exclude_patterns = ['_build']
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
+html_theme_options = {
+    'style_nav_header_background': 'black',
+}
+html_context = {
+    "display_github": True,
+    "github_user": "robert-lieck",
+    "github_repo": "musicflower",
+    "github_version": "main",
+    "conf_py_path": "/doc/",
+}
+html_logo = 'logo_96.png'
 # don't show the "View page source" link in the RTD theme
 html_show_sourcelink = False
 # use svg in imgmath extension
