@@ -47,7 +47,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
     file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'
     resolution = 50
     corpus, file_paths = load_corpus(
-        file_paths=[file_path, file_path],
+        data=[file_path, file_path],
         n=resolution,
         parallel=True,
         use_cache=True
@@ -64,7 +64,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]     50%|#####     | 1/2 [00:00<00:00,  1.77it/s]    100%|##########| 2/2 [00:00<00:00,  3.34it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]     50%|#####     | 1/2 [00:00<00:00,  1.42it/s]    100%|##########| 2/2 [00:00<00:00,  2.85it/s]
     (2, 1275, 12)
 
 
@@ -163,9 +163,9 @@ The triangle with a specific index can be obtained as
 
  .. code-block:: none
 
-    1st vertex (i): 1.016927877403892 0.7426998034456703 0.5644950789161737
-    2nd vertex (j): 1.0026452680541686 0.7305989113488145 0.5572501208474614
-    3rd vertex (k): 0.9955507901181573 0.737470906059694 0.560905773736201
+    1st vertex (i): 1.016927877403892 0.7426998034456707 0.5644950789161736
+    2nd vertex (j): 1.0026452680541689 0.7305989113488147 0.5572501208474614
+    3rd vertex (k): 0.9955507901181572 0.7374709060596941 0.560905773736201
 
 
 
@@ -239,7 +239,7 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.691 seconds)
+   **Total running time of the script:** ( 0 minutes  0.802 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_extract_data.py:

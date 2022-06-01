@@ -97,8 +97,32 @@
 <h1>musicflower.loader.get_chroma<a class="headerlink" href="#musicflower-loader-get-chroma" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="musicflower.loader.get_chroma">
-<span class="sig-prename descclassname"><span class="pre">musicflower.loader.</span></span><span class="sig-name descname"><span class="pre">get_chroma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cqt=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">harm=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asdict=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loader=&lt;function</span> <span class="pre">load&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/loader.html#get_chroma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.loader.get_chroma" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">musicflower.loader.</span></span><span class="sig-name descname"><span class="pre">get_chroma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cqt=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normal=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">harm=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asdict=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loader=&lt;function</span> <span class="pre">load&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/loader.html#get_chroma"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.loader.get_chroma" title="Permalink to this definition"></a></dt>
+<dd><p>Get chroma features from audio data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – a path to an audio file, which is loaded using librosa’s
+<a class="reference external" href="https://librosa.org/doc/main/generated/librosa.load.html">load</a> function, or a tuple <code class="docutils literal notranslate"><span class="pre">(y,</span> <span class="pre">sr)</span></code> that is
+of the same type as returned by the load function, i.e. <code class="docutils literal notranslate"><span class="pre">y</span></code>: an audio time series as np.ndarray and <code class="docutils literal notranslate"><span class="pre">sr</span></code> the
+sampling rate</p></li>
+<li><p><strong>cqt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – return constant-Q transform</p></li>
+<li><p><strong>normal</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – return “normal” chroma features</p></li>
+<li><p><strong>harm</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – filter harmonics before computing chroma features</p></li>
+<li><p><strong>filter</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – apply non-local filtering to chroma features</p></li>
+<li><p><strong>smooth</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – apply a horizontal median filter (after non-local filtering)</p></li>
+<li><p><strong>asdict</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – return results as a dict (keys are ‘cqt’, ‘normal’, ‘harm’, ‘filter’, ‘smooth’)</p></li>
+<li><p><strong>loader</strong> – the loader to use (defaults to librosa.load)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>tuple or dict with results (cqt/normal/harm/filter/smooth as specified)</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

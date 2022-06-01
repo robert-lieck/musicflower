@@ -19,7 +19,7 @@ file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'
 # split piece into this many equal-sized time intervals
 resolution = 50
 # get pitch scape at specified resolution
-scape = load_file(file_path=file_path, n=resolution)
+scape = load_file(data=file_path, n=resolution)
 
 # %%
 # The result can be visualised in a key scape plot.

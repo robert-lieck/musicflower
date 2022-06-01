@@ -23,7 +23,7 @@ from musicflower.loader import load_corpus
 file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'
 resolution = 50
 corpus, file_paths = load_corpus(
-    file_paths=[file_path, file_path],
+    data=[file_path, file_path],
     n=resolution,
     parallel=True,
     use_cache=True
