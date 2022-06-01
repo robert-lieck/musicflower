@@ -75,7 +75,7 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
 
 <span class="kn">from</span> <span class="nn">musicflower</span> <span class="kn">import</span> <span class="n">istarmap</span> <span class="c1"># patch Pool</span>
@@ -162,7 +162,7 @@
 <span class="sd">    :return: array of shape (k , 12), where :math:`k=n(n+1)/2`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># normalise by default</span>
-    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">normalise</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">|</span> <span class="n">kwargs</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">normalise</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">}</span>
     <span class="c1"># argument Checks</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Resolution should be a positive integer bigger than 1&#39;</span><span class="p">)</span>
@@ -220,7 +220,7 @@
 
 
 <div class="viewcode-block" id="load_corpus"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_corpus.html#musicflower.loader.load_corpus">[docs]</a><span class="k">def</span> <span class="nf">load_corpus</span><span class="p">(</span><span class="n">file_paths</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">parallel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sort_func</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
-                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is essentially a wrapper for parallelisation around the :meth:`~musicflower.loader.load_file` function, which</span>
 <span class="sd">    computes pitch scapes for a set of files.</span>
