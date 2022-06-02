@@ -21,7 +21,7 @@ pio.renderers.default = 'sphinx_gallery'
 
 # -- Project information -----------------------------------------------------
 
-project = 'musicflower'
+project = 'MusicFlower'
 copyright = '2022, Robert Lieck'
 author = 'Robert Lieck'
 

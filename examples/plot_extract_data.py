@@ -76,12 +76,12 @@ print(xyz[piece, ijk[idx]])
 # -----------
 # In :doc:`plot_basic_example` the time traces were plotted, but we did not extract the actual data for them.
 # They are computed by interpolating along rows of the triangular map using the
-# :func:`~musicflower.util.time_traces` function. In the output, the first dimension are time steps, the second runs
+# :func:`~musicflower.util.get_time_traces` function. In the output, the first dimension are time steps, the second runs
 # along the traces (from the top of the triangle to the bottom), and the last one are xyz-coordinates or RGB-colours,
 # respectively. The third (batch) dimension are the different pieces in this case.
 
-from musicflower.util import time_traces
-xyz_traces, colors_traces = time_traces(x=x, y=y, z=z, colors=colors, n_steps=200, axis=1)
+from musicflower.util import get_time_traces
+xyz_traces, colors_traces = get_time_traces(x=x, y=y, z=z, colors=colors, n_steps=200, axis=1)
 print(xyz_traces.shape, colors_traces.shape)
 
 
