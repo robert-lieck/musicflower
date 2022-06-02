@@ -1,6 +1,7 @@
 #  Copyright (c) 2022 Robert Lieck.
 
 from typing import Union, Tuple
+from itertools import repeat
 
 import numpy as np
 from scipy import interpolate
@@ -86,8 +87,8 @@ def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float =
     return x, y, z
 
 
-def time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int,
-                axis=0) -> Tuple[np.ndarray, np.ndarray]:
+def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int,
+                    axis=0) -> Tuple[np.ndarray, np.ndarray]:
     """
     Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
     input arrays can have an arbitrary number of additional batch dimensions.
@@ -221,6 +222,36 @@ def surface_scape_indices(n: Union[int, np.ndarray], axis: int = None) -> Tuple[
         f"i, j, k should have length {(n - 1) ** 2} but have shape {i.shape}, {j.shape}, {k.shape}. " \
         f"This is a bug in the code."
     return i, j, k
+
+
+def assert_valid_corpus(corpus):
+    if not 2 <= len(corpus.shape) <= 3:
+        raise ValueError(f"A corpus should be an array with 2 or 3 dimension, corresponding to a single or multiple "
+                         f"pieces, but the provided corpus has {len(corpus.shape)}")
+
+
+def assert_valid_xyz_col(x, y, z, colors):
+    if not (x.shape == y.shape == z.shape == colors.shape[:-1]) or colors.shape[-1] not in (3, 4):
+        raise ValueError(f"x, y, z must have the same shape; the first dimensions of colors must be the same as the "
+                         f"shape of x, y, and z; the last dimension of colors must be 3 or 4. We got (x/y/z/colors): "
+                         f"{x.shape}/{y.shape}/{z.shape}/{colors.shape}")
+
+
+def iterable_or_repeat(it, exclude=()):
+    if isinstance(it, exclude):
+        return it
+    try:
+        iter(it)
+        return it
+    except TypeError:
+        return repeat(it)
+
+
+def broadcast_func(func, **kwargs):
+    ret = []
+    for vals in zip(*list(kwargs.values())):
+        ret.append(func(**dict(zip(kwargs.keys(), vals))))
+    return tuple(ret)
 
 
 def bezier(t, p):

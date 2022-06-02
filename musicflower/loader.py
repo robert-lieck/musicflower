@@ -38,7 +38,7 @@ def get_cache_file_path(file_path: str, n: int, remove_extension: bool = False):
 
 
 def audio_scape(n_time_intervals: int, data: Union[str, Tuple[np.ndarray, int]], normalise: bool = True,
-                top_down: bool = False) -> np.ndarray:
+                top_down: bool = False, **kwargs) -> np.ndarray:
     """
     Compute a pitch scape from audio data.
 
@@ -46,10 +46,11 @@ def audio_scape(n_time_intervals: int, data: Union[str, Tuple[np.ndarray, int]],
     :param data: path to file or a tuple with audio data (passed on to :func:`~musicflower.loader.get_chroma`)
     :param normalise: normalise the pitch class distributions
     :param top_down: use top-down order
+    :param kwargs: kwargs passed on to the :func:`~musicflower.loader.get_chroma` function
     :return: array with pitch scape
     """
     # get chroma
-    raw_chroma = get_chroma(data=data)
+    raw_chroma = get_chroma(data=data, **kwargs)
     n_bins = raw_chroma.shape[1]
     # sum over specified time intervals
     chroma = np.zeros((n_time_intervals, 12))
@@ -94,8 +95,9 @@ def load_file(data: str, n: int, use_cache=False, recompute_cache=False, audio=N
     :param audio_ext: assumes all files with an extension in this list to be audio files, all other files to be symbolic
     :param top_down: use the top-down ordering for flattening the triangular map (as used by the :class:`TMap` class);
      if `False` the start-to-end convention from the `pitchscapes` library is used
-    :param kwargs: kwargs to passed to the :meth:`pitchscapes.reader.sample_scape` function of the pitchscapes library;
-     by default `normalise=True` is used, but this is overwritten by an explicitly specified argument
+    :param kwargs: kwargs to passed to the :meth:`pitchscapes.reader.sample_scape` function of the pitchscapes library
+     (for symbolic data) or the :func:`~musicflower.loader.audio_scape` function (for audio data);
+     by default `normalise=True` is injected into kwargs, but this is overwritten by an explicitly specified value
     :rtype: np.ndarray
     :return: array of shape (k , 12), where :math:`k=n(n+1)/2`
     """

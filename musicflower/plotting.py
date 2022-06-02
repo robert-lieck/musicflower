@@ -1,6 +1,8 @@
 #  Copyright (c) 2022 Robert Lieck.
 
-from typing import List
+from typing import List, Union, Iterable
+from numbers import Integral
+from itertools import repeat
 
 import numpy as np
 
@@ -12,7 +14,8 @@ from pitchscapes.keyfinding import KeyEstimator
 
 from triangularmap import TMap
 
-from musicflower.util import time_traces, surface_scape_indices
+from musicflower.util import get_time_traces, surface_scape_indices, assert_valid_corpus, assert_valid_xyz_col, \
+    broadcast_func, iterable_or_repeat
 
 # use colouring along circle of fifths (not chromatic)
 pt.set_circle_of_fifths(True)
@@ -44,12 +47,32 @@ def key_colors(pcds: np.ndarray, alpha=False) -> np.ndarray:
     return colors
 
 
-def plot_key_scape(c):
-    pt.scape_plot_from_array(TMap.reindex_start_end_from_top_down(pt.counts_to_colors(c)))
-    plt.show()
+def plot_key_scape(corpus, show=True):
+    """
+    Create key scape plot(s) from corpus. If `corpus` is just a single piece (two dimensions) a single key scape plot
+    is create; if `corpus` contains multiple pieces (three dimensions) multiple key scape plots in different sub-plots
+    are create.
+
+    :param corpus: array of shape ``(k, m, 12)`` or ``(m, 12)``, where ``k`` is the number of pieces and ``m``
+     corresponds to the triangular map dimension.
+    :param show: call pyplot.show() after creating the plots
+    """
+    assert_valid_corpus(corpus)
+    if len(corpus.shape) == 3:
+        # create multiple subplots for different pieces
+        n_axes = corpus.shape[0]
+        fig, axes = plt.subplots(1, n_axes, figsize=[n_axes * 6.4, 4.8])
+        for c, ax in zip(corpus, axes):
+            pt.scape_plot_from_array(TMap.reindex_start_end_from_top_down(pt.counts_to_colors(c)), ax=ax)
+    else:
+        # only one piece
+        assert len(corpus.shape) == 2
+        pt.scape_plot_from_array(TMap.reindex_start_end_from_top_down(pt.counts_to_colors(corpus)))
+    if show:
+        plt.show()
 
 
-def create_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs):
+def create_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs) -> go.Figure:
     kwargs = {**dict(legend=dict(itemsizing='constant'),
                      title={
                          'x': 0.5,
@@ -178,17 +201,18 @@ def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.nda
      together with the other traces in that legend group)
     :return: a list of `n_steps` + 1 Plotly :class:`Scatter3d` plots
     """
-    xyz_traces, colors_traces = time_traces(x=x, y=y, z=z, colors=colors, n_steps=n_steps)
+    xyz_traces, colors_traces = get_time_traces(x=x, y=y, z=z, colors=colors, n_steps=n_steps)
     time_trace_plots = []
     kwargs = dict(showlegend=False)
     if group is not None:
-        kwargs |= dict(legendgroup=group)
+        kwargs = {**dict(legendgroup=group), **kwargs}
     for i in range(n_steps + 1):
         frame = go.Scatter3d(x=xyz_traces[i, :, 0],
                              y=xyz_traces[i, :, 1],
                              z=xyz_traces[i, :, 2],
                              mode='lines', line=dict(color=colors_traces[i, :], width=4),
-                             hoverinfo='skip')
+                             hoverinfo='skip',
+                             **kwargs)
         time_trace_plots.append(frame)
     return time_trace_plots
 
@@ -214,32 +238,61 @@ def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fi
              separate_items: bool = False, groupname: str = None,
              do_plot_points: bool = True, do_plot_tip: bool = True, do_plot_surface: bool = True,
              do_plot_border: bool = True, do_plot_time_traces: bool = False):
+    assert_valid_xyz_col(x, y, z, colors)
     if fig is None:
         fig = create_fig()
-    if groupname is None:
-        groupname_kwargs = {}
+    multiple_pieces = len(x.shape) >= 2
+    n_pieces = x.shape[0]
+    # broadcast for corpus; proceed normally for single piece
+    if multiple_pieces:
+        # add dummy traces if time traces are plotted (workaround for Plotly bug)
+        if do_plot_time_traces:
+            add_dummy_traces(n_pieces, fig)
+        # broadcast
+        broadcast_func(plot_all, x=x, y=y, z=z, colors=colors, fig=repeat(fig),
+                       n_time_traces=iterable_or_repeat(n_time_traces),
+                       group=iterable_or_repeat(group, exclude=(str,)),
+                       separate_items=iterable_or_repeat(separate_items),
+                       groupname=iterable_or_repeat(groupname, exclude=(str,)),
+                       do_plot_points=iterable_or_repeat(do_plot_points),
+                       do_plot_tip=iterable_or_repeat(do_plot_tip),
+                       do_plot_surface=iterable_or_repeat(do_plot_surface),
+                       do_plot_border=iterable_or_repeat(do_plot_border),
+                       do_plot_time_traces=repeat(False))
     else:
-        groupname_kwargs = dict(groupname=groupname)
-    # plot points as scatter plot
-    if do_plot_points:
-        fig.add_trace(plot_points(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
-        groupname_kwargs = {}
-    # plot tip as larger marker
-    if do_plot_tip:
-        fig.add_trace(plot_tip(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
-        groupname_kwargs = {}
-    # create surface
-    if do_plot_surface:
-        fig.add_trace(plot_surface(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
-        groupname_kwargs = {}
-    # trace triangle border
-    if do_plot_border:
-        fig.add_trace(plot_border(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
-        groupname_kwargs = {}
-    # add time traces
+        if groupname is None:
+            groupname_kwargs = {}
+        else:
+            groupname_kwargs = dict(groupname=groupname)
+        # add dummy trace if time traces are plotted (workaround for Plotly bug)
+        if do_plot_time_traces:
+            add_dummy_traces(1, fig)
+        # plot points as scatter plot
+        if do_plot_points:
+            fig.add_trace(plot_points(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            groupname_kwargs = {}
+        # plot tip as larger marker
+        if do_plot_tip:
+            fig.add_trace(plot_tip(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            groupname_kwargs = {}
+        # create surface
+        if do_plot_surface:
+            fig.add_trace(plot_surface(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            groupname_kwargs = {}
+        # trace triangle border
+        if do_plot_border:
+            fig.add_trace(plot_border(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            groupname_kwargs = {}
     if do_plot_time_traces:
-        add_time_slider(frame_traces=[plot_time_traces(x=x, y=y, z=z, colors=colors, group=group, n_steps=n_time_traces)],
-                        fig=fig)
+        # collect time traces
+        if multiple_pieces:
+            time_traces = list(broadcast_func(plot_time_traces, x=x, y=y, z=z, colors=colors,
+                                              group=iterable_or_repeat(group, exclude=(str,)),
+                                              n_steps=iterable_or_repeat(n_time_traces)))
+        else:
+            time_traces = [plot_time_traces(x=x, y=y, z=z, colors=colors, group=group, n_steps=n_time_traces)]
+        # add time traces
+        add_time_slider(frame_traces=time_traces, fig=fig)
     # return figure
     return fig
 
@@ -249,6 +302,26 @@ def toggle_group_items_separately(toggle_separately, fig):
         fig.update_layout(legend_groupclick='toggleitem', overwrite=True)
     else:
         fig.update_layout(legend_groupclick='togglegroup', overwrite=True)
+
+
+def add_dummy_traces(n: Union[int, Iterable], fig: go.Figure) -> None:
+    """
+    Add empty dummy traces to the figure. This function it to fix a
+    `Plotly bug <https://github.com/plotly/plotly.py/issues/3753>`_. Each animated time traces "eats" one of the
+    existing traces when animation starts (automatically or when moving the slider). It starts in the order that traces
+    were added. So, to not lose relevant traces, you have to add as many dummy traces as there are animated time traces.
+    This has to be done FIRST, that is, BEFORE any other traces were added.
+
+    :param n: number of dummy traces; either an integer or an iterable (which will only be used to determine the number
+     of traces to add)
+    :param fig: the figure where to add the dummy traces
+    """
+    if isinstance(n, Integral):
+        it = range(n)
+    else:
+        it = n
+    for _ in it:
+        fig.add_trace(go.Scatter3d(x=[], y=[], z=[], showlegend=False))
 
 
 def main():
