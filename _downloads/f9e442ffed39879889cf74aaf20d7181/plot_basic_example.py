@@ -20,11 +20,30 @@ file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'
 resolution = 50
 # get pitch scape at specified resolution
 scape = load_file(data=file_path, n=resolution)
+print(scape.shape)
 
 # %%
-# The result can be visualised in a key scape plot.
+# The result is an array with pitch-class distributions (PCDs), stored in a triangular map (see
+# :doc:`plot_triangular_maps`). You can load multiple pieces using the :func:`~musicflower.loader.load_corpus`
+# function
+from musicflower.loader import load_corpus
+corpus, files = load_corpus(data=[file_path, file_path], n=resolution)
+print(corpus.shape)
+
+# %%
+# The resulting array has the different pieces as its first dimension. Since we have loaded the same pices twice, we
+# will transpose one version by a semitone to fake a different second piece
+import numpy as np
+corpus[1] = np.roll(corpus[1], shift=1, axis=-1)
+
+# %%
+# Key Scape Plots
+# ---------------
+# Pitch scapes can be visualised in traditional key scape plots, which are the basis for the 3D visualisation provided
+# by the MusicFlower package.
 from musicflower.plotting import plot_key_scape
-plot_key_scape(scape)
+plot_key_scape(corpus)
+
 
 # %%
 # More functionality, such as a legend for the used colours, is available via the
@@ -33,46 +52,14 @@ import pitchscapes.plotting as pt
 _ = pt.key_legend()
 
 # %%
-# The array returned by :func:`~musicflower.loader.load_file` contains the triangular map of pitch-class distributions
-# (PCDs) that is visualised above. To use NumPy's efficient linear storage, it is flattened by starting at the top and
-# then going row by row, thus, it contains a total number of n(n+1)/2 PCDs.
-print(scape.shape)
-print(resolution * (resolution + 1) / 2)
-
-# %%
+# Colour
+# ------
 # The :func:`~musicflower.plotting.key_colors` function can be used to get the corresponding triangular map of colours
 # as RGB in [0, 1]. These are computed by matching each PCD against templates for the 12 major and 12 minor keys and
 # then interpolating between the respective colours shown in the legend above.
 from musicflower.plotting import key_colors
-colors = key_colors(scape)
+colors = key_colors(corpus)
 print(colors.shape)
-
-# %%
-# Triangular Maps
-# ---------------
-# To handle this kind of flattened triangular maps, the :class:`~triangularmap.tmap.TMap` class from the
-# `TriangularMap <https://robert-lieck.github.io/triangularmap>`_ package can be used. It takes
-# a linear storage and allows for efficiently accessing its content as if it was a triangular map (see
-# triangularmap documentation for more details). For multidimensional arrays, the first dimension is assumed to
-# represent the triangular map.
-
-from triangularmap import TMap
-import numpy as np
-tmap = TMap(np.arange(6))
-print(tmap.pretty())
-
-# %%
-# The functionalities include slicing at a specific level/depth (this returns *views* of the underlying storage)
-print(tmap.dslice(0))  # depth starts a 0 from the top
-print(tmap.lslice(1))  # levels start at 1 from the bottom
-
-# %%
-# and slicing "skewed columns" for a specific start/end index (this returns *copies* of the underlying storage, note the
-# different syntax using square brackets), which always run left-to-right (i.e. bottom-up for start-slices, top-down for
-# end-slices)
-#
-print(tmap.sslice[0])  # start indices run from 0 to n - 1
-print(tmap.eslice[3])  # end indices run from 1 to n
 
 # %%
 # Mapping to Fourier Space
@@ -84,7 +71,7 @@ print(tmap.eslice[3])  # end indices run from 1 to n
 # amplitudes and phases of an array of PCDs
 
 from musicflower.util import get_fourier_component
-amplitude, phase = get_fourier_component(pcds=scape, fourier_component=5)
+amplitude, phase = get_fourier_component(pcds=corpus, fourier_component=5)
 
 
 # %%

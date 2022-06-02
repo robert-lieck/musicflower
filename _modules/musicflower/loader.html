@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>musicflower.loader &mdash; musicflower  documentation</title>
+  <title>musicflower.loader &mdash; MusicFlower  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
@@ -29,7 +29,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../../index.html" class="icon icon-home"> musicflower
+            <a href="../../index.html" class="icon icon-home"> MusicFlower
             <img src="../../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -52,7 +52,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">musicflower</a>
+          <a href="../../index.html">MusicFlower</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -111,7 +111,7 @@
 
 
 <div class="viewcode-block" id="audio_scape"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.audio_scape.html#musicflower.loader.audio_scape">[docs]</a><span class="k">def</span> <span class="nf">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="n">top_down</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+                <span class="n">top_down</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute a pitch scape from audio data.</span>
 
@@ -119,10 +119,11 @@
 <span class="sd">    :param data: path to file or a tuple with audio data (passed on to :func:`~musicflower.loader.get_chroma`)</span>
 <span class="sd">    :param normalise: normalise the pitch class distributions</span>
 <span class="sd">    :param top_down: use top-down order</span>
+<span class="sd">    :param kwargs: kwargs passed on to the :func:`~musicflower.loader.get_chroma` function</span>
 <span class="sd">    :return: array with pitch scape</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get chroma</span>
-    <span class="n">raw_chroma</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">raw_chroma</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">n_bins</span> <span class="o">=</span> <span class="n">raw_chroma</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="c1"># sum over specified time intervals</span>
     <span class="n">chroma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_time_intervals</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
@@ -167,8 +168,9 @@
 <span class="sd">    :param audio_ext: assumes all files with an extension in this list to be audio files, all other files to be symbolic</span>
 <span class="sd">    :param top_down: use the top-down ordering for flattening the triangular map (as used by the :class:`TMap` class);</span>
 <span class="sd">     if `False` the start-to-end convention from the `pitchscapes` library is used</span>
-<span class="sd">    :param kwargs: kwargs to passed to the :meth:`pitchscapes.reader.sample_scape` function of the pitchscapes library;</span>
-<span class="sd">     by default `normalise=True` is used, but this is overwritten by an explicitly specified argument</span>
+<span class="sd">    :param kwargs: kwargs to passed to the :meth:`pitchscapes.reader.sample_scape` function of the pitchscapes library</span>
+<span class="sd">     (for symbolic data) or the :func:`~musicflower.loader.audio_scape` function (for audio data);</span>
+<span class="sd">     by default `normalise=True` is injected into kwargs, but this is overwritten by an explicitly specified value</span>
 <span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    :return: array of shape (k , 12), where :math:`k=n(n+1)/2`</span>
 <span class="sd">    &quot;&quot;&quot;</span>

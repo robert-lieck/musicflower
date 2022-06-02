@@ -1,0 +1,6 @@
+musicflower.util.broadcast\_func
+================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: broadcast_func

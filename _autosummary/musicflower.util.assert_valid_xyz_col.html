@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>musicflower.util.time_traces &mdash; musicflower  documentation</title>
+  <title>musicflower.util.assert_valid_xyz_col &mdash; MusicFlower  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
@@ -23,8 +23,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="musicflower.util.trisurf" href="musicflower.util.trisurf.html" />
-    <link rel="prev" title="musicflower.util.surface_scape_indices" href="musicflower.util.surface_scape_indices.html" /> 
+    <link rel="next" title="musicflower.util.bezier" href="musicflower.util.bezier.html" />
+    <link rel="prev" title="musicflower.util.assert_valid_corpus" href="musicflower.util.assert_valid_corpus.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -32,7 +32,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../index.html" class="icon icon-home"> musicflower
+            <a href="../index.html" class="icon icon-home"> MusicFlower
             <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -52,14 +52,18 @@
 <li class="toctree-l3"><a class="reference internal" href="musicflower.loader.html">musicflower.loader</a></li>
 <li class="toctree-l3"><a class="reference internal" href="musicflower.plotting.html">musicflower.plotting</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="musicflower.util.html">musicflower.util</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.assert_valid_corpus.html">musicflower.util.assert_valid_corpus</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">musicflower.util.assert_valid_xyz_col</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.bezier.html">musicflower.util.bezier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.broadcast_func.html">musicflower.util.broadcast_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.get_fourier_component.html">musicflower.util.get_fourier_component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.get_time_traces.html">musicflower.util.get_time_traces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.iterable_or_repeat.html">musicflower.util.iterable_or_repeat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.main.html">musicflower.util.main</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.remap_to_xyz.html">musicflower.util.remap_to_xyz</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.show_bezier.html">musicflower.util.show_bezier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.start_duration.html">musicflower.util.start_duration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.surface_scape_indices.html">musicflower.util.surface_scape_indices</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">musicflower.util.time_traces</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.trisurf.html">musicflower.util.trisurf</a></li>
 </ul>
 </li>
@@ -75,7 +79,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">musicflower</a>
+          <a href="../index.html">MusicFlower</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -86,9 +90,9 @@
           <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
           <li><a href="musicflower.html">musicflower</a> &raquo;</li>
           <li><a href="musicflower.util.html">musicflower.util</a> &raquo;</li>
-      <li>musicflower.util.time_traces</li>
+      <li>musicflower.util.assert_valid_xyz_col</li>
       <li class="wy-breadcrumbs-aside">
-              <a href="https://github.com/robert-lieck/musicflower/blob/main/doc/_autosummary/musicflower.util.time_traces.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/robert-lieck/musicflower/blob/main/doc/_autosummary/musicflower.util.assert_valid_xyz_col.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
   </ul>
   <hr/>
@@ -96,36 +100,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="musicflower-util-time-traces">
-<h1>musicflower.util.time_traces<a class="headerlink" href="#musicflower-util-time-traces" title="Permalink to this headline"></a></h1>
+  <section id="musicflower-util-assert-valid-xyz-col">
+<h1>musicflower.util.assert_valid_xyz_col<a class="headerlink" href="#musicflower-util-assert-valid-xyz-col" title="Permalink to this headline"></a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="musicflower.util.time_traces">
-<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">time_traces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_steps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#time_traces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.time_traces" title="Permalink to this definition"></a></dt>
-<dd><p>Compute <cite>n_steps</cite> + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
-input arrays can have an arbitrary number of additional batch dimensions.</p>
-<p>Each trace has the same number of points as there are rows in the triangular map. As time runs from 0 to 1, the
-points run from left to right along the rows, interpolating linearly between points.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with x-coordinates</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with y-coordinates</p></li>
-<li><p><strong>z</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with z-coordinates</p></li>
-<li><p><strong>colors</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array with RGB colours (last dimension must correspond to colours and have size 3)</p></li>
-<li><p><strong>n_steps</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – create <cite>n_steps</cite> + 1 traces from time 0 to time 1</p></li>
-<li><p><strong>axis</strong> – Axis of the input arrays that corresponds to the triangular map. It must have a compatible length (i.e.
-a length of <span class="math">n(n+1)/2</span> for some integer <span class="math">n</span>).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>xyz, colors: two arrays of shape (n_steps + 1, n, …, 3) with xyz-coordinates and colours, where <cite>…</cite>
-corresponds to any additional batch dimensions.</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="musicflower.util.assert_valid_xyz_col">
+<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">assert_valid_xyz_col</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#assert_valid_xyz_col"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.assert_valid_xyz_col" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 
@@ -133,8 +113,8 @@ corresponds to any additional batch dimensions.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="musicflower.util.surface_scape_indices.html" class="btn btn-neutral float-left" title="musicflower.util.surface_scape_indices" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="musicflower.util.trisurf.html" class="btn btn-neutral float-right" title="musicflower.util.trisurf" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="musicflower.util.assert_valid_corpus.html" class="btn btn-neutral float-left" title="musicflower.util.assert_valid_corpus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="musicflower.util.bezier.html" class="btn btn-neutral float-right" title="musicflower.util.bezier" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -64,7 +64,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]     50%|#####     | 1/2 [00:00<00:00,  2.03it/s]    100%|##########| 2/2 [00:00<00:00,  4.07it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]     50%|#####     | 1/2 [00:00<00:00,  2.20it/s]    100%|##########| 2/2 [00:00<00:00,  3.76it/s]
     (2, 1275, 12)
 
 
@@ -206,7 +206,7 @@ Time Traces
 -----------
 In :doc:`plot_basic_example` the time traces were plotted, but we did not extract the actual data for them.
 They are computed by interpolating along rows of the triangular map using the
-:func:`~musicflower.util.time_traces` function. In the output, the first dimension are time steps, the second runs
+:func:`~musicflower.util.get_time_traces` function. In the output, the first dimension are time steps, the second runs
 along the traces (from the top of the triangle to the bottom), and the last one are xyz-coordinates or RGB-colours,
 respectively. The third (batch) dimension are the different pieces in this case.
 
@@ -215,8 +215,8 @@ respectively. The third (batch) dimension are the different pieces in this case.
 .. code-block:: default
 
 
-    from musicflower.util import time_traces
-    xyz_traces, colors_traces = time_traces(x=x, y=y, z=z, colors=colors, n_steps=200, axis=1)
+    from musicflower.util import get_time_traces
+    xyz_traces, colors_traces = get_time_traces(x=x, y=y, z=z, colors=colors, n_steps=200, axis=1)
     print(xyz_traces.shape, colors_traces.shape)
 
 
@@ -239,7 +239,7 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.575 seconds)
+   **Total running time of the script:** ( 0 minutes  0.609 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_extract_data.py:

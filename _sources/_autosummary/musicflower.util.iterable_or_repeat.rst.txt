@@ -1,0 +1,6 @@
+musicflower.util.iterable\_or\_repeat
+=====================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: iterable_or_repeat

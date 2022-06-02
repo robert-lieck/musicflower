@@ -1,0 +1,6 @@
+musicflower.util.assert\_valid\_xyz\_col
+========================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: assert_valid_xyz_col

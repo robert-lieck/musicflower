@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>musicflower.loader.load_file &mdash; musicflower  documentation</title>
+  <title>musicflower.loader.load_file &mdash; MusicFlower  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
@@ -32,7 +32,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../index.html" class="icon icon-home"> musicflower
+            <a href="../index.html" class="icon icon-home"> MusicFlower
             <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">musicflower</a>
+          <a href="../index.html">MusicFlower</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -116,8 +116,9 @@ files</p></li>
 <li><p><strong>audio_ext</strong> – assumes all files with an extension in this list to be audio files, all other files to be symbolic</p></li>
 <li><p><strong>top_down</strong> – use the top-down ordering for flattening the triangular map (as used by the <code class="xref py py-class docutils literal notranslate"><span class="pre">TMap</span></code> class);
 if <cite>False</cite> the start-to-end convention from the <cite>pitchscapes</cite> library is used</p></li>
-<li><p><strong>kwargs</strong> – kwargs to passed to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">pitchscapes.reader.sample_scape()</span></code> function of the pitchscapes library;
-by default <cite>normalise=True</cite> is used, but this is overwritten by an explicitly specified argument</p></li>
+<li><p><strong>kwargs</strong> – kwargs to passed to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">pitchscapes.reader.sample_scape()</span></code> function of the pitchscapes library
+(for symbolic data) or the <a class="reference internal" href="musicflower.loader.audio_scape.html#musicflower.loader.audio_scape" title="musicflower.loader.audio_scape"><code class="xref py py-func docutils literal notranslate"><span class="pre">audio_scape()</span></code></a> function (for audio data);
+by default <cite>normalise=True</cite> is injected into kwargs, but this is overwritten by an explicitly specified value</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

@@ -1,0 +1,6 @@
+musicflower.plotting.add\_dummy\_traces
+=======================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: add_dummy_traces

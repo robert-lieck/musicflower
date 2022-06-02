@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Triangular Maps &mdash; MusicFlower  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Time Traces" href="plot_time_traces.html" />
+    <link rel="prev" title="MusicFlower Gallery" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+            <a href="../index.html" class="icon icon-home"> MusicFlower
+            <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MusicFlower Gallery</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Triangular Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_time_traces.html">Time Traces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_basic_example.html">Basic Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_extract_data.html">Extract Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MusicFlower</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">MusicFlower Gallery</a> &raquo;</li>
+      <li>Triangular Maps</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/robert-lieck/musicflower/blob/main/doc/auto_examples/plot_triangular_maps.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-triangular-maps-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<section class="sphx-glr-example-title" id="triangular-maps">
+<span id="sphx-glr-auto-examples-plot-triangular-maps-py"></span><h1>Triangular Maps<a class="headerlink" href="#triangular-maps" title="Permalink to this headline"></a></h1>
+<p>The array returned by <a class="reference internal" href="../_autosummary/musicflower.loader.load_file.html#musicflower.loader.load_file" title="musicflower.loader.load_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_file()</span></code></a> contains the triangular map of pitch-class distributions.
+To use NumPy’s efficient linear storage, it is flattened by starting at the top and then going row by row, thus, it
+contains a total number of <span class="math">n(n+1)/2</span> pitch-class distributions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.loader</span> <span class="kn">import</span> <span class="n">load_file</span>
+<span class="n">resolution</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">scape</span> <span class="o">=</span> <span class="n">load_file</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;Prelude_No._1_BWV_846_in_C_Major.mxl&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">resolution</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scape</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">resolution</span> <span class="o">*</span> <span class="p">(</span><span class="n">resolution</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(55, 12)
+55.0
+</pre></div>
+</div>
+<p>To handle this kind of flattened triangular maps, the <a class="reference external" href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap" title="(in triangularmap)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TMap</span></code></a> class from the
+<a class="reference external" href="https://github.com/robert-lieck/triangularmap">TriangularMap</a> package can be used. It takes
+a linear storage and allows for efficiently accessing its content as if it was a triangular map (see the
+<a class="reference external" href="https://robert-lieck.github.io/triangularmap/">TriangularMap documentation</a> for more details).
+For multidimensional arrays, the first dimension is assumed to represent the triangular map.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">triangularmap</span> <span class="kn">import</span> <a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class"><span class="n">TMap</span></a>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tmap</span></a> <span class="o">=</span> <a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class"><span class="n">TMap</span></a><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap.pretty" title="triangularmap.tmap.TMap.pretty" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-method"><span class="n">tmap</span><span class="o">.</span><span class="n">pretty</span></a><span class="p">())</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>     ╱╲
+    ╱ 0╲
+   ╱╲  ╱╲
+  ╱ 1╲╱ 2╲
+ ╱╲  ╱╲  ╱╲
+╱ 3╲╱ 4╲╱ 5╲
+</pre></div>
+</div>
+<p>The functionalities include slicing at a specific level/depth (this returns <em>views</em> of the underlying storage)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap.dslice" title="triangularmap.tmap.TMap.dslice" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-method"><span class="n">tmap</span><span class="o">.</span><span class="n">dslice</span></a><span class="p">(</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># depth starts a 0 from the top</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap.lslice" title="triangularmap.tmap.TMap.lslice" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-method"><span class="n">tmap</span><span class="o">.</span><span class="n">lslice</span></a><span class="p">(</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># levels start at 1 from the bottom</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[0]
+[3 4 5]
+</pre></div>
+</div>
+<p>and slicing “skewed columns” for a specific start/end index (this returns <em>copies</em> of the underlying storage, note the
+different syntax using square brackets), which always run left-to-right (i.e. bottom-up for start-slices, top-down for
+end-slices)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap.GetSetWrapper" title="triangularmap.tmap.TMap.GetSetWrapper" class="sphx-glr-backref-module-triangularmap-tmap-TMap sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tmap</span><span class="o">.</span><span class="n">sslice</span></a><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># start indices run from 0 to n - 1</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://robert-lieck.github.io/triangularmap/index.html#triangularmap.tmap.TMap.GetSetWrapper" title="triangularmap.tmap.TMap.GetSetWrapper" class="sphx-glr-backref-module-triangularmap-tmap-TMap sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tmap</span><span class="o">.</span><span class="n">eslice</span></a><span class="p">[</span><span class="mi">3</span><span class="p">])</span>  <span class="c1"># end indices run from 1 to n</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[3 1 0]
+[0 2 5]
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.356 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-triangular-maps-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/bb0bcce216875c0a93b5ee02ac708190/plot_triangular_maps.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_triangular_maps.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/fd6ce481fd9b7c35b3b199e2c5fcf608/plot_triangular_maps.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_triangular_maps.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="MusicFlower Gallery" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plot_time_traces.html" class="btn btn-neutral float-right" title="Time Traces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

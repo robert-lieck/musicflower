@@ -1,0 +1,6 @@
+musicflower.util.assert\_valid\_corpus
+======================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: assert_valid_corpus

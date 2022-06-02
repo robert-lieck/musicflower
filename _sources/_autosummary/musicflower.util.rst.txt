@@ -14,14 +14,18 @@ musicflower.util
    .. autosummary::
       :toctree:
    
+      assert_valid_corpus
+      assert_valid_xyz_col
       bezier
+      broadcast_func
       get_fourier_component
+      get_time_traces
+      iterable_or_repeat
       main
       remap_to_xyz
       show_bezier
       start_duration
       surface_scape_indices
-      time_traces
       trisurf
    
    

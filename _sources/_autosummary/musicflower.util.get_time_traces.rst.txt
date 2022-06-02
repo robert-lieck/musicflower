@@ -1,0 +1,6 @@
+musicflower.util.get\_time\_traces
+==================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: get_time_traces

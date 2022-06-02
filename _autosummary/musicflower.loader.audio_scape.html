@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>musicflower.loader.audio_scape &mdash; musicflower  documentation</title>
+  <title>musicflower.loader.audio_scape &mdash; MusicFlower  documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
@@ -32,7 +32,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../index.html" class="icon icon-home"> musicflower
+            <a href="../index.html" class="icon icon-home"> MusicFlower
             <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
@@ -72,7 +72,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">musicflower</a>
+          <a href="../index.html">MusicFlower</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -97,7 +97,7 @@
 <h1>musicflower.loader.audio_scape<a class="headerlink" href="#musicflower-loader-audio-scape" title="Permalink to this headline"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="musicflower.loader.audio_scape">
-<span class="sig-prename descclassname"><span class="pre">musicflower.loader.</span></span><span class="sig-name descname"><span class="pre">audio_scape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_time_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_down</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/loader.html#audio_scape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.loader.audio_scape" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">musicflower.loader.</span></span><span class="sig-name descname"><span class="pre">audio_scape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_time_intervals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_down</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/loader.html#audio_scape"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.loader.audio_scape" title="Permalink to this definition"></a></dt>
 <dd><p>Compute a pitch scape from audio data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -106,6 +106,7 @@
 <li><p><strong>data</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]) – path to file or a tuple with audio data (passed on to <a class="reference internal" href="musicflower.loader.get_chroma.html#musicflower.loader.get_chroma" title="musicflower.loader.get_chroma"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_chroma()</span></code></a>)</p></li>
 <li><p><strong>normalise</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – normalise the pitch class distributions</p></li>
 <li><p><strong>top_down</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – use top-down order</p></li>
+<li><p><strong>kwargs</strong> – kwargs passed on to the <a class="reference internal" href="musicflower.loader.get_chroma.html#musicflower.loader.get_chroma" title="musicflower.loader.get_chroma"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_chroma()</span></code></a> function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>

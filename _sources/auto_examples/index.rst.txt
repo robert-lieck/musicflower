@@ -12,6 +12,27 @@ Here are some examples of how to use the MusicFlower package.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Triangular Maps">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_plot_triangular_maps_thumb.png
+     :alt: Triangular Maps
+
+     :ref:`sphx_glr_auto_examples_plot_triangular_maps.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_triangular_maps
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates time traces.">
 
 .. only:: html
