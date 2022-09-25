@@ -3,6 +3,7 @@ from unittest import TestCase
 
 import os
 import importlib.util
+import pathlib
 
 
 class TestExamples(TestCase):
@@ -11,8 +12,8 @@ class TestExamples(TestCase):
 
     def setUp(self) -> None:
         self.cwd = os.getcwd()
-        examples_dir = 'examples'
-        self.assertTrue(os.path.isdir(examples_dir))
+        examples_dir = pathlib.Path(__file__).parent.resolve() / ".." / "examples"
+        assert os.path.isdir(examples_dir), f"example directory '{examples_dir}' does not exist"
         os.chdir(examples_dir)
 
     def tearDown(self) -> None:

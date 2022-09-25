@@ -4,6 +4,7 @@ import os
 import pickle
 from typing import Iterable, Tuple, Union, Dict
 from itertools import product
+import pathlib
 
 from musicflower import istarmap # patch Pool
 from multiprocessing import Pool
@@ -19,7 +20,7 @@ import pitchscapes.reader as rd
 from triangularmap import TMap
 
 
-def get_cache_file_path(file_path: str, n: int, remove_extension: bool = False):
+def get_cache_file_path(file_path: Union[str, pathlib.Path], n: int, remove_extension: bool = False):
     """
     For a given file path and resolution, return the associated cache file path, which corresponds to the original file
     path appended with `_<n>.pickle`, where `<n>` is replaced with the actual resolution.
@@ -34,7 +35,7 @@ def get_cache_file_path(file_path: str, n: int, remove_extension: bool = False):
     if remove_extension:
         return os.path.splitext(file_path)[0] + f"_n{n}.pickle"
     else:
-        return file_path + f"_n{n}.pickle"
+        return pathlib.Path(str(file_path) + f"_n{n}.pickle")
 
 
 def audio_scape(n_time_intervals: int, data: Union[str, Tuple[np.ndarray, int]], normalise: bool = True,
@@ -135,7 +136,7 @@ def load_file(data: str, n: int, use_cache=False, recompute_cache=False, audio=N
                              f"    cache file: {cached_kwargs}\n"
                              f"Use recompute_cache=True to recompute and overwrite")
     else:
-        if audio or isinstance(data, tuple) or (audio is None and data.endswith(audio_ext)):
+        if audio or isinstance(data, tuple) or (audio is None and str(data).endswith(audio_ext)):
             pdc = audio_scape(n_time_intervals=n,
                               data=data,
                               **kwargs)
