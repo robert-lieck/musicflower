@@ -6,5 +6,5 @@ librosa
 plotly
 matplotlib
 
-triangularmap
+triangularmap>=0.1.0
 pitchscapes

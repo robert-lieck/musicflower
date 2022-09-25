@@ -69,7 +69,7 @@ def audio_scape(n_time_intervals: int, data: Union[str, Tuple[np.ndarray, int]],
     flattened = np.concatenate(list(reversed(scape)))
     # change to ordering used by pitchscapes library
     if not top_down:
-        flattened = flattened[TMap.get_reindex_start_end_from_top_down(TMap.n_from_size1d(flattened.shape[0])), ...]
+        flattened = flattened[TMap.get_reindex_from_top_down_to_start_end(TMap.n_from_size(flattened.shape[0])), ...]
     # normalise
     if normalise:
         flattened /= flattened.sum(axis=1, keepdims=True)
@@ -148,7 +148,7 @@ def load_file(data: str, n: int, use_cache=False, recompute_cache=False, audio=N
                 pickle.dump((pdc, kwargs), cache_file)
 
     if top_down:
-        return pdc[TMap.get_reindex_top_down_from_start_end(TMap.n_from_size1d(pdc.shape[0])), ...]
+        return pdc[TMap.get_reindex_from_start_end_to_top_down(TMap.n_from_size(pdc.shape[0])), ...]
     else:
         return pdc
 

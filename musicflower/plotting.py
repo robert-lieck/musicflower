@@ -63,11 +63,11 @@ def plot_key_scape(corpus, show=True):
         n_axes = corpus.shape[0]
         fig, axes = plt.subplots(1, n_axes, figsize=[n_axes * 6.4, 4.8])
         for c, ax in zip(corpus, axes):
-            pt.scape_plot_from_array(TMap.reindex_start_end_from_top_down(pt.counts_to_colors(c)), ax=ax)
+            pt.scape_plot_from_array(TMap.reindex_from_top_down_to_start_end(pt.counts_to_colors(c)), ax=ax)
     else:
         # only one piece
         assert len(corpus.shape) == 2
-        pt.scape_plot_from_array(TMap.reindex_start_end_from_top_down(pt.counts_to_colors(corpus)))
+        pt.scape_plot_from_array(TMap.reindex_from_top_down_to_start_end(pt.counts_to_colors(corpus)))
     if show:
         plt.show()
 
@@ -172,13 +172,13 @@ def plot_border(x, y, z, colors, name=None, groupname=None, group=None):
         name = "border"
     if name is False:
         name = None
-    n = TMap.n_from_size1d(colors.shape[0])
-    trace = go.Scatter3d(x=np.concatenate([TMap(x).sslice[0], TMap(x).eslice[n], np.flip(TMap(x).lslice(1))]),
-                         y=np.concatenate([TMap(y).sslice[0], TMap(y).eslice[n], np.flip(TMap(y).lslice(1))]),
-                         z=np.concatenate([TMap(z).sslice[0], TMap(z).eslice[n], np.flip(TMap(z).lslice(1))]),
+    n = TMap.n_from_size(colors.shape[0])
+    trace = go.Scatter3d(x=np.concatenate([TMap(x).sslice[0], TMap(x).eslice[n], np.flip(TMap(x).lslice[1])]),
+                         y=np.concatenate([TMap(y).sslice[0], TMap(y).eslice[n], np.flip(TMap(y).lslice[1])]),
+                         z=np.concatenate([TMap(z).sslice[0], TMap(z).eslice[n], np.flip(TMap(z).lslice[1])]),
                          mode='lines', line=dict(color=np.concatenate([TMap(colors).sslice[0],
                                                                        TMap(colors).eslice[n],
-                                                                       TMap(colors).lslice(1)])),
+                                                                       TMap(colors).lslice[1]])),
                          **grouplegend_kwargs(group, groupname, name),
                          hoverinfo='skip')
     return trace

@@ -60,7 +60,7 @@ def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float =
     if rescale_func is not None:
         amplitude = rescale_func(amplitude)
     # get the durations
-    _, duration = start_duration(TMap.n_from_size1d(phase.shape[axis]))
+    _, duration = start_duration(TMap.n_from_size(phase.shape[axis]))
     # convert to radial component
     if inverted:
         radius = (1 - duration) + inner_radius
@@ -123,10 +123,10 @@ def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndar
         for arr, arr_out in [(xyz, xyz_out), (colors, colors_out)]:
             # for i in range(3):
             if depth == 0:
-                arr_out[:, depth, ..., :] = arr.dslice(depth)[0, ..., :]
+                arr_out[:, depth, ..., :] = arr.dslice[depth][0, ..., :]
             else:
                 arr_out[:, depth, ..., :] = interpolate.interp1d(np.linspace(0, 1, depth + 1),
-                                                              arr.dslice(depth)[..., :],
+                                                              arr.dslice[depth][..., :],
                                                               axis=0,
                                                               copy=False)(np.linspace(0, 1, n_steps + 1))
     return xyz_out, colors_out
@@ -199,21 +199,21 @@ def surface_scape_indices(n: Union[int, np.ndarray], axis: int = None) -> Tuple[
     if isinstance(n, np.ndarray):
         if axis is None:
             raise TypeError(f"If an array is provided for 'n', 'axis' has to be specified, too.")
-        n = TMap.n_from_size1d(n.shape[axis])
+        n = TMap.n_from_size(n.shape[axis])
     # get TMap of point indices
-    index_map = TMap(np.arange(TMap.size1d_from_n(n)))
+    index_map = TMap(np.arange(TMap.size_from_n(n)))
     # iterate through rows and construct triangles
     i, j, k = [], [], []
     for d in range(n - 1):
-        a_slice = index_map.dslice(d)
-        b_slice = index_map.dslice(d + 1)
+        a_slice = index_map.dslice[d]
+        b_slice = index_map.dslice[d + 1]
         # triangles with tip up
         i.append(a_slice)
         j.append(b_slice[1:])
         k.append(b_slice[:-1])
         # triangles with tip down
         if d < n - 2:
-            c_slice = index_map.dslice(d + 2)
+            c_slice = index_map.dslice[d + 2]
             i.append(b_slice[:-1])
             j.append(b_slice[1:])
             k.append(c_slice[1:-1])
