@@ -2,9 +2,10 @@ numpy
 tqdm
 scipy
 librosa
-
 plotly
+pandas
+dash
 matplotlib
-
 triangularmap>=0.1.0
 pitchscapes
+pitchtypes

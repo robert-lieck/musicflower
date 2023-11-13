@@ -21,6 +21,42 @@ from musicflower.util import get_time_traces, surface_scape_indices, assert_vali
 pt.set_circle_of_fifths(True)
 
 
+def rgba(*args):
+    if len(args) == 1:
+        rgba = np.asfarray(args[0])
+    else:
+        rgba = np.asfarray(args)
+    if len(rgba) not in [3, 4]:
+        raise ValueError("rgba values have to be specified as (an array of) 3 or 4 values")
+    if np.any(rgba > 1) or np.any(rgba < 0):
+        raise ValueError("rgba values should be in [0, 1]")
+    rgba[:3] = rgba[:3] * 255
+    rgba = [str(n) for n in rgba]
+    if len(rgba) == 3:
+        rgba += ["1"]
+    return "rgba(" + ", ".join(rgba) + ")"
+
+
+def rgba_mix(colors, weights, normalise=True):
+    colors = np.asfarray(colors)
+    weights = np.asfarray(weights)
+    if np.any(weights < 0):
+        raise ValueError("'weights' must be positive")
+    if normalise:
+        weights /= weights.sum()
+    if len(colors.shape) != 2 or len(weights.shape) != 1:
+        raise ValueError("'colors' needs to be 2D array, 'weights' 1D array")
+    return rgba((colors * weights[:, None]).sum(axis=0))
+
+
+def rgba_lighter(col, val):
+    return rgba_mix([col, np.ones_like(col)], [1 - val, val])
+
+
+def rgba_darker(col, val):
+    return rgba_mix([col, np.zeros_like(col)], [1 - val, val])
+
+
 def key_colors(pcds: np.ndarray, alpha=False) -> np.ndarray:
     """
     Given an array of PCDs, returns a corresponding array of RGB or RGBA colors.

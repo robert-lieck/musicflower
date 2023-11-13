@@ -2,6 +2,7 @@
 
 from typing import Union, Tuple
 from itertools import repeat
+import math
 
 import numpy as np
 from scipy import interpolate
@@ -10,18 +11,26 @@ import matplotlib.pyplot as plt
 from triangularmap import TMap
 
 
-def get_fourier_component(pcds: np.ndarray, fourier_component: int) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Compute the amplitude and phase of a specific Fourier component.
+rad_to_deg = 360 / (2 * math.pi)
 
-    :param pcds: array of arbitrary shape, the Fourier transform is computed along the last dimension
-    :param fourier_component: component of the Fourier transform to extract (must not be larger than the last dimension
-     of `pcds`)
-    :return: amplitude, phase (arrays of same shape as `pcds` without the last dimension)
+
+def get_fourier_component(pcds: np.ndarray, fourier_component: int = None) -> np.ndarray:
     """
-    phase = np.angle(np.fft.rfft(pcds, axis=-1))[..., fourier_component]
-    amplitude = np.abs(np.fft.rfft(pcds, axis=-1))[..., fourier_component]
-    return amplitude, phase
+    Compute the amplitude and phase of one or all Fourier components of a real-valued input.
+
+    :param pcds: array of arbitrary shape `(..., n)` with pitch-class distributions of size n along the last dimension,
+     along which the Fourier transform is computed using `numpy.fft.rfft`.
+    :param fourier_component: None (default) to return all components or int specifying the component to return (must
+     not be larger than ` n//2`)
+    :return:  array of shape (2, ..., n//2 + 1) with amplitude and phase along the first dimension and the different
+     Fourier components along the last dimension
+    """
+    ft = np.fft.rfft(pcds, axis=-1)
+    if fourier_component is not None:
+        ft = ft[..., fourier_component]
+    phase = np.angle(ft)
+    amplitude = np.abs(ft)
+    return np.concatenate([amplitude[None], phase[None]])
 
 
 def start_duration(n):
@@ -235,6 +244,30 @@ def assert_valid_xyz_col(x, y, z, colors):
         raise ValueError(f"x, y, z must have the same shape; the first dimensions of colors must be the same as the "
                          f"shape of x, y, and z; the last dimension of colors must be 3 or 4. We got (x/y/z/colors): "
                          f"{x.shape}/{y.shape}/{z.shape}/{colors.shape}")
+
+
+def transpose_profiles(profile, modulo=False):
+    """
+    Returns two arrays representing the circle of fifth profiles.
+
+    :param profile: array of arbitrary shape with profiles along first dimension
+    :param modulo: change from chromatic to fifth-based order or vice versa
+    :return: transposition of the key profile, reordered in the circle of fifth order.
+
+    """
+    dimension = profile.shape[0]
+    # computing all possible transpositions
+    transposed = np.concatenate([np.roll(profile, shift=roll_idx, axis=0)[None] for roll_idx in range(dimension)])
+    if modulo:
+        return tonal_modulo(transposed, axis=-2)
+    else:
+        return transposed
+
+
+def tonal_modulo(arr: np.array, axis=-1):
+    s = [slice(None)] * len(arr.shape)
+    s[axis] = (np.arange(12) * 7) % 12
+    return arr[tuple(s)]
 
 
 def iterable_or_repeat(it, exclude=()):

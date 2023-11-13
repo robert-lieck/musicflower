@@ -200,8 +200,8 @@ def load_corpus(data: Iterable, n: int, parallel: bool = False, sort_func: calla
 
 
 def get_chroma(data: Union[str, Tuple[np.ndarray, int]], cqt: bool = False, normal: bool = False, harm: bool = False,
-               filter: bool = False, smooth: bool = True, asdict: bool = False, loader=librosa.load
-               ) -> Union[Tuple[np.ndarray], Dict[str, np.ndarray]]:
+               filter: bool = False, smooth: bool = True, asdict: bool = False, loader=librosa.load, **kwargs
+               ) -> Union[Tuple[np.ndarray], Dict[str, np.ndarray], np.ndarray]:
     """
     Get chroma features from audio data.
 
@@ -216,7 +216,8 @@ def get_chroma(data: Union[str, Tuple[np.ndarray, int]], cqt: bool = False, norm
     :param smooth: apply a horizontal median filter (after non-local filtering)
     :param asdict: return results as a dict (keys are 'cqt', 'normal', 'harm', 'filter', 'smooth')
     :param loader: the loader to use (defaults to librosa.load)
-    :return: tuple or dict with results (cqt/normal/harm/filter/smooth as specified)
+    :param kwargs: kwargs passed to the cqt calls (librosa.cqt and/or librosa.feature.chroma_cqt)
+    :return: tuple, dict, or Numpy array with results (cqt/normal/harm/filter/smooth as specified)
     """
     # adapted from https://librosa.org/doc/main/auto_examples/plot_chroma.html
     ret = []  # collect return values
@@ -227,15 +228,15 @@ def get_chroma(data: Union[str, Tuple[np.ndarray, int]], cqt: bool = False, norm
         y, sr = loader(data)
     # CQT matrix
     if cqt:
-        ret.append(('cqt', np.abs(librosa.cqt(y=y, sr=sr, bins_per_octave=12 * 3, n_bins=7 * 12 * 3))))
+        ret.append(('cqt', np.abs(librosa.cqt(y=y, sr=sr, bins_per_octave=12 * 3, n_bins=7 * 12 * 3, **kwargs))))
     # original chroma
     if normal:
-        ret.append(('normal', librosa.feature.chroma_cqt(y=y, sr=sr)))
+        ret.append(('normal', librosa.feature.chroma_cqt(y=y, sr=sr, **kwargs)))
     # improvements
     if harm or filter or smooth:
         # isolating harmonic component
         y_harm = librosa.effects.harmonic(y=y, margin=8)
-        chroma_harm = librosa.feature.chroma_cqt(y=y_harm, sr=sr)
+        chroma_harm = librosa.feature.chroma_cqt(y=y_harm, sr=sr, **kwargs)
         if harm:
             ret.append(('harm', chroma_harm))
         if filter or smooth:
