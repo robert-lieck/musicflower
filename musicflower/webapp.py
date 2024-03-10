@@ -18,30 +18,32 @@ from dash.dependencies import Input, Output, State
 from pitchscapes.keyfinding import KeyEstimator
 from pitchtypes import EnharmonicPitchClass, SpelledPitchClass
 
-from musicflower.loader import get_chroma
+from musicflower.loader import get_chroma, audio_scape
 from musicflower.util import get_fourier_component, transpose_profiles, rad_to_deg, tonal_modulo, remap_to_xyz
 from musicflower.plotting import rgba, rgba_lighter, rgba_mix, plot_all, key_colors
 
 
 class WebApp:
 
-    def __init__(self, verbose=False):
+    def __init__(self, verbose=False, default_figure_hight=500):
         self.app = None
         self.verbose = verbose
         self.feature_extractors = {}
         self.feature_remappers = {}
         self.visualisers = {}
+        self.default_figure_hight = default_figure_hight
 
     def init(self,
              title="MusicFlower",
              update_title=None,
-             sync_interval_ms=100,
+             sync_interval_ms=50,
              idle_interval_ms=1000,
              n_sync_before_idle=10,
              audio_file=None,
              external_stylesheets=('https://codepen.io/chriddyp/pen/bWLwgP.css',),
              name=None,
-             suppress_flask_logger=False):
+             suppress_flask_logger=False,
+             ):
         if suppress_flask_logger:
             logging.getLogger('werkzeug').setLevel(logging.ERROR)
         self.app = self._setup_layout(title=title,
@@ -53,21 +55,51 @@ class WebApp:
         self._setup_audio_position_sync(sync_interval_ms=sync_interval_ms,
                                         idle_interval_ms=idle_interval_ms,
                                         n_sync_before_idle=n_sync_before_idle)
+        self._init_download_callbacks()
         self._init_feature_extractor_callbacks()
         self._init_feature_remapper_callbacks()
         self._init_visualiser_callbacks()
         return self
 
+    @classmethod
+    def check_features(cls, features, n=1, asfarray=True):
+        if len(features) != n:
+            raise ValueError(f"expected {n} features but got {len(features)}")
+        if n == 1:
+            features = features[0]
+        if asfarray:
+            return np.asfarray(features)
+        else:
+            return features
+
+    def update_figure_layout(self, figure, **kwargs):
+        kwargs = dict(
+            height=self.default_figure_hight,
+            transition_duration=100,
+            margin=dict(t=0, b=10, l=0, r=0),
+            uirevision=True,
+        ) | kwargs
+        figure.update_layout(**kwargs)
+        return figure
+
     def use_chroma_features(self, n=None, name='chroma-features'):
         if n is None:
             self.register_feature_extractor(name, chroma_features)
         else:
-            def chroma_features_n(audio, n=n):
-                f = chroma_features(audio, normalised=False)
-                f = downsampler(f, n)
-                f = normaliser(f)
+            def chroma_features_n(*, audio, app, n=n):
+                f = chroma_features(audio=audio, app=app, normalised=False)
+                f = downsampler(features=[f], app=app, n=n)
+                f = normaliser(features=[f], app=app)
                 return f
             self.register_feature_extractor(name, chroma_features_n)
+        return self
+
+    def use_chroma_scape_features(self, name='chroma-scape-features', chroma_name=None):
+        if chroma_name is None:
+            chroma_name = 'chroma-features'
+            if chroma_name not in self.feature_extractors and chroma_name not in self.feature_remappers:
+                self.use_chroma_features(name=chroma_name)
+        self.register_feature_remapper(name, [chroma_name], chroma_scape_features)
         return self
 
     def use_fourier_features(self, name='fourier-features', chroma_name=None):
@@ -75,7 +107,15 @@ class WebApp:
             chroma_name = 'chroma-features'
             if chroma_name not in self.feature_extractors and chroma_name not in self.feature_remappers:
                 self.use_chroma_features(name=chroma_name)
-        self.register_feature_remapper(name, chroma_name, fourier_features)
+        self.register_feature_remapper(name, [chroma_name], fourier_features)
+        return self
+
+    def use_fourier_scape_features(self, name='fourier-scape-features', chroma_name=None):
+        if chroma_name is None:
+            chroma_name = 'chroma-scape-features'
+            if chroma_name not in self.feature_extractors and chroma_name not in self.feature_remappers:
+                self.use_chroma_features(name=chroma_name)
+        self.register_feature_remapper(name, [chroma_name], fourier_features)
         return self
 
     def register_feature_extractor(self, name, func):
@@ -91,32 +131,36 @@ class WebApp:
         self._register(key=name, value=func, registry='feature_extractors', msg_name="feature extractor")
         return self
 
-    def register_feature_remapper(self, remapper_name, feature_name, func):
+    def register_feature_remapper(self, remapper_name, feature_names, func):
         """
         Register a feature remapper with given name that remaps the input features to a new set of features. Input
         features are retrieved from the client side in json format, so only basic data types are available (e.g.
         arrays are stored as lists).
 
         :param remapper_name: unique name of this feature remapper
-        :param feature_name: name of the input features to be used
+        :param feature_names: iterable with names of the input features to be used
         :param func: a callable that takes one 'features' key-word argument (containing the input features) and
          returns the new feature in a format that can be converted to json (e.g. nested lists)
         """
-        self._register(key=remapper_name, value=(feature_name, func),
+        if isinstance(feature_names, str):
+            raise TypeError(f"'feature_names' is a string ({feature_names}), but should be an iterable of strings")
+        feature_names = tuple(feature_names)
+        self._register(key=remapper_name, value=(feature_names, func),
                        registry='feature_remappers', msg_name="feature remapper")
-        if feature_name not in self.feature_extractors and feature_name not in self.feature_remappers:
-            warn(f"feature remapper '{remapper_name}' requires '{feature_name}' features, but no feature extractor or "
-                  f"remapper with this name is registered so far", RuntimeWarning)
-        return self
+        for fname in feature_names:
+            if fname not in self.feature_extractors and fname not in self.feature_remappers:
+                warn(f"feature remapper '{remapper_name}' requires '{fname}', but no feature extractor or "
+                      f"remapper with this name is registered so far", RuntimeWarning)
+            return self
 
-    def register_visualiser(self, visualiser_name, feature_name, func, update=False):
+    def register_visualiser(self, visualiser_name, feature_names, func, update=False):
         """
         Register a visualiser with given name that generates plots from the input features. Feature values are
         retrieved from the client side in json format, so only basic data types are available (e.g. arrays are stored
         as lists).
 
         :param visualiser_name: unique name of this visualiser
-        :param feature_name: name of the input features to be used
+        :param feature_names: iterable with names of the input features to be used
         :param func: a callable that takes two key-word arguments, 'features' and 'position', (containing the input
          features and the current normalised audio position in the interval [0, 1]) and returns a figure (or dict,
          depending on 'update')
@@ -135,11 +179,15 @@ class WebApp:
          number of traces in the initial figure (empty dicts should be used for traces that remain unchanged); also
          the layout is determined by the initial figure as only the trace data is modified.
         """
-        self._register(key=visualiser_name, value=(feature_name, func, update),
+        if isinstance(feature_names, str):
+            raise TypeError(f"'feature_names' is a string ({feature_names}), but should be an iterable of strings")
+        feature_names = tuple(feature_names)
+        self._register(key=visualiser_name, value=(feature_names, func, update),
                        registry="visualisers", msg_name="visualiser")
-        if feature_name not in self.feature_extractors and feature_name not in self.feature_remappers:
-            warn(f"visualiser '{visualiser_name}' requires features '{feature_name}', but no feature extractor or "
-                 f"remapper with this name is registered so far", RuntimeWarning)
+        for fname in feature_names:
+            if fname not in self.feature_extractors and fname not in self.feature_remappers:
+                warn(f"visualiser '{visualiser_name}' requires '{fname}', but no feature extractor or "
+                     f"remapper with this name is registered so far", RuntimeWarning)
         return self
 
     def _register(self, key, value, registry, msg_name):
@@ -163,52 +211,54 @@ class WebApp:
                 prevent_initial_call=True
             )
             def extract_features(audio_content,
-                                 name=name, extractor=extractor, verbose=self.verbose):  # bind external variables
+                                 name=name, extractor=extractor, app=self):  # bind external variables
                 if audio_content is None:
-                    if verbose:
+                    if app.verbose:
                         print(f"blocking call of '{name}' feature extractor (audio not available)")
                     return no_update
                 else:
-                    if verbose:
+                    if app.verbose:
                         print(f"calling '{name}' feature extractor")
-                    return extractor(audio=self._file_like_from_upload_content(audio_content))
+                    return extractor(audio=app._file_like_from_upload_content(audio_content), app=app)
             if self.verbose:
                 print(f"initialised '{name}' feature extractor")
 
     def _init_feature_remapper_callbacks(self):
-        for name, (feature_name, mapper) in self.feature_remappers.items():
+        for name, (feature_names, mapper) in self.feature_remappers.items():
+            fname_args = [Input(fname, 'data') for fname in feature_names]
             @self.app.callback(
                 Output(name, 'data'),
-                Input(feature_name, 'data'),
+                *fname_args,
                 prevent_initial_call=True
             )
-            def feature_remapper(features, name=name, mapper=mapper, verbose=self.verbose):  # bind external variables
-                if features is None:
-                    if verbose:
-                        print(f"blocking call of '{name}' feature remapper (features not available)")
-                    return no_update
-                else:
-                    if verbose:
-                        print(f"calling '{name}' feature remapper")
-                    return mapper(features=features)
+            def feature_remapper(*features, name=name, mapper=mapper, app=self):  # bind external variables
+                for f in features:
+                    if f is None:
+                        if app.verbose:
+                            print(f"blocking call of '{name}' feature remapper (input features not available)")
+                        return no_update
+                if app.verbose:
+                    print(f"calling '{name}' feature remapper")
+                return mapper(features=features, app=app)
             if self.verbose:
-                print(f"initialised '{name}' feature remapper with callback for '{feature_name}'")
+                print(f"initialised '{name}' feature remapper with callbacks for " + ", ".join([f"'{f}'" for f in feature_names]))
 
     def _init_visualiser_callbacks(self):
-        for name, (space_name, visualiser, update) in self.visualisers.items():
+        for name, (feature_names, visualiser, update) in self.visualisers.items():
 
             # A trigger callback that flips the start toggle to indicate the visualiser should run, however, if start
             # and done toggle have different values this means the visualiser is already running and should not be
             # called.
+            fname_args = [Input(fname, 'data') for fname in feature_names]
             @self.app.callback(
                 Output(component_id=f"_start_toggle_{name}", component_property="disabled"),
-                Input(space_name, 'data'),
                 Input(component_id='_stored-audio-position', component_property='value'),
                 State(component_id=f"_start_toggle_{name}", component_property="disabled"),
                 State(component_id=f"_done_toggle_{name}", component_property="disabled"),
+                *fname_args,
                 prevent_initial_call=True,
             )
-            def start_toggle_func(data, pos, start, done):
+            def start_toggle_func(pos, start, done, *data):
                 if done == start:
                     return not start
                 else:
@@ -216,47 +266,66 @@ class WebApp:
 
             # The visualiser callback that runs if the start toggle changes value; it sets the done toggle to the same
             # value as the start toggle to indicate it has finished.
+            fname_args = [State(fname, 'data') for fname in feature_names]
             @self.app.callback(
                 Output(component_id=name, component_property='figure'),
                 Output(component_id=f"_done_toggle_{name}", component_property="disabled"),
                 Input(component_id=f"_start_toggle_{name}", component_property="disabled"),
-                State(space_name, 'data'),
                 State(component_id='_stored-audio-position', component_property='value'),
                 State(component_id=name, component_property='figure'),
+                *fname_args,
                 prevent_initial_call=True,
             )
-            def visualiser_func(start, features, position, figure,
-                                name=name, visualiser=visualiser, update=update,
-                                verbose=self.verbose):  # bind external variables
-                if features is None:
-                    if verbose:
-                        print(f"blocking call of '{name}' visualiser (input features not available)")
-                    return no_update, start
-                else:
-                    if verbose:
-                        print(f"calling '{name}' visualiser")
-                    if update:
-                        if not figure or space_name in ctx.triggered_prop_ids.values():
-                            # if data changed: pass None as position to get initial figure
-                            return visualiser(features=features, position=None), start
-                        else:
-                            # if only position changed: update figure
-                            data_updates = visualiser(features=features, position=position)
-                            for d in figure['data']:
-                                print(list(d.keys()))
-                                for k in d.keys():
-                                    if k not in ['x', 'y']:
-                                        print(f"{k}: {d[k]}")
-                            # print(figure['layout'])
-                            old_data = figure['data']
-                            for idx, new_data_item in enumerate(data_updates):
-                                old_data[idx] = {**old_data[idx], **new_data_item}
-                            return figure, start
+            def visualiser_func(start, position, figure, *features,
+                                name=name, visualiser=visualiser, update=update, app=self):  # bind external variables
+                for f in features:
+                    if f is None:
+                        if self.verbose:
+                            print(f"blocking call of '{name}' visualiser (input features not available)")
+                        return no_update, start
+                if self.verbose:
+                    print(f"calling '{name}' visualiser")
+                if update:
+                    if not figure or feature_names in ctx.triggered_prop_ids.values():
+                        # if data changed: pass None as position to get initial figure
+                        return visualiser(features=features, position=None, app=app), start
                     else:
-                        # always get entire figure
-                        return visualiser(features=features, position=position), start
+                        # if only position changed: update figure
+                        data_updates = visualiser(features=features, position=position, app=app)
+                        for d in figure['data']:
+                            print(list(d.keys()))
+                            for k in d.keys():
+                                if k not in ['x', 'y']:
+                                    print(f"{k}: {d[k]}")
+                        # print(figure['layout'])
+                        old_data = figure['data']
+                        for idx, new_data_item in enumerate(data_updates):
+                            old_data[idx] = {**old_data[idx], **new_data_item}
+                        return figure, start
+                else:
+                    # always get entire figure
+                    return visualiser(features=features, position=position, app=app), start
             if self.verbose:
-                print(f"initialised '{name}' visualiser with callback for '{space_name}'")
+                print(f"initialised '{name}' visualiser with callbacks for " + ", ".join([f"'{f}'" for f in feature_names]))
+
+    def _init_download_callbacks(self):
+
+        # callback to download figure
+        @self.app.callback(Output("_download", "data"),
+                           Input("_download_figure_btn", "n_clicks"),
+                           State('_tab_container', 'value'),
+                           State('_tab_container', 'children'),
+                           # State(component_id=name, component_property='figure'),
+                           prevent_initial_call=True)
+        def func(n_nlicks, active_tab, tabs):
+            assert active_tab.startswith("_tab_"), active_tab
+            filename = f"{active_tab[len('_tab_'):]}.png"
+            for tab in tabs:
+                if tab['props']['value'] == active_tab:
+                    f = go.Figure(tab['props']['children'][0]['props']['figure'])
+                    return dcc.send_bytes(f.write_image, filename)
+            else:
+                raise ValueError(f"Active tab '{active_tab}' not in list of tabs {[t['props']['value'] for t in tabs]}")
 
     @classmethod
     def _file_like_from_upload_content(cls, content):
@@ -279,27 +348,33 @@ class WebApp:
             # html.Div(id='dummy-div', children="", style={'display': 'none'})
         ]
 
-        # audio file upload
+        # audio file upload area and download buttons
         layout_content += [
-            dcc.Upload(
-                id='_file-upload',
-                children=html.Div([
-                    'Drag and Drop or ',
-                    html.A('Select File')
-                ]),
-                style={
-                    'width': '100%',
-                    'height': '60px',
-                    'lineHeight': '60px',
-                    'borderWidth': '1px',
-                    'borderStyle': 'dashed',
-                    'borderRadius': '5px',
-                    'textAlign': 'center',
-                    'margin-bottom': '10px'
-                },
-                multiple=False
-            ),
-        ]
+            # div around everything
+            html.Div(children=[
+                # div holding the upload area (required for flex display to work)
+                html.Div(dcc.Upload(id='_file-upload',
+                                    children=html.Div(['Drag and Drop or ', html.A('Select File')]),
+                                    style={
+                                        'height': '60px',
+                                        'lineHeight': '60px',
+                                        'borderWidth': '1px',
+                                        'borderStyle': 'dashed',
+                                        'borderRadius': '5px',
+                                        'textAlign': 'center',
+                                    },
+                                    multiple=False,
+                                    ),
+                         style={'margin': '5px', 'flex': '1'}),
+                # download figure button
+                html.Button("Download Figure",
+                            id="_download_figure_btn",
+                            style={'margin': '5px', 'flex': '0', }),
+                # download component
+                dcc.Download(id="_download"),
+            ],
+                style={'display': 'flex'},
+            )]
 
         # callback to display uploaded sound file
         @app.callback(Output('_sound-file-display', 'children'),
@@ -326,8 +401,12 @@ class WebApp:
 
         # tabs for all registered visualisers
         layout_content += [dcc.Tabs(
-            [dcc.Tab(label=name, id=f"_tab_{name}", children=[dcc.Graph(figure={}, id=name)]) for name in self.visualisers]
-        )]
+            id="_tab_container",
+            value=[f"_tab_{name}" for name in self.visualisers][0],  # make first tab active
+            children=[dcc.Tab(label=name,
+                              id=f"_tab_{name}",
+                              value=f"_tab_{name}",
+                              children=[dcc.Graph(figure={}, id=name)]) for name in self.visualisers])]
 
         # toggles to trigger/indicate running of visualisers
         layout_content += [
@@ -441,11 +520,11 @@ class WebApp:
         self.app.run_server(*args, **kwargs)
 
 
-def none_feature(audio):
+def none_feature(*, audio, app):
     return []
 
 
-def waveform_feature(audio, use_real_file=True):
+def waveform_feature(*, audio, app, use_real_file=True):
     if use_real_file:
         # create temporary file as librosa.load works better with a real file
         tf = NamedTemporaryFile(delete=False)
@@ -461,26 +540,32 @@ def waveform_feature(audio, use_real_file=True):
     return y, sr
 
 
-def spectrogram_features(audio):
-    y, sr = waveform_feature(audio=audio, use_real_file=True)
+def spectrogram_features(*, audio, app):
+    y, sr = waveform_feature(audio=audio, app=app, use_real_file=True)
     D = librosa.stft(y)
     S_db = librosa.amplitude_to_db(np.abs(D), ref=np.max)
     return S_db.T
 
 
-def chroma_features(audio, normalised=True):
-    y, sr = waveform_feature(audio=audio, use_real_file=True)
+def chroma_features(*, audio, app, normalised=True):
+    y, sr = waveform_feature(audio=audio, app=app, use_real_file=True)
     chroma = get_chroma(
         data=(y, sr),
         # hop_length=512,  # default
         # hop_length=2048,
     ).T
     if normalised:
-        chroma = normaliser(chroma)
+        chroma = normaliser(features=chroma, app=app)
     return chroma
 
 
-def normaliser(features, inplace=True, axis=-1):
+def chroma_scape_features(*, features, app):
+    features = app.check_features(features)
+    return audio_scape(n_time_intervals=features.shape[0], raw_chroma=features.T, top_down=True)
+
+
+def normaliser(*, features, app, inplace=True, axis=-1):
+    features = app.check_features(features)
     if inplace:
         features /= features.sum(axis=axis, keepdims=True)
         return features
@@ -488,20 +573,21 @@ def normaliser(features, inplace=True, axis=-1):
         return features / features.sum(axis=axis, keepdims=True)
 
 
-def fourier_features(features):
+def fourier_features(*, features, app):
     """
     Compute the amplitude and phase of all Fourier components using `get_fourier_component`.
     """
+    features = app.check_features(features)
     return get_fourier_component(features)
 
 
-def downsampler(features, n):
+def downsampler(*, features, app, n):
     # downsample by computing mean over window
-    length = len(features)
+    features = app.check_features(features)
+    length = features.shape[0]
     if length < n:
         warn(f"Cannot downsample: requested size ({n}) is larger than input size ({length}), returning input")
         return features
-    features = np.array(features)
     batch_shape = features.shape[1:]
     downsampled = np.zeros((n,) + batch_shape)
     for idx in range(n):
@@ -509,11 +595,11 @@ def downsampler(features, n):
     return downsampled
 
 
-def get_downsampler(n):
-    return lambda features: downsampler(features, n=n)
+def get_downsampler(app, n):
+    return lambda features: downsampler(features=features, app=app, n=n)
 
 
-def waveform_visualiser(features, position, update=True):
+def waveform_visualiser(*, features, position, app, update=True):
     if update:
         if position is None:
             y, sr = features
@@ -535,8 +621,8 @@ def waveform_visualiser(features, position, update=True):
         return fig
 
 
-def heatmap_visualiser(features, position, update=False, express=True):
-    features = np.array(features)
+def heatmap_visualiser(*, features, position, app, update=False, express=True):
+    features = app.check_features(features)
     if update:
         if position is None:
             heatmap = px.imshow(features.T, origin='lower', aspect="auto")
@@ -552,12 +638,10 @@ def heatmap_visualiser(features, position, update=False, express=True):
         x_max, y_max = np.array(features.shape) - 1
         pos = position * x_max
         if express:
-            features = np.array(features)
             fig = px.imshow(features.T, origin='lower', aspect="auto")
             fig.add_vline(pos, line_width=3, line_dash="dash", line_color="red", opacity=0.9)
             return fig
         else:
-            features = np.array(features)
             heatmap = px.imshow(features.T, origin='lower', aspect="auto")
             return go.Figure(data=[
                 heatmap.data[0],
@@ -565,8 +649,8 @@ def heatmap_visualiser(features, position, update=False, express=True):
             ], layout=heatmap.layout)
 
 
-def advanced_chroma_visualiser_fast(features, position):
-    features = np.array(features)
+def advanced_chroma_visualiser_fast(*, features, position, app):
+    features = app.check_features(features)
     x_max = (features.shape[0] - 1)
     if position is None:
         heatmap = px.imshow(features.T, origin='lower', aspect="auto")
@@ -579,8 +663,8 @@ def advanced_chroma_visualiser_fast(features, position):
         return [{}, dict(x=[pos, pos], y=[0, 11])]
 
 
-def single_fourier(features, position, component):
-    features = np.array(features)
+def single_fourier(*, features, position, app, component):
+    features = app.check_features(features)
     features[1] *= rad_to_deg
     fig = px.line_polar(r=features[0, :, component], theta=features[1, :, component])
     idx = int(position * (features.shape[1] - 1))
@@ -593,8 +677,8 @@ def single_fourier(features, position, component):
     return fig
 
 
-def fourier_visualiser(features, position, binary_profiles=True, incl=None):
-    features = np.array(features)
+def fourier_visualiser(*, features, position, app, binary_profiles=True, incl=None):
+    features = app.check_features(features)
     features[1] *= rad_to_deg
     labels = [f"{nth} Coefficient" for nth in ['0th', '1st', '2nd', '3rd', '4th', '5th', '6th']]
     specs = [[{'type': 'polar'} for _ in range(3)] for _ in range(2)]
@@ -704,18 +788,11 @@ def fourier_visualiser(features, position, binary_profiles=True, incl=None):
             # y=features[0, idx, (0, 6)] * np.cos(features[1, idx, (0, 6)]),
         ), row=2, col=3)
         fig.update_yaxes(range=[-1.1, 1.1], row=2, col=3)
-    # make plot higher
-    fig.update_layout(height=500)
-    # smooth transitions
-    fig.update_layout(
-        transition_duration=100,
-        margin=dict(t=0, b=10, l=0, r=0),
-    )
-    return fig
+    return app.update_figure_layout(fig)
 
 
-def circle_of_fifths_visualiser(features, position, ticks="binary"):
-    features = np.array(features)
+def circle_of_fifths_visualiser(*, features, position, app, ticks="binary"):
+    features = app.check_features(features)
     features[1] *= rad_to_deg
     idx = int(position * (features.shape[1] - 1))
     component = 5
@@ -789,17 +866,11 @@ def circle_of_fifths_visualiser(features, position, ticks="binary"):
         radialaxis=dict(range=[0, 1], showticklabels=False, ticks=''),
         angularaxis=angularaxis,
     )
-    # make plot higher
-    fig.update_layout(height=500)
-    # smooth transitions
-    fig.update_layout(
-        transition_duration=100,
-        margin=dict(t=30, b=30, l=0, r=0),
-    )
-    return fig
+    return app.update_figure_layout(fig)
 
 
-def tonnetz_visualiser(features, position):
+def tonnetz_visualiser(*, features, position, app):
+    features = app.check_features(features, asfarray=False)
     pos_idx = int(np.round(position * (len(features) - 1)))
     features = np.array(features[pos_idx])
     if features.max() > 0:
@@ -809,9 +880,6 @@ def tonnetz_visualiser(features, position):
         xaxis=dict(zeroline=False, showgrid=False, visible=False),
         yaxis=dict(zeroline=False, showgrid=False, visible=False, scaleanchor="x", scaleratio=1),
         template='simple_white',
-        height=1000,
-        # transition_duration=100,
-        margin=dict(t=30, b=30, l=0, r=0),
     ))
     lof = np.arange(-6, 7)
     lot = np.arange(-4, 5)
@@ -984,41 +1052,51 @@ def tonnetz_visualiser(features, position):
         mode="lines",
         line=dict(width=2, color=rgba(0, 0, 0, 0.5), dash='dot')
     ))
-    return fig
+    return app.update_figure_layout(fig)
 
 
-def keyscape_3d(features, position):
-    features = np.array(features)
-    x, y, z = remap_to_xyz(amplitude=features[0], phase=features[1])
-    plot_all(x=x, y=y, z=z, colors=colors)
-    # TODO
+def keyscape_3d(*, features, position, app):
+    features = app.check_features(features, n=2, asfarray=False)
+    fourier_features = np.array(features[0])[:, :, 5]
+    chroma_features = np.array(features[1])
+    colors = key_colors(chroma_features)
+    x, y, z = remap_to_xyz(amplitude=fourier_features[0], phase=fourier_features[1])
+    fig = plot_all(x=x, y=y, z=z, colors=colors)
+    return app.update_figure_layout(fig)
 
 
 if __name__ == '__main__':
 
-    app = WebApp(verbose=True)
+    app = WebApp(
+        verbose=True,
+        default_figure_hight=800,
+        # default_figure_hight=1000,
+    )
 
     # app.register_feature_extractor('None', none_feature)
     # app.register_feature_extractor('waveform-feature', waveform_feature)
     # app.register_feature_extractor('spectrogram-features', spectrogram_features)
-    app.use_chroma_features(500)
-    # app.use_fourier_features()
+    app.use_chroma_features(100)
+    app.use_fourier_features()
+    app.use_chroma_scape_features()
+    app.use_fourier_scape_features()
 
-    # app.register_visualiser('Waveform', 'waveform-feature', waveform_visualiser, update=True)
-    # app.register_visualiser('Spectrogram', 'spectrogram-features', heatmap_visualiser)
-    app.register_visualiser('Chroma Features', 'chroma-features', heatmap_visualiser)
-    # app.register_visualiser('Chroma 100', 'chroma-100', heatmap_visualiser, update=False)
-    # app.register_visualiser('Fourier Magnitude', 'fourier-mag', heatmap_visualiser, update=False)
-    # app.register_visualiser('Fourier Phase', 'fourier-phase', heatmap_visualiser, update=False)
+    # app.register_visualiser('Waveform', ['waveform-feature'], waveform_visualiser, update=True)
+    # app.register_visualiser('Spectrogram', ['spectrogram-features'], heatmap_visualiser)
+    app.register_visualiser('Chroma Features', ['chroma-features'], heatmap_visualiser)
+    # app.register_visualiser('Chroma 100', ['chroma-100'], heatmap_visualiser, update=False)
+    # app.register_visualiser('Fourier Magnitude', ['fourier-mag'], heatmap_visualiser, update=False)
+    # app.register_visualiser('Fourier Phase', ['fourier-phase'], heatmap_visualiser, update=False)
 
-    # app.register_visualiser('Fourier Coefficients', 'fourier-features', fourier_visualiser)
-    # app.register_visualiser('Circle of Fifths', 'fourier-features', circle_of_fifths_visualiser)
-    # app.register_visualiser('Single Fourier', 'fourier-features', lambda **kwargs: single_fourier(component=5, **kwargs))
-    app.register_visualiser('Tonnetz', 'chroma-features', tonnetz_visualiser)
+    # app.register_visualiser('Fourier Coefficients', ['fourier-features'], fourier_visualiser)
+    # app.register_visualiser('Circle of Fifths', ['fourier-features'], circle_of_fifths_visualiser)
+    # app.register_visualiser('Single Fourier', ['fourier-features'], lambda **kwargs: single_fourier(component=5, **kwargs))
+    app.register_visualiser('Tonnetz', ['chroma-features'], tonnetz_visualiser)
+    app.register_visualiser('3D Keyscape', ['fourier-scape-features', 'chroma-scape-features'], keyscape_3d)
 
-    # app.register_visualiser('Express Chroma Heatmap', 'chroma-features', heatmap_visualiser, update=False)
-    # app.register_visualiser('Chroma Heatmap (static)', 'chroma-features', advanced_chroma_visualiser_slow, update=False)
-    # app.register_visualiser('Chroma Heatmap (update)', 'chroma-features', advanced_chroma_visualiser_fast, update=True)
+    # app.register_visualiser('Express Chroma Heatmap', ['chroma-features'], heatmap_visualiser, update=False)
+    # app.register_visualiser('Chroma Heatmap (static)', ['chroma-features'], advanced_chroma_visualiser_slow, update=False)
+    # app.register_visualiser('Chroma Heatmap (update)', ['chroma-features'], advanced_chroma_visualiser_fast, update=True)
 
     app.init(
         title="<library>",
@@ -1026,7 +1104,7 @@ if __name__ == '__main__':
         suppress_flask_logger=True,  # suppress extensive logging, only show errors
         audio_file='../Shepard_Tone.wav',
         # audio_file='../J.S. Bach - Prelude in C Major.mp3'
-        sync_interval_ms=300,
+        # sync_interval_ms=300,
         external_stylesheets=[],
     )
 

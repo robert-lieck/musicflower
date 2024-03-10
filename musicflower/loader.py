@@ -5,6 +5,7 @@ import pickle
 from typing import Iterable, Tuple, Union, Dict
 from itertools import product
 import pathlib
+from warnings import warn
 
 from musicflower import istarmap # patch Pool
 from multiprocessing import Pool
@@ -38,20 +39,29 @@ def get_cache_file_path(file_path: Union[str, pathlib.Path], n: int, remove_exte
         return pathlib.Path(str(file_path) + f"_n{n}.pickle")
 
 
-def audio_scape(n_time_intervals: int, data: Union[str, Tuple[np.ndarray, int]], normalise: bool = True,
-                top_down: bool = False, **kwargs) -> np.ndarray:
+def audio_scape(n_time_intervals: int,
+                data: Union[str, Tuple[np.ndarray, int], None] = None,
+                raw_chroma: Union[np.ndarray, None] = None,
+                normalise: bool = True,
+                top_down: bool = False,
+                **kwargs) -> np.ndarray:
     """
     Compute a pitch scape from audio data.
 
     :param n_time_intervals: number of time intervals
     :param data: path to file or a tuple with audio data (passed on to :func:`~musicflower.loader.get_chroma`)
+    :param raw_chroma: pre-extracted raw chroma (ignore data)
     :param normalise: normalise the pitch class distributions
     :param top_down: use top-down order
     :param kwargs: kwargs passed on to the :func:`~musicflower.loader.get_chroma` function
     :return: array with pitch scape
     """
     # get chroma
-    raw_chroma = get_chroma(data=data, **kwargs)
+    if raw_chroma is None:
+        raw_chroma = get_chroma(data=data, **kwargs)
+    else:
+        if data is not None:
+            warn("'data' was provided but will be ignored because 'raw_chroma' was also provided", RuntimeWarning)
     n_bins = raw_chroma.shape[1]
     # sum over specified time intervals
     chroma = np.zeros((n_time_intervals, 12))
