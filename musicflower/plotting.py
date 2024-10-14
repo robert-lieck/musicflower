@@ -25,9 +25,9 @@ pt.set_circle_of_fifths(True)
 
 def rgba(*args):
     if len(args) == 1:
-        rgba = np.asfarray(args[0])
+        rgba = np.asarray(args[0], dtype=float)
     else:
-        rgba = np.asfarray(args)
+        rgba = np.asarray(args, dtype=float)
     if len(rgba) not in [3, 4]:
         raise ValueError("rgba values have to be specified as (an array of) 3 or 4 values")
     if np.any(rgba > 1) or np.any(rgba < 0):
@@ -40,8 +40,8 @@ def rgba(*args):
 
 
 def rgba_mix(colors, weights, normalise=True):
-    colors = np.asfarray(colors)
-    weights = np.asfarray(weights)
+    colors = np.asarray(colors, dtype=float)
+    weights = np.asarray(weights, dtype=float)
     if np.any(weights < 0):
         raise ValueError("'weights' must be positive")
     if normalise:
@@ -447,7 +447,7 @@ def make_parallels(n_levels=5,
 def plot_pcd_marker(pcd, labels,
                     name=None, groupname=None, group=None, r=None,
                     parallels_kwargs=(), meridians_kwargs=(), label_kwargs=()):
-    pcd = np.asfarray(pcd)
+    pcd = np.asarray(pcd, dtype=float)
     amplitude, phase = get_fourier_component(pcds=pcd[None], fourier_component=5)
     x, y, z = remap_to_xyz(amplitude=amplitude, phase=phase)
     altitude = np.arctan2(z, np.sqrt(x ** 2 + y ** 2))[0]
@@ -491,10 +491,10 @@ def add_key_markers(fig, **kwargs):
 
 
 def ellipse_coords(r1, r2, centre=(0, 0, 0), n=100, plane=None):
-    centre = np.asfarray(centre)
+    centre = np.asarray(centre, dtype=float)
     if plane is None:
-        r1 = np.asfarray(r1)
-        r2 = np.asfarray(r2)
+        r1 = np.asarray(r1, dtype=float)
+        r2 = np.asarray(r2, dtype=float)
     elif plane == 'xy':
         r1 = r1 * np.array([1, 0, 0])
         r2 = r2 * np.array([0, 1, 0])

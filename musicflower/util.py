@@ -25,7 +25,7 @@ def get_fourier_component(pcds: np.ndarray, fourier_component: int = None) -> np
     :return:  array of shape (2, ..., n//2 + 1) with amplitude and phase along the first dimension and the different
      Fourier components along the last dimension
     """
-    pcds = np.asfarray(pcds)
+    pcds = np.asarray(pcds, dtype=float)
     pcds /= pcds.sum(axis=-1, keepdims=True)
     ft = np.fft.rfft(pcds, axis=-1)
     if fourier_component is not None:

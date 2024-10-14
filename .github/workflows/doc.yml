@@ -15,15 +15,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Install missing packages
         run: |
           sudo apt-get update
           sudo apt-get install sndfile-programs
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+
       - name: generate doc
         run: |
           pip install -r requirements.txt
@@ -31,6 +32,7 @@ jobs:
           cd doc/
           make html
           make linkcheck
+          make doctest
 
       - name: Deploy doc
         uses: peaceiris/actions-gh-pages@v3

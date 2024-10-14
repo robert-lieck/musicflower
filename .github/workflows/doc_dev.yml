@@ -1,0 +1,26 @@
+name: doc_dev
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: generate doc
+        run: |
+          pip install -r requirements.txt
+          pip install -r doc/requirements.txt
+          cd doc/
+          make html
+          make linkcheck
+          make doctest

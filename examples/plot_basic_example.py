@@ -98,7 +98,7 @@ x, y, z = remap_to_xyz(amplitude=amplitude, phase=phase)
 # This can be visualised in a 3D plot as follows
 
 from musicflower.plotting import plot_all
-plot_all(x=x, y=y, z=z, colors=colors).show()
+plot_all(x=x, y=y, z=z, colors=colors)
 
 
 # %%

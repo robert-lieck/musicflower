@@ -57,14 +57,32 @@ class WebApp:
              n_sync_before_idle=10,
              audio_file=None,
              external_stylesheets=(
-                     'https://codepen.io/chriddyp/pen/bWLwgP.css',
+                     # 'https://codepen.io/chriddyp/pen/bWLwgP.css',
              ),
              name=None,
-             suppress_flask_logger=False,
+             suppress_flask_logger=True,
              figure_width=None,
              figure_height=None,
              _debug_display_toggles=False,
+             dash_kwargs=(),
              ):
+        """
+
+        :param title:
+        :param update_title:
+        :param sync_interval_ms:
+        :param idle_interval_ms:
+        :param n_sync_before_idle:
+        :param audio_file:
+        :param external_stylesheets:
+        :param name:
+        :param suppress_flask_logger: suppress extensive logging, only show errors
+        :param figure_width:
+        :param figure_height:
+        :param _debug_display_toggles:
+        :param dash_kwargs:
+        :return:
+        """
         self._debug_display_toggles = _debug_display_toggles
         external_stylesheets = list(external_stylesheets) + [dbc.themes.BOOTSTRAP]  # always need that for settings modal
         if suppress_flask_logger:
@@ -76,7 +94,8 @@ class WebApp:
                                       external_stylesheets=external_stylesheets,
                                       name=name,
                                       figure_width=figure_width,
-                                      figure_height=figure_height)
+                                      figure_height=figure_height,
+                                      dash_kwargs=dash_kwargs)
         self._setup_audio_position_sync(sync_interval_ms=sync_interval_ms,
                                         idle_interval_ms=idle_interval_ms,
                                         n_sync_before_idle=n_sync_before_idle)
@@ -90,7 +109,7 @@ class WebApp:
         if len(features) != n:
             raise ValueError(f"expected {n} features but got {len(features)}")
         if asfarray:
-            features = [np.asfarray(f) for f in features]
+            features = [np.asarray(f, dtype=float) for f in features]
         if n == 1:
             features = features[0]
         return features
@@ -101,15 +120,31 @@ class WebApp:
         for v in ['height', 'width']:
             if v in kwargs and kwargs[v] is None:
                 del kwargs[v]
-        # populate with some default value
+        # populate with some default values
         kwargs = dict(
-            transition_duration=100,
+            transition_duration=10,
             margin=dict(t=0, b=10, l=0, r=0),
             uirevision=True,
         ) | kwargs
         # update and return figure
         figure.update_layout(**kwargs)
         return figure
+
+    @classmethod
+    def position_idx(cls, position, *, n=None, features=None):
+        """
+        For a position in [0, 1] and features of length n, compute the corresponding index in {0, ..., n - 1}.
+
+        :param position: number in [0, 1]
+        :param n: length of features
+        :param features: features to compute n as len(features)
+        :return: index
+        """
+        if (n is None) == (features is None):
+            raise ValueError("Either 'n' or 'features' have to be provided (not both)")
+        if features is not None:
+            n = len(features)
+        return int(round(position * (n - 1)))
 
     def use_chroma_features(self, n=None, name='chroma-features'):
         if n is None:
@@ -477,16 +512,19 @@ class WebApp:
         return BytesIO(base64.b64decode(content_string))
 
     def _setup_layout(self, title, update_title, idle_interval_ms, audio_file, external_stylesheets, name,
-                      figure_width, figure_height):
+                      figure_width, figure_height, dash_kwargs=()):
         if name is None:
             name = __name__
 
-        app = Dash(
-            name=name,
-            title=title,
-            update_title=update_title,
-            external_stylesheets=list(external_stylesheets),
-        )
+        dash_kwargs = {
+            **dict(name=name,
+                   title=title,
+                   update_title=update_title,
+                   external_stylesheets=list(external_stylesheets),
+                   assets_folder=Path(os.path.dirname(os.path.realpath(__file__))) / "assets"),
+            **dict(dash_kwargs)
+        }
+        app = Dash(**dash_kwargs)
 
         # elements in webapp
         layout_content = [
@@ -540,8 +578,7 @@ class WebApp:
                 return no_update, pre_loaded_contents, no_update
             if contents is not None:
                 # new audio file was uploaded
-                audio = html.Audio(src=contents, controls=True, id='_audio-controls', style={'width': '100%'})
-                return html.Div([html.P(name), audio]), contents, name
+                return self._audio_element(audio_file=name, audio_src=contents), contents, name
             else:
                 return no_update, no_update, no_update
 
@@ -629,15 +666,13 @@ class WebApp:
                 pass
             audio_src = f'data:audio/{extension};base64,{decoded_sound}'
             layout_content += [
-                html.Div(id='_sound-file-display', children=html.Div([
-                    html.P(audio_file),
-                    html.Audio(src=audio_src, controls=True, id='_audio-controls', style={'width': '100%'}),
-                ])),
+                self._audio_element(audio_file=audio_file, audio_src=audio_src),
                 dcc.Store(id='_audio-content', data=audio_src),
                 dcc.Interval(id='_initial-audio-content-update', interval=5000, max_intervals=1)
             ]
         else:
-            layout_content += [html.Div(id='_sound-file-display'),
+            layout_content += [
+                self._audio_element(audio_file=audio_file),
                                dcc.Store(id='_audio-content', data=None),
                                dcc.Interval(id='_initial-audio-content-update', disabled=True)]
 
@@ -719,8 +754,15 @@ class WebApp:
                     # return frame, current_pos, no_update, 0
                     return current_pos, no_update, 0
 
+    def _audio_element(self, audio_file, audio_src=None):
+        src = {} if audio_src is None else dict(src=audio_src)
+        return html.Div(id='_sound-file-display', children=html.Div([
+            html.P(audio_file),
+            html.Audio(**src, controls=True, id='_audio-controls', style={'width': '100%'}),
+        ]))
+
     def run(self, *args, **kwargs):
-        self.app.run_server(*args, **kwargs)
+        self.app.run(*args, **kwargs)
 
 
 def none_feature(*, audio, app):
@@ -758,7 +800,7 @@ def chroma_features(*, audio, app, normalised=True):
         # hop_length=2048,
     ).T
     if normalised:
-        chroma = normaliser(features=chroma, app=app)
+        chroma = normaliser(features=[chroma], app=app)
     return chroma
 
 
@@ -870,7 +912,7 @@ def single_fourier(*, features, position, app, component, **kwargs):
     features = WebApp.check_features(features)
     features[1] *= rad_to_deg
     fig = px.line_polar(r=features[0, :, component], theta=features[1, :, component])
-    idx = int(position * (features.shape[1] - 1))
+    idx =  WebApp.position_idx(position, n=features.shape[1])
     fig.add_trace(go.Scatterpolar(
         r=features[0, idx:idx + 1, component],
         theta=features[1, idx:idx + 1, component],
@@ -889,7 +931,7 @@ def fourier_visualiser(*, features, position, app, binary_profiles=False, incl=N
     fig = make_subplots(rows=2, cols=3, start_cell="top-left", specs=specs,
                         # subplot_titles=labels
                         )
-    idx = int(position * (features.shape[1] - 1))
+    idx = WebApp.position_idx(position, n=features.shape[1])
     # add Fourier components 1–5
     for (component, row, col), l in zip([
         (0, 0, 0),
@@ -992,7 +1034,7 @@ def fourier_visualiser(*, features, position, app, binary_profiles=False, incl=N
 def circle_of_fifths_visualiser(*, features, position, app, ticks="binary", **kwargs):
     features = WebApp.check_features(features)
     features[1] *= rad_to_deg
-    idx = int(position * (features.shape[1] - 1))
+    idx = WebApp.position_idx(position, n=features.shape[1])
     component = 5
     fig = go.Figure()
     # plot trace
@@ -1069,7 +1111,7 @@ def circle_of_fifths_visualiser(*, features, position, app, ticks="binary", **kw
 
 def tonnetz_visualiser(*, features, position, app, unicode=True, **kwargs):
     features = WebApp.check_features(features, asfarray=False)
-    pos_idx = int(np.round(position * (len(features) - 1)))
+    pos_idx = WebApp.position_idx(position, features=features)
     features = np.array(features[pos_idx])
     if features.max() > 0:
         features /= features.max()
@@ -1343,59 +1385,3 @@ def keyscape(*, features, position, app, dark=False, legend=True, marker_legend=
                                         scene_camera_eye=dict(x=0, y=0, z=1.2),
                                     ),
                                        **kwargs})
-
-
-if __name__ == '__main__':
-
-    app = WebApp(
-        verbose=True,
-        default_figure_hight=800,
-        # default_figure_hight=1000,
-    )
-
-    # app.register_feature_extractor('None', none_feature)
-    # app.register_feature_extractor('waveform-feature', waveform_feature)
-    # app.register_feature_extractor('spectrogram-features', spectrogram_features)
-    app.use_chroma_features(100)
-    app.use_fourier_features()
-    app.use_chroma_scape_features()
-    app.use_fourier_scape_features()
-
-    # app.register_visualiser('Waveform', ['waveform-feature'], waveform_visualiser, update=True)
-    # app.register_visualiser('Spectrogram', ['spectrogram-features'], heatmap_visualiser)
-    app.register_visualiser('Chroma Features', ['chroma-features'], heatmap_visualiser)
-    # app.register_visualiser('Chroma 100', ['chroma-100'], heatmap_visualiser, update=False)
-    # app.register_visualiser('Fourier Magnitude', ['fourier-mag'], heatmap_visualiser, update=False)
-    # app.register_visualiser('Fourier Phase', ['fourier-phase'], heatmap_visualiser, update=False)
-
-    # app.register_visualiser('Fourier Coefficients', ['fourier-features'], fourier_visualiser)
-    # app.register_visualiser('Circle of Fifths', ['fourier-features'], circle_of_fifths_visualiser)
-    # app.register_visualiser('Single Fourier', ['fourier-features'], lambda **kwargs: single_fourier(component=5, **kwargs))
-    app.register_visualiser('Tonnetz', ['chroma-features'], tonnetz_visualiser)
-    app.register_visualiser('3D Keyscape', ['fourier-scape-features', 'chroma-scape-features'], keyscape_3d)
-
-    # app.register_visualiser('Express Chroma Heatmap', ['chroma-features'], heatmap_visualiser, update=False)
-    # app.register_visualiser('Chroma Heatmap (static)', ['chroma-features'], advanced_chroma_visualiser_slow, update=False)
-    # app.register_visualiser('Chroma Heatmap (update)', ['chroma-features'], advanced_chroma_visualiser_fast, update=True)
-
-    app.init(
-        title="<library>",
-        # update_title='Updating...',
-        suppress_flask_logger=True,  # suppress extensive logging, only show errors
-        audio_file='../Shepard_Tone.wav',
-        # audio_file='../J.S. Bach - Prelude in C Major.mp3'
-        # sync_interval_ms=300,
-        external_stylesheets=[],
-    )
-
-    # @app.app.callback(Output('dummy-div', 'children'),
-    #                   Input('chroma-features', 'data'),
-    #                   Input('_stored-audio-position', 'value'),
-    #                   prevent_initial_call=True)
-    # def test(data, value):
-    #     print(f"FIRED! {type(data)}/{value} | {ctx.triggered_id} | {ctx.triggered_prop_ids}")
-
-    app.run(
-        # debug=False,
-        debug=True,
-    )

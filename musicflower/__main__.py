@@ -22,7 +22,6 @@ if __name__ == '__main__':
                              'chroma-scape-features'],
                             spectral_dome)
     app.init(
-        suppress_flask_logger=True,  # suppress extensive logging, only show errors
         figure_width=1500,
         figure_height=800,
     )

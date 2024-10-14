@@ -6,6 +6,7 @@ plotly
 kaleido
 pandas
 dash
+dash-bootstrap-components
 matplotlib
 triangularmap>=0.1.0
 pitchscapes
