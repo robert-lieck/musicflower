@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fh:
 
 setuptools.setup(
     name="musicflower",
-    version="0.0.4",
+    version="0.0.5",
     author="Robert Lieck",
     author_email="robert.lieck@durham.ac.uk",
     description="",
