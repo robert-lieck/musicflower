@@ -76,7 +76,7 @@ We can now register this function as a visualiser and start up the web app
  .. code-block:: none
 
 
-    <musicflower.webapp.WebApp object at 0x7f2021404760>
+    <musicflower.webapp.WebApp object at 0x7f8125c887c0>
 
 
 
@@ -139,14 +139,14 @@ And the app can be set up with additional parameters
     initialised 'chroma-features' feature extractor
     initialised 'Chroma Bars' visualiser with callbacks for 'chroma-features'
 
-    <musicflower.webapp.WebApp object at 0x7f201f3243d0>
+    <musicflower.webapp.WebApp object at 0x7f8123b2c610>
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.018 seconds)
+   **Total running time of the script:** (0 minutes 0.016 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_webapp.py:
