@@ -25,6 +25,8 @@ def get_fourier_component(pcds: np.ndarray, fourier_component: int = None) -> np
     :return:  array of shape (2, ..., n//2 + 1) with amplitude and phase along the first dimension and the different
      Fourier components along the last dimension
     """
+    pcds = np.asfarray(pcds)
+    pcds /= pcds.sum(axis=-1, keepdims=True)
     ft = np.fft.rfft(pcds, axis=-1)
     if fourier_component is not None:
         ft = ft[..., fourier_component]
@@ -38,13 +40,14 @@ def start_duration(n):
     duration = []
     for idx in range(1, n + 1):
         start.append(np.arange(idx) / n)
-        duration.append(np.ones(idx) - idx / n)
+        duration.append(np.ones(idx) - (idx - 1) / n)
     return np.concatenate(start), np.concatenate(duration)
 
 
-def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float = 0.4, inverted: bool = False,
-                 spherical: bool = True, rescale_func: callable = np.sqrt, axis: int = -1
-                 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float = 0.2, inverted: bool = False,
+                 spherical: bool = True, rescale_func: callable = np.sqrt, axis: int = -1,
+                 theta_r=False, scape2D=False,
+                 ) -> Union[Tuple[np.ndarray, np.ndarray, np.ndarray], Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]]:
     """
     Map a triangular map with amplitudes and phases to 3D space. The `axis` representing the triangular map must have a
     size of :math:`k=n(n+1)/2` for some integer :math:`n` to represent a valid triangular map (:math:`n` is the
@@ -60,6 +63,8 @@ def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float =
     :param rescale_func: function to rescale amplitudes; this should monotonically rescale the interval :math:`[0, 1]`;
      the default uses np.sqrt, which distorts towards high amplitudes, i.e., it "opens up the top of the flower".
     :param axis: axis of the input arrays that represents the triangular map
+    :param theta_r: also return theta an r if spherical=True
+    :param scape2D: map to a conventional 2D scape plot in the x-y-plane instead
     :return: x, y, z: 1D arrays of length :math:`k` containing the Cartesian coordinates.
     """
     # check shapes
@@ -68,39 +73,52 @@ def remap_to_xyz(amplitude: np.ndarray, phase: np.ndarray, inner_radius: float =
     # rescale
     if rescale_func is not None:
         amplitude = rescale_func(amplitude)
-    # get the durations
-    _, duration = start_duration(TMap.n_from_size(phase.shape[axis]))
-    # convert to radial component
-    if inverted:
-        radius = (1 - duration) + inner_radius
+    # get start and duration of points
+    start, duration = start_duration(TMap.n_from_size(phase.shape[axis]))
+    # 2D or 3D
+    if scape2D:
+        x = start + duration / 2
+        y = duration
+        z = np.zeros_like(x)
+        return x, y, z
     else:
-        radius = duration + inner_radius
-    # adapt shape for broadcasting
-    shape = np.ones(len(phase.shape), dtype=int)
-    shape[axis] = len(radius)
-    radius = radius.reshape(shape)
-    # compute Cartesian coordinates
-    x = np.cos(phase) * radius
-    y = np.sin(phase) * radius
-    if spherical:
-        # theta is the angle from the horizontal plane to the zenith
-        # --> map amplitude in [0, 1] to theta in [pi/2, 0]
-        # i.e. an amplitude of zero corresponds to theta=pi/2 (zenith)
-        # an amplitude of one corresponds to theta=0 (horizontal plane)
-        theta = (1 - amplitude) * np.pi / 2
-        x *= np.cos(theta)
-        y *= np.cos(theta)
-        z = radius * np.sin(theta)
-    else:
-        z = amplitude
-    return x, y, z
+        # convert to radial component
+        if inverted:
+            radius = (1 - duration) + inner_radius
+        else:
+            radius = duration + inner_radius
+        # adapt shape for broadcasting
+        shape = np.ones(len(phase.shape), dtype=int)
+        shape[axis] = len(radius)
+        radius = radius.reshape(shape)
+        # compute Cartesian coordinates
+        x = np.cos(phase) * radius
+        y = np.sin(phase) * radius
+        if spherical:
+            # theta is the angle from the horizontal plane to the zenith
+            # --> map amplitude in [0, 1] to theta in [pi/2, 0]
+            # i.e. an amplitude of zero corresponds to theta=pi/2 (zenith)
+            # an amplitude of one corresponds to theta=0 (horizontal plane)
+            theta = (1 - amplitude) * np.pi / 2
+            x *= np.cos(theta)
+            y *= np.cos(theta)
+            z = radius * np.sin(theta)
+            if theta_r:
+                return x, y, z, theta, radius
+            else:
+                return x, y, z
+        else:
+            z = amplitude
+            if theta_r:
+                raise ValueError("Can only return theta and r for spherical=True")
+            return x, y, z
 
 
-def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int,
-                    axis=0) -> Tuple[np.ndarray, np.ndarray]:
+def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int = None,
+                    times: np.ndarray = None, axis=0) -> Tuple[np.ndarray, np.ndarray]:
     """
-    Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The
-    input arrays can have an arbitrary number of additional batch dimensions.
+    Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along
+    rows. The input arrays can have an arbitrary number of additional batch dimensions.
 
     Each trace has the same number of points as there are rows in the triangular map. As time runs from 0 to 1, the
     points run from left to right along the rows, interpolating linearly between points.
@@ -109,7 +127,8 @@ def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndar
     :param y: array with y-coordinates
     :param z: array with z-coordinates
     :param colors: array with RGB colours (last dimension must correspond to colours and have size 3)
-    :param n_steps: create `n_steps` + 1 traces from time 0 to time 1
+    :param n_steps: create `n_steps` + 1 traces from time 0 to time 1 (instead of using explicit ``times``)
+    :param times: array with values in [0, 1]; create traces for these times (instead of ``n_steps`` equally spaced)
     :param axis: Axis of the input arrays that corresponds to the triangular map. It must have a compatible length (i.e.
      a length of :math:`n(n+1)/2` for some integer :math:`n`).
     :return: xyz, colors: two arrays of shape (n_steps + 1, n, ..., 3) with xyz-coordinates and colours, where `...`
@@ -118,6 +137,12 @@ def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndar
     assert x.shape == y.shape == z.shape == colors.shape[:-1]
     assert colors.shape[-1] == 3
     assert len(colors.shape) >= 2
+    assert (n_steps is None) != (times is None); "exactly one of 'n_steps' or 'times' has to be provided"
+    if n_steps is None:
+        assert len(times) == 1
+        n_steps = len(times) - 1
+    if times is None:
+        times = np.linspace(0, 1, n_steps + 1)
     xyz = np.concatenate([x[..., None], y[..., None], z[..., None]], axis=-1)
     if axis != 0:
         xyz = np.moveaxis(xyz, axis, 0)
@@ -137,7 +162,7 @@ def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndar
                 arr_out[:, depth, ..., :] = interpolate.interp1d(np.linspace(0, 1, depth + 1),
                                                               arr.dslice[depth][..., :],
                                                               axis=0,
-                                                              copy=False)(np.linspace(0, 1, n_steps + 1))
+                                                              copy=False)(times)
     return xyz_out, colors_out
 
 
@@ -278,6 +303,10 @@ def iterable_or_repeat(it, exclude=()):
         return it
     except TypeError:
         return repeat(it)
+
+
+def repeat_kwargs(kwargs):
+    return {key: repeat(val) for key, val in kwargs.items()}
 
 
 def broadcast_func(func, **kwargs):

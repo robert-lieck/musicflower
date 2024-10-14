@@ -12,10 +12,12 @@ import matplotlib.pyplot as plt
 import pitchscapes.plotting as pt
 from pitchscapes.keyfinding import KeyEstimator
 
+from pitchtypes import EnharmonicPitchClass
+
 from triangularmap import TMap
 
 from musicflower.util import get_time_traces, surface_scape_indices, assert_valid_corpus, assert_valid_xyz_col, \
-    broadcast_func, iterable_or_repeat
+    broadcast_func, iterable_or_repeat, repeat_kwargs, get_fourier_component, remap_to_xyz
 
 # use colouring along circle of fifths (not chromatic)
 pt.set_circle_of_fifths(True)
@@ -61,7 +63,7 @@ def key_colors(pcds: np.ndarray, alpha=False) -> np.ndarray:
     """
     Given an array of PCDs, returns a corresponding array of RGB or RGBA colors.
 
-    :param pcds: array of shape (..., 12) where can be any number of leading dimensions
+    :param pcds: array of shape (..., 12) where ... can be any number of leading dimensions
     :param alpha: whether to return alpha values (i.e. RGBA colours) or just RGB
     :return: array of shape (..., 3) or (..., 4) with RGB/RGBA colors
     """
@@ -138,6 +140,16 @@ def create_fig(fig=None, trace=None, dark=True, axes_off=True, **kwargs) -> go.F
 
 
 def grouplegend_kwargs(group, groupname, name):
+    """
+    Create kwargs to supply to a trace for grouping.
+
+    :param group: an identifier for the group; used to populate value for 'legendgroup'; must be specified if
+     'groupname' is specified
+    :param groupname: name of the group; used to populate value for 'legendgrouptitle_text' (if 'name' is specified)
+     or 'name' (if 'name' is not explicitly specified)
+    :param name: name of the trace in legend; used to populate value for 'name'
+    :return:
+    """
     kwargs = {}
     if group is not None:
         kwargs = {**dict(legendgroup=group), **kwargs}  # trace is part of this group
@@ -190,37 +202,41 @@ def plot_tip(x, y, z, colors, name=None, groupname=None, group=None):
     return trace
 
 
-def plot_surface(x, y, z, colors, name=None, groupname=None, group=None):
+def plot_surface(x, y, z, colors, name=None, groupname=None, group=None, **kwargs):
     if name is True:
         name = "surface"
     if name is False:
         name = None
-    kwargs = grouplegend_kwargs(group, groupname, name)
+    kwargs = {**grouplegend_kwargs(group, groupname, name),
+              **dict(vertexcolor=colors, opacity=0.2, hoverinfo='skip'),
+              **kwargs}
     if group:
         kwargs = {**dict(hovertemplate=group + "<extra></extra>"), **kwargs}
     i, j, k = surface_scape_indices(x, -1)
-    trace = go.Mesh3d(x=x, y=y, z=z, i=i, j=j, k=k, vertexcolor=colors, opacity=0.2, **kwargs)
+    trace = go.Mesh3d(x=x, y=y, z=z, i=i, j=j, k=k, **kwargs)
     return trace
 
 
-def plot_border(x, y, z, colors, name=None, groupname=None, group=None):
+def plot_border(x, y, z, colors, name=None, groupname=None, group=None, **kwargs):
     if name is True:
         name = "border"
     if name is False:
         name = None
     n = TMap.n_from_size(colors.shape[0])
+    kwargs = {**grouplegend_kwargs(group, groupname, name),
+              **dict(hoverinfo='skip', mode='lines', line_color=np.concatenate([TMap(colors).sslice[0],
+                                                                                TMap(colors).eslice[n],
+                                                                                TMap(colors).lslice[1]])),
+              **kwargs}
     trace = go.Scatter3d(x=np.concatenate([TMap(x).sslice[0], TMap(x).eslice[n], np.flip(TMap(x).lslice[1])]),
                          y=np.concatenate([TMap(y).sslice[0], TMap(y).eslice[n], np.flip(TMap(y).lslice[1])]),
                          z=np.concatenate([TMap(z).sslice[0], TMap(z).eslice[n], np.flip(TMap(z).lslice[1])]),
-                         mode='lines', line=dict(color=np.concatenate([TMap(colors).sslice[0],
-                                                                       TMap(colors).eslice[n],
-                                                                       TMap(colors).lslice[1]])),
-                         **grouplegend_kwargs(group, groupname, name),
-                         hoverinfo='skip')
+                         **kwargs)
     return trace
 
 
-def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int, group: str = None
+def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, n_steps: int = None,
+                     times: np.ndarray = None, group: str = None, **kwargs
                      ) -> List[go.Scatter3d]:
     """
     Plot equally spaced traces from the top to the bottom of the triangle. These can be added to a figure and
@@ -232,22 +248,26 @@ def plot_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.nda
     :param y: array with y-coordinates
     :param z: array with z-coordinates
     :param colors: array with RGB colours
-    :param n_steps: number time intervals; `n_steps` + 1 traces are created (incl. time zero and one)
+    :param n_steps: see :meth:`~get_time_traces`
+    :param times: see :meth:`~get_time_traces`
     :param group: optional name of a group of traces in the legend (allows for switching the time traces on/off with
      together with the other traces in that legend group)
     :return: a list of `n_steps` + 1 Plotly :class:`Scatter3d` plots
     """
-    xyz_traces, colors_traces = get_time_traces(x=x, y=y, z=z, colors=colors, n_steps=n_steps)
+    xyz_traces, colors_traces = get_time_traces(x=x, y=y, z=z, colors=colors, n_steps=n_steps, times=times)
     time_trace_plots = []
-    kwargs = dict(showlegend=False)
+    kwargs = {**dict(showlegend=False,
+                     mode='lines',
+                     line_width=4,
+                     hoverinfo='skip'),
+              **kwargs}
     if group is not None:
         kwargs = {**dict(legendgroup=group), **kwargs}
-    for i in range(n_steps + 1):
-        frame = go.Scatter3d(x=xyz_traces[i, :, 0],
-                             y=xyz_traces[i, :, 1],
-                             z=xyz_traces[i, :, 2],
-                             mode='lines', line=dict(color=colors_traces[i, :], width=4),
-                             hoverinfo='skip',
+    for xyz, colors in zip(xyz_traces, colors_traces):
+        frame = go.Scatter3d(x=xyz[:, 0],
+                             y=xyz[:, 1],
+                             z=xyz[:, 2],
+                             line_color=colors,
                              **kwargs)
         time_trace_plots.append(frame)
     return time_trace_plots
@@ -273,8 +293,19 @@ def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fi
              n_time_traces: int = 200, group: str = None,
              separate_items: bool = False, groupname: str = None,
              do_plot_points: bool = True, do_plot_tip: bool = True, do_plot_surface: bool = True,
-             do_plot_border: bool = True, do_plot_time_traces: bool = False):
+             do_plot_border: bool = True, do_plot_time_traces: bool = False,
+             plot_points_kwargs=(), plot_tip_kwargs=(), plot_surface_kwargs=(),
+             plot_border_kwargs=(), plot_time_traces_kwargs=(),
+             ):
+    # convert default kwargs to dicts
+    plot_points_kwargs = dict(plot_points_kwargs)
+    plot_tip_kwargs = dict(plot_tip_kwargs)
+    plot_surface_kwargs = dict(plot_surface_kwargs)
+    plot_border_kwargs = dict(plot_border_kwargs)
+    plot_time_traces_kwargs = dict(plot_time_traces_kwargs)
+    # check inputs
     assert_valid_xyz_col(x, y, z, colors)
+    # some setup
     if fig is None:
         fig = create_fig()
     multiple_pieces = len(x.shape) >= 2
@@ -294,7 +325,13 @@ def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fi
                        do_plot_tip=iterable_or_repeat(do_plot_tip),
                        do_plot_surface=iterable_or_repeat(do_plot_surface),
                        do_plot_border=iterable_or_repeat(do_plot_border),
-                       do_plot_time_traces=repeat(False))
+                       do_plot_time_traces=repeat(False),
+                       plot_points_kwargs=repeat(plot_points_kwargs),
+                       plot_tip_kwargs=repeat(plot_tip_kwargs),
+                       plot_surface_kwargs=repeat(plot_surface_kwargs),
+                       plot_border_kwargs=repeat(plot_border_kwargs),
+                       plot_time_traces_kwargs=repeat(plot_time_traces_kwargs),
+                       )
     else:
         if groupname is None:
             groupname_kwargs = {}
@@ -305,28 +342,29 @@ def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fi
             add_dummy_traces(1, fig)
         # plot points as scatter plot
         if do_plot_points:
-            fig.add_trace(plot_points(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            fig.add_trace(plot_points(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs, **plot_points_kwargs))
             groupname_kwargs = {}
         # plot tip as larger marker
         if do_plot_tip:
-            fig.add_trace(plot_tip(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            fig.add_trace(plot_tip(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs, **plot_tip_kwargs))
             groupname_kwargs = {}
         # create surface
         if do_plot_surface:
-            fig.add_trace(plot_surface(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            fig.add_trace(plot_surface(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs, **plot_surface_kwargs))
             groupname_kwargs = {}
         # trace triangle border
         if do_plot_border:
-            fig.add_trace(plot_border(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs))
+            fig.add_trace(plot_border(x=x, y=y, z=z, colors=colors, name=separate_items, group=group, **groupname_kwargs, **plot_border_kwargs))
             groupname_kwargs = {}
     if do_plot_time_traces:
         # collect time traces
         if multiple_pieces:
             time_traces = list(broadcast_func(plot_time_traces, x=x, y=y, z=z, colors=colors,
                                               group=iterable_or_repeat(group, exclude=(str,)),
-                                              n_steps=iterable_or_repeat(n_time_traces)))
+                                              n_steps=iterable_or_repeat(n_time_traces),
+                                              **repeat_kwargs(plot_time_traces_kwargs)))
         else:
-            time_traces = [plot_time_traces(x=x, y=y, z=z, colors=colors, group=group, n_steps=n_time_traces)]
+            time_traces = [plot_time_traces(x=x, y=y, z=z, colors=colors, group=group, n_steps=n_time_traces, **plot_time_traces_kwargs)]
         # add time traces
         add_time_slider(frame_traces=time_traces, fig=fig)
     # return figure
@@ -358,6 +396,132 @@ def add_dummy_traces(n: Union[int, Iterable], fig: go.Figure) -> None:
         it = n
     for _ in it:
         fig.add_trace(go.Scatter3d(x=[], y=[], z=[], showlegend=False))
+
+
+def make_meridians(n_levels=12, offset=0, resolution=25):
+    """
+    Create meridians (vertical partial circles) on unit sphere.
+
+    :param n_levels: number of meridians
+    :param offset: offset of the meridians
+    :param resolution: resolution of the lines
+    :return: x, y, z as 2D arrays with NaNs to separate lines when flattened
+    """
+    theta = np.linspace(0, np.pi / 2, resolution)
+    theta = np.concatenate([theta, [np.nan]])
+    theta = np.repeat(theta[None], n_levels, 0)
+    phi_steps = np.linspace(0, 2 * np.pi, n_levels, endpoint=False) + offset
+    phi_steps = np.repeat(phi_steps[:, None], resolution + 1, 1)
+    x = np.cos(phi_steps) * np.sin(theta)
+    y = np.sin(phi_steps) * np.sin(theta)
+    z = np.cos(theta)
+    return np.stack([x, y, z])
+
+
+def make_parallels(n_levels=5,
+                   min_altitude=0.,
+                   max_altitude=np.pi / 2,
+                   resolution=100,
+                   offset=0):
+    """
+    Create parallels (horizontal circles) on unit sphere.
+
+    :param n_levels: number of parallels
+    :param min_altitude: minimum altitude
+    :param max_altitude: maximum altitude
+    :param resolution: resolution of lines
+    :param offset: azimuth offset
+    :return: x, y, z as 2D arrays with NaNs to separate lines when flattened
+    """
+    phi = np.linspace(0, 2 * np.pi, resolution) + offset
+    phi = np.concatenate([phi, [np.nan]])
+    phi = np.repeat(phi[None], n_levels, 0)
+    theta_steps = np.linspace(np.pi / 2 - min_altitude, np.pi / 2 - max_altitude, n_levels, endpoint=False)
+    theta_steps = np.repeat(theta_steps[:, None], resolution + 1, 1)
+    x = np.cos(phi) * np.sin(theta_steps)
+    y = np.sin(phi) * np.sin(theta_steps)
+    z = np.cos(theta_steps)
+    return np.stack([x, y, z])
+
+
+def plot_pcd_marker(pcd, labels,
+                    name=None, groupname=None, group=None, r=None,
+                    parallels_kwargs=(), meridians_kwargs=(), label_kwargs=()):
+    pcd = np.asfarray(pcd)
+    amplitude, phase = get_fourier_component(pcds=pcd[None], fourier_component=5)
+    x, y, z = remap_to_xyz(amplitude=amplitude, phase=phase)
+    altitude = np.arctan2(z, np.sqrt(x ** 2 + y ** 2))[0]
+    azimuth = np.arctan2(y, x)[0]
+    if r is None:
+        r = np.sqrt(x ** 2 + y ** 2, z ** 2)[0]
+    n_labels = len(labels)
+
+    traces = []
+
+    x, y, z = make_parallels(1, min_altitude=altitude) * r
+    parallels_kwargs = {**dict(mode="lines", line_color="white", hoverinfo='skip'),
+                        **grouplegend_kwargs(group, groupname, name),
+                        **dict(parallels_kwargs)}
+    traces.append(go.Scatter3d(x=x.flatten(), y=y.flatten(), z=z.flatten(), **parallels_kwargs))
+
+    x, y, z = make_meridians(n_labels, offset=azimuth) * r
+    meridians_kwargs = {**dict(mode="lines", line_color="white", hoverinfo='skip'),
+                        **grouplegend_kwargs(group, groupname, name),
+                        **dict(meridians_kwargs)}
+    traces.append(go.Scatter3d(x=x.flatten(), y=y.flatten(), z=z.flatten(), **meridians_kwargs))
+
+    x, y, z = make_parallels(1, min_altitude=altitude, resolution=n_labels + 1, offset=azimuth) * r
+    label_kwargs = {**dict(mode="markers+text", marker_color='white', marker_size=2, text=labels, hoverinfo='skip'),
+                    **grouplegend_kwargs(group, groupname, name),
+                    **dict(label_kwargs)}
+    traces.append(go.Scatter3d(x=x[0, :n_labels], y=y[0, :n_labels], z=z[0, :n_labels], **label_kwargs))
+
+    return traces
+
+
+def add_key_markers(fig, **kwargs):
+    labels = np.array([str(EnharmonicPitchClass(i)) for i in range(12)])[(np.arange(12) * 7) % 12]
+    for t in (plot_pcd_marker(pcd=KeyEstimator.profiles['albrecht']['major'],
+                              labels=[f"{l} major" for l in labels],
+                              **kwargs) +
+              plot_pcd_marker(pcd=KeyEstimator.profiles['albrecht']['minor'],
+                              labels=[f"{l} minor" for l in labels],
+                              **kwargs)):
+        fig.add_trace(t)
+
+
+def ellipse_coords(r1, r2, centre=(0, 0, 0), n=100, plane=None):
+    centre = np.asfarray(centre)
+    if plane is None:
+        r1 = np.asfarray(r1)
+        r2 = np.asfarray(r2)
+    elif plane == 'xy':
+        r1 = r1 * np.array([1, 0, 0])
+        r2 = r2 * np.array([0, 1, 0])
+    elif plane == 'xz':
+        r1 = r1 * np.array([1, 0, 0])
+        r2 = r2 * np.array([0, 0, 1])
+    elif plane == 'yz':
+        r1 = r1 * np.array([0, 1, 0])
+        r2 = r2 * np.array([0, 0, 1])
+    else:
+        raise ValueError(f"'plane' has to be 'xy', 'xz', or 'yz' but is '{plane}'")
+    assert r1.shape == (3,)
+    assert r2.shape == (3,)
+    assert centre.shape == (3,)
+    phi = np.linspace(0, 2 * np.pi, n, endpoint=False)
+    xyz = centre[:, None] + np.cos(phi)[None, :] * r1[:, None] + np.sin(phi)[None, :] * r2[:, None]
+    xyz = np.concatenate([centre[:, None], xyz], axis=1)
+    x, y, z = xyz
+    i = np.zeros(n)
+    j = np.arange(n) + 1
+    k = (np.arange(n) + 1) % n + 1
+    return x, y, z, i, j, k
+
+
+def ellipse_3d(r1, r2, centre=(0, 0, 0), n=100, plane=None, **kwargs):
+    x, y, z, i, j, k = ellipse_coords(r1=r1, r2=r2, centre=centre, n=n, plane=plane)
+    return go.Mesh3d(x=x, y=y, z=z, i=i, j=j, k=k, **kwargs)
 
 
 def main():

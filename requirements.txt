@@ -3,6 +3,7 @@ tqdm
 scipy
 librosa
 plotly
+kaleido
 pandas
 dash
 matplotlib
