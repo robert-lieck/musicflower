@@ -1,0 +1,6 @@
+musicflower.plotting.rgba\_lighter
+==================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: rgba_lighter

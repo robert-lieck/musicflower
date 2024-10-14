@@ -27,8 +27,8 @@ print(tmap.pretty())
 
 # %%
 # The functionalities include slicing at a specific level/depth (this returns *views* of the underlying storage)
-print(tmap.dslice(0))  # depth starts a 0 from the top
-print(tmap.lslice(1))  # levels start at 1 from the bottom
+print(tmap.dslice[0])  # depth starts a 0 from the top
+print(tmap.lslice[1])  # levels start at 1 from the bottom
 
 # %%
 # and slicing "skewed columns" for a specific start/end index (this returns *copies* of the underlying storage, note the

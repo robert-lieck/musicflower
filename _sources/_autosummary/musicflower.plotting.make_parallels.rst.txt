@@ -1,0 +1,6 @@
+musicflower.plotting.make\_parallels
+====================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: make_parallels

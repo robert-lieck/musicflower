@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_plot_extract_data.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_plot_extract_data.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -39,7 +39,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 
 .. GENERATED FROM PYTHON SOURCE LINES 20-33
 
-.. code-block:: default
+.. code-block:: Python
 
     import numpy as np
 
@@ -60,11 +60,9 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]     50%|#####     | 1/2 [00:00<00:00,  1.59it/s]    100%|##########| 2/2 [00:00<00:00,  3.14it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]     50%|█████     | 1/2 [00:00<00:00,  2.37it/s]    100%|██████████| 2/2 [00:00<00:00,  4.59it/s]
     (2, 1275, 12)
 
 
@@ -78,7 +76,7 @@ These data can be mapped to colours and 3D coordinates as shown in the :doc:`plo
 
 .. GENERATED FROM PYTHON SOURCE LINES 37-45
 
-.. code-block:: default
+.. code-block:: Python
 
 
     from musicflower.plotting import key_colors
@@ -93,8 +91,6 @@ These data can be mapped to colours and 3D coordinates as shown in the :doc:`plo
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -115,7 +111,7 @@ array dimension.
 
 .. GENERATED FROM PYTHON SOURCE LINES 52-58
 
-.. code-block:: default
+.. code-block:: Python
 
 
     from musicflower.util import surface_scape_indices
@@ -128,8 +124,6 @@ array dimension.
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -144,7 +138,7 @@ The triangle with a specific index can be obtained as
 
 .. GENERATED FROM PYTHON SOURCE LINES 60-67
 
-.. code-block:: default
+.. code-block:: Python
 
 
     piece = 0
@@ -159,13 +153,11 @@ The triangle with a specific index can be obtained as
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    1st vertex (i): 1.016927877403892 0.7426998034456707 0.5644950789161736
-    2nd vertex (j): 1.0026452680541689 0.7305989113488147 0.5572501208474614
-    3rd vertex (k): 0.9955507901181572 0.7374709060596941 0.560905773736201
+    1st vertex (i): 0.884285110785993 0.6458259160397136 0.490865286014064
+    2nd vertex (j): 0.869942217870529 0.6339019966114718 0.48349642838235596
+    3rd vertex (k): 0.86378671495546 0.6398644626106169 0.48666824485935084
 
 
 
@@ -176,7 +168,7 @@ or, more compactly, by concatenating coordinates and indices and using NumPy's a
 
 .. GENERATED FROM PYTHON SOURCE LINES 69-74
 
-.. code-block:: default
+.. code-block:: Python
 
 
     xyz = np.concatenate((x[..., None], y[..., None], z[..., None]), axis=-1)
@@ -189,13 +181,11 @@ or, more compactly, by concatenating coordinates and indices and using NumPy's a
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    [[1.01692788 0.7426998  0.56449508]
-     [1.00264527 0.73059891 0.55725012]
-     [0.99555079 0.73747091 0.56090577]]
+    [[0.88428511 0.64582592 0.49086529]
+     [0.86994222 0.633902   0.48349643]
+     [0.86378671 0.63986446 0.48666824]]
 
 
 
@@ -212,7 +202,7 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. GENERATED FROM PYTHON SOURCE LINES 82-89
 
-.. code-block:: default
+.. code-block:: Python
 
 
     from musicflower.util import get_time_traces
@@ -227,8 +217,6 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     (201, 50, 2, 3) (201, 50, 2, 3)
@@ -239,28 +227,26 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.731 seconds)
+   **Total running time of the script:** (0 minutes 0.522 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_extract_data.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: plot_extract_data.ipynb <plot_extract_data.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_extract_data.py <plot_extract_data.py>`
 
-     :download:`Download Python source code: plot_extract_data.py <plot_extract_data.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_extract_data.ipynb <plot_extract_data.ipynb>`
+      :download:`Download zipped: plot_extract_data.zip <plot_extract_data.zip>`
 
 
 .. only:: html

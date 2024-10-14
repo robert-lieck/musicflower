@@ -1,0 +1,55 @@
+musicflower.webapp
+==================
+
+.. automodule:: musicflower.webapp
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      advanced_chroma_visualiser_fast
+      chroma_features
+      chroma_scape_features
+      circle_of_fifths_visualiser
+      downsampler
+      fourier_features
+      fourier_visualiser
+      get_downsampler
+      heatmap_visualiser
+      keyscape
+      none_feature
+      normaliser
+      single_fourier
+      spectral_dome
+      spectrogram_features
+      tonnetz_visualiser
+      waveform_feature
+      waveform_visualiser
+   
+   
+
+   
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: custom-class-template.rst
+   
+      WebApp
+   
+   
+
+   
+   
+   
+
+
+

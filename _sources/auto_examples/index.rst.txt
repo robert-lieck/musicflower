@@ -1,9 +1,5 @@
 :orphan:
 
-
-
-.. _sphx_glr_auto_examples:
-
 MusicFlower Gallery
 ===================
 
@@ -12,14 +8,96 @@ Here are some examples of how to use the MusicFlower package.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Triangular Maps">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_triangular_maps_thumb.png
-     :alt: Triangular Maps
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_triangular_maps_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_plot_triangular_maps.py`
+  :ref:`sphx_glr_auto_examples_plot_triangular_maps.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Triangular Maps</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates time traces.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_time_traces_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_time_traces.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Time Traces</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This is a brief walk through some basic MusicFlower functionality.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_basic_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_basic_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Basic Example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This is a basic example for creating a MusicFlower web app with a custom visualiser.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_webapp_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_webapp.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Web App Example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The relevant data can be extracted as described below, for instance, if a different visualisation backend than Plotly should be used (see plot_basic_example for basic functionality).">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_extract_data_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_extract_data.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Extract Data</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
 
 .. raw:: html
 
@@ -30,90 +108,23 @@ Here are some examples of how to use the MusicFlower package.
    :hidden:
 
    /auto_examples/plot_triangular_maps
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This example illustrates time traces.">
-
-.. only:: html
-
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_time_traces_thumb.png
-     :alt: Time Traces
-
-     :ref:`sphx_glr_auto_examples_plot_time_traces.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /auto_examples/plot_time_traces
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="This is a brief walk through some basic MusicFlower functionality.">
-
-.. only:: html
-
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_basic_example_thumb.png
-     :alt: Basic Example
-
-     :ref:`sphx_glr_auto_examples_plot_basic_example.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
    /auto_examples/plot_basic_example
+   /auto_examples/plot_webapp
+   /auto_examples/plot_extract_data
 
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="The relevant data can be extracted as described below, for instance, if a different visualisati...">
 
 .. only:: html
 
- .. figure:: /auto_examples/images/thumb/sphx_glr_plot_extract_data_thumb.png
-     :alt: Extract Data
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
 
-     :ref:`sphx_glr_auto_examples_plot_extract_data.py`
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-.. raw:: html
+      :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
 
-    </div>
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/plot_extract_data
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
-
-
-
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-gallery
-
-
-  .. container:: sphx-glr-download sphx-glr-download-python
-
-    :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
-
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
+      :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

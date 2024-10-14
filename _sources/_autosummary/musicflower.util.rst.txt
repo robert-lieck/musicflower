@@ -23,9 +23,12 @@ musicflower.util
       iterable_or_repeat
       main
       remap_to_xyz
+      repeat_kwargs
       show_bezier
       start_duration
       surface_scape_indices
+      tonal_modulo
+      transpose_profiles
       trisurf
    
    

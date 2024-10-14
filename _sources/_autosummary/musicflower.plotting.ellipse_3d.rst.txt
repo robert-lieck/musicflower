@@ -1,0 +1,6 @@
+musicflower.plotting.ellipse\_3d
+================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: ellipse_3d

@@ -1,0 +1,6 @@
+musicflower.plotting.ellipse\_coords
+====================================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: ellipse_coords

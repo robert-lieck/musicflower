@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>musicflower.webapp.WebApp &mdash; MusicFlower  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="musicflower.webapp.waveform_visualiser" href="musicflower.webapp.waveform_visualiser.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MusicFlower
+              <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">MusicFlower Gallery</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="musicflower.html">musicflower</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="musicflower.istarmap.html">musicflower.istarmap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.loader.html">musicflower.loader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.plotting.html">musicflower.plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.util.html">musicflower.util</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="musicflower.webapp.html">musicflower.webapp</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.advanced_chroma_visualiser_fast.html">musicflower.webapp.advanced_chroma_visualiser_fast</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.chroma_features.html">musicflower.webapp.chroma_features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.chroma_scape_features.html">musicflower.webapp.chroma_scape_features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.circle_of_fifths_visualiser.html">musicflower.webapp.circle_of_fifths_visualiser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.downsampler.html">musicflower.webapp.downsampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.fourier_features.html">musicflower.webapp.fourier_features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.fourier_visualiser.html">musicflower.webapp.fourier_visualiser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.get_downsampler.html">musicflower.webapp.get_downsampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.heatmap_visualiser.html">musicflower.webapp.heatmap_visualiser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.keyscape.html">musicflower.webapp.keyscape</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.none_feature.html">musicflower.webapp.none_feature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.normaliser.html">musicflower.webapp.normaliser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.single_fourier.html">musicflower.webapp.single_fourier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.spectral_dome.html">musicflower.webapp.spectral_dome</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.spectrogram_features.html">musicflower.webapp.spectrogram_features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.tonnetz_visualiser.html">musicflower.webapp.tonnetz_visualiser</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.waveform_feature.html">musicflower.webapp.waveform_feature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.webapp.waveform_visualiser.html">musicflower.webapp.waveform_visualiser</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">musicflower.webapp.WebApp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MusicFlower</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="musicflower.html">musicflower</a></li>
+          <li class="breadcrumb-item"><a href="musicflower.webapp.html">musicflower.webapp</a></li>
+      <li class="breadcrumb-item active">musicflower.webapp.WebApp</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/robert-lieck/musicflower/blob/main/doc/_autosummary/musicflower.webapp.WebApp.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="musicflower-webapp-webapp">
+<h1>musicflower.webapp.WebApp<a class="headerlink" href="#musicflower-webapp-webapp" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">musicflower.webapp.</span></span><span class="sig-name descname"><span class="pre">WebApp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Data Attributes:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.major_minor_profiles" title="musicflower.webapp.WebApp.major_minor_profiles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">major_minor_profiles</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Public Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.__init__" title="musicflower.webapp.WebApp.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([verbose])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.init" title="musicflower.webapp.WebApp.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a>([title, update_title, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.check_features" title="musicflower.webapp.WebApp.check_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_features</span></code></a>(features[, n, asfarray])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.update_figure_layout" title="musicflower.webapp.WebApp.update_figure_layout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_figure_layout</span></code></a>(figure, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.position_idx" title="musicflower.webapp.WebApp.position_idx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">position_idx</span></code></a>(position, *[, n, features])</p></td>
+<td><p>For a position in [0, 1] and features of length n, compute the corresponding index in {0, ..., n - 1}.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.use_chroma_features" title="musicflower.webapp.WebApp.use_chroma_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_chroma_features</span></code></a>([n, name])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.use_chroma_scape_features" title="musicflower.webapp.WebApp.use_chroma_scape_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_chroma_scape_features</span></code></a>([name, chroma_name])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.use_fourier_features" title="musicflower.webapp.WebApp.use_fourier_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_fourier_features</span></code></a>([name, chroma_name])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.use_fourier_scape_features" title="musicflower.webapp.WebApp.use_fourier_scape_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_fourier_scape_features</span></code></a>([name, chroma_name])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.register_feature_extractor" title="musicflower.webapp.WebApp.register_feature_extractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_feature_extractor</span></code></a>(name, func)</p></td>
+<td><p>Register a feature extractor with given name that computes features from an audio file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.register_feature_remapper" title="musicflower.webapp.WebApp.register_feature_remapper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_feature_remapper</span></code></a>(remapper_name, ...)</p></td>
+<td><p>Register a feature remapper with given name that remaps the input features to a new set of features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.register_visualiser" title="musicflower.webapp.WebApp.register_visualiser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_visualiser</span></code></a>(visualiser_name, ...[, ...])</p></td>
+<td><p>Register a visualiser with given name that generates plots from the input features.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp.run" title="musicflower.webapp.WebApp.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="autoclasstoc docutils container">
+<p class="rubric">Private Methods:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._register" title="musicflower.webapp.WebApp._register"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_register</span></code></a>(key, value, registry, msg_name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._duplicate_name_check" title="musicflower.webapp.WebApp._duplicate_name_check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_duplicate_name_check</span></code></a>(name)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._init_feature_extractor_callbacks" title="musicflower.webapp.WebApp._init_feature_extractor_callbacks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_init_feature_extractor_callbacks</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._init_feature_remapper_callbacks" title="musicflower.webapp.WebApp._init_feature_remapper_callbacks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_init_feature_remapper_callbacks</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._init_visualiser_callbacks" title="musicflower.webapp.WebApp._init_visualiser_callbacks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_init_visualiser_callbacks</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._unpack_visualiser_args" title="musicflower.webapp.WebApp._unpack_visualiser_args"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_unpack_visualiser_args</span></code></a>(*args)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._file_like_from_upload_content" title="musicflower.webapp.WebApp._file_like_from_upload_content"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_file_like_from_upload_content</span></code></a>(content)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._setup_layout" title="musicflower.webapp.WebApp._setup_layout"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_setup_layout</span></code></a>(title, update_title, ...[, ...])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._setup_audio_position_sync" title="musicflower.webapp.WebApp._setup_audio_position_sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_setup_audio_position_sync</span></code></a>(sync_interval_ms, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#musicflower.webapp.WebApp._audio_element" title="musicflower.webapp.WebApp._audio_element"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_audio_element</span></code></a>(audio_file[, audio_src])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr class="docutils" />
+<dl class="py attribute">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.__annotations__">
+<span class="sig-name descname"><span class="pre">__annotations__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#musicflower.webapp.WebApp.__annotations__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.__dict__">
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'musicflower.webapp',</span> <span class="pre">'major_minor_profiles':</span> <span class="pre">array([[[0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06112224,</span> <span class="pre">0.05210421],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.02204409,</span> <span class="pre">0.06112224],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06212425,</span> <span class="pre">0.02204409],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.21442886,</span> <span class="pre">0.06212425],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01202405,</span> <span class="pre">0.21442886],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10320641,</span> <span class="pre">0.01202405],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01903808,</span> <span class="pre">0.10320641],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.12324649,</span> <span class="pre">0.01903808],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10420842,</span> <span class="pre">0.12324649],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.00601202,</span> <span class="pre">0.10420842],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.22044088,</span> <span class="pre">0.00601202],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.05210421,</span> <span class="pre">0.22044088]]]),</span> <span class="pre">'__init__':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.__init__&gt;,</span> <span class="pre">'init':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.init&gt;,</span> <span class="pre">'check_features':</span> <span class="pre">&lt;classmethod(&lt;function</span> <span class="pre">WebApp.check_features&gt;)&gt;,</span> <span class="pre">'update_figure_layout':</span> <span class="pre">&lt;classmethod(&lt;function</span> <span class="pre">WebApp.update_figure_layout&gt;)&gt;,</span> <span class="pre">'position_idx':</span> <span class="pre">&lt;classmethod(&lt;function</span> <span class="pre">WebApp.position_idx&gt;)&gt;,</span> <span class="pre">'use_chroma_features':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.use_chroma_features&gt;,</span> <span class="pre">'use_chroma_scape_features':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.use_chroma_scape_features&gt;,</span> <span class="pre">'use_fourier_features':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.use_fourier_features&gt;,</span> <span class="pre">'use_fourier_scape_features':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.use_fourier_scape_features&gt;,</span> <span class="pre">'register_feature_extractor':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.register_feature_extractor&gt;,</span> <span class="pre">'register_feature_remapper':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.register_feature_remapper&gt;,</span> <span class="pre">'register_visualiser':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.register_visualiser&gt;,</span> <span class="pre">'_register':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._register&gt;,</span> <span class="pre">'_duplicate_name_check':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._duplicate_name_check&gt;,</span> <span class="pre">'_init_feature_extractor_callbacks':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._init_feature_extractor_callbacks&gt;,</span> <span class="pre">'_init_feature_remapper_callbacks':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._init_feature_remapper_callbacks&gt;,</span> <span class="pre">'_init_visualiser_callbacks':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._init_visualiser_callbacks&gt;,</span> <span class="pre">'_unpack_visualiser_args':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._unpack_visualiser_args&gt;,</span> <span class="pre">'_file_like_from_upload_content':</span> <span class="pre">&lt;classmethod(&lt;function</span> <span class="pre">WebApp._file_like_from_upload_content&gt;)&gt;,</span> <span class="pre">'_setup_layout':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._setup_layout&gt;,</span> <span class="pre">'_setup_audio_position_sync':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._setup_audio_position_sync&gt;,</span> <span class="pre">'_audio_element':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp._audio_element&gt;,</span> <span class="pre">'run':</span> <span class="pre">&lt;function</span> <span class="pre">WebApp.run&gt;,</span> <span class="pre">'__dict__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__dict__'</span> <span class="pre">of</span> <span class="pre">'WebApp'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__weakref__':</span> <span class="pre">&lt;attribute</span> <span class="pre">'__weakref__'</span> <span class="pre">of</span> <span class="pre">'WebApp'</span> <span class="pre">objects&gt;,</span> <span class="pre">'__doc__':</span> <span class="pre">None,</span> <span class="pre">'__annotations__':</span> <span class="pre">{}})</span></em><a class="headerlink" href="#musicflower.webapp.WebApp.__dict__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.__module__">
+<span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'musicflower.webapp'</span></em><a class="headerlink" href="#musicflower.webapp.WebApp.__module__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#musicflower.webapp.WebApp.__weakref__" title="Link to this definition"></a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._audio_element">
+<span class="sig-name descname"><span class="pre">_audio_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">audio_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_src</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._audio_element"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._audio_element" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._duplicate_name_check">
+<span class="sig-name descname"><span class="pre">_duplicate_name_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._duplicate_name_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._duplicate_name_check" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._file_like_from_upload_content">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_file_like_from_upload_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._file_like_from_upload_content"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._file_like_from_upload_content" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._init_feature_extractor_callbacks">
+<span class="sig-name descname"><span class="pre">_init_feature_extractor_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._init_feature_extractor_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._init_feature_extractor_callbacks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._init_feature_remapper_callbacks">
+<span class="sig-name descname"><span class="pre">_init_feature_remapper_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._init_feature_remapper_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._init_feature_remapper_callbacks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._init_visualiser_callbacks">
+<span class="sig-name descname"><span class="pre">_init_visualiser_callbacks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._init_visualiser_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._init_visualiser_callbacks" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._register">
+<span class="sig-name descname"><span class="pre">_register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">registry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">msg_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._register" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._setup_audio_position_sync">
+<span class="sig-name descname"><span class="pre">_setup_audio_position_sync</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sync_interval_ms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idle_interval_ms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sync_before_idle</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._setup_audio_position_sync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._setup_audio_position_sync" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._setup_layout">
+<span class="sig-name descname"><span class="pre">_setup_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idle_interval_ms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_stylesheets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure_height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._setup_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._setup_layout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp._unpack_visualiser_args">
+<span class="sig-name descname"><span class="pre">_unpack_visualiser_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp._unpack_visualiser_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp._unpack_visualiser_args" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.check_features">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asfarray</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.check_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.check_features" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.init">
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MusicFlower'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sync_interval_ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idle_interval_ms</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sync_before_idle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">audio_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_stylesheets</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suppress_flask_logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_debug_display_toggles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dash_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.init" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong></p></li>
+<li><p><strong>update_title</strong></p></li>
+<li><p><strong>sync_interval_ms</strong></p></li>
+<li><p><strong>idle_interval_ms</strong></p></li>
+<li><p><strong>n_sync_before_idle</strong></p></li>
+<li><p><strong>audio_file</strong></p></li>
+<li><p><strong>external_stylesheets</strong></p></li>
+<li><p><strong>name</strong></p></li>
+<li><p><strong>suppress_flask_logger</strong> – suppress extensive logging, only show errors</p></li>
+<li><p><strong>figure_width</strong></p></li>
+<li><p><strong>figure_height</strong></p></li>
+<li><p><strong>_debug_display_toggles</strong></p></li>
+<li><p><strong>dash_kwargs</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.major_minor_profiles">
+<span class="sig-name descname"><span class="pre">major_minor_profiles</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">array([[[0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.111</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.006</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.137</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.094</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.016</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.214</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.009</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.08</span>&#160;&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.008</span>&#160;&#160;&#160;&#160; <span class="pre">,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.081</span>&#160;&#160;&#160;&#160; <span class="pre">,</span> <span class="pre">0.238</span>&#160;&#160;&#160;&#160; <span class="pre">]],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[[0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06112224,</span> <span class="pre">0.05210421],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.02204409,</span> <span class="pre">0.06112224],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06212425,</span> <span class="pre">0.02204409],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.21442886,</span> <span class="pre">0.06212425],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01202405,</span> <span class="pre">0.21442886],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10320641,</span> <span class="pre">0.01202405],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01903808,</span> <span class="pre">0.10320641],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span> <span class="pre">0.10420842,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.12324649,</span> <span class="pre">0.01903808],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span> <span class="pre">0.00601202,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.10420842,</span> <span class="pre">0.12324649],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span> <span class="pre">0.22044088,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.00601202,</span> <span class="pre">0.10420842],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span> <span class="pre">0.01202405,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span> <span class="pre">0.05210421,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.22044088,</span> <span class="pre">0.00601202],</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">[0.00601202,</span> <span class="pre">0.10420842,</span> <span class="pre">0.12324649,</span> <span class="pre">0.01903808,</span> <span class="pre">0.10320641,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.01202405,</span> <span class="pre">0.21442886,</span> <span class="pre">0.06212425,</span> <span class="pre">0.02204409,</span> <span class="pre">0.06112224,</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">0.05210421,</span> <span class="pre">0.22044088]]])</span></em><a class="headerlink" href="#musicflower.webapp.WebApp.major_minor_profiles" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.position_idx">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">position_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.position_idx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.position_idx" title="Link to this definition"></a></dt>
+<dd><p>For a position in [0, 1] and features of length n, compute the corresponding index in {0, …, n - 1}.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>position</strong> – number in [0, 1]</p></li>
+<li><p><strong>n</strong> – length of features</p></li>
+<li><p><strong>features</strong> – features to compute n as len(features)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>index</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.register_feature_extractor">
+<span class="sig-name descname"><span class="pre">register_feature_extractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.register_feature_extractor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.register_feature_extractor" title="Link to this definition"></a></dt>
+<dd><p>Register a feature extractor with given name that computes features from an audio file. The returned features
+are converted to json and stored on the client side. They can be reused by feature remappers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – unique name of this feature extractor</p></li>
+<li><p><strong>func</strong> – a callable that takes one ‘audio’ key-word argument (containing the audio content as a BytesIO
+object, i.e., as if the audio file had been opened using <cite>open</cite> ) and returns the extracted features in a
+format that can be converted to json (e.g. nested lists)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.register_feature_remapper">
+<span class="sig-name descname"><span class="pre">register_feature_remapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remapper_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.register_feature_remapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.register_feature_remapper" title="Link to this definition"></a></dt>
+<dd><p>Register a feature remapper with given name that remaps the input features to a new set of features. Input
+features are retrieved from the client side in json format, so only basic data types are available (e.g.
+arrays are stored as lists).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remapper_name</strong> – unique name of this feature remapper</p></li>
+<li><p><strong>feature_names</strong> – iterable with names of the input features to be used</p></li>
+<li><p><strong>func</strong> – a callable that takes one ‘features’ key-word argument (containing the input features) and
+returns the new feature in a format that can be converted to json (e.g. nested lists)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.register_visualiser">
+<span class="sig-name descname"><span class="pre">register_visualiser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">visualiser_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.register_visualiser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.register_visualiser" title="Link to this definition"></a></dt>
+<dd><p>Register a visualiser with given name that generates plots from the input features. Feature values are
+retrieved from the client side in json format, so only basic data types are available (e.g. arrays are stored
+as lists).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>visualiser_name</strong> – unique name of this visualiser</p></li>
+<li><p><strong>feature_names</strong> – iterable with names of the input features to be used</p></li>
+<li><p><strong>func</strong> – a callable that takes two key-word arguments, ‘features’ and ‘position’, (containing the input
+features and the current normalised audio position in the interval [0, 1]) and returns a figure (or dict,
+depending on ‘update’)</p></li>
+<li><p><strong>update</strong> – this argument can be used to avoid expensive computations that only need to be done once when
+the figure is set up. If ‘update’ is False (default), ‘func’ is expected to always return a complete Plotly
+figure at each call; if ‘update’ is True, ‘func’ should behave differently depending on whether the
+‘position’ argument is None or a valid position: If ‘position’ is None, ‘func’ should return an entire Plotly
+figure, which is used to initialise the graph; if ‘position’ is not None (i.e. it is a valid position in [0,
+1]), ‘func’ should return a list of dictionaries containing updates for the single traces of the existing
+figure, in particular, the ‘data’ entry of the existing figure is a list of dictionaries defining separate
+traces and each trace will be updated with the corresponding data returned by ‘func’ (using <cite>new_trace = {
+**old_trace, **update}</cite> so if a key exists in <cite>old_trace</cite> but not in <cite>update</cite>, the old values are retained).
+A typical use case would be to dynamically update the x/y location of a marker while keeping the background
+static. Importantly, in order to update a trace, it has to be present in the initial figure (possibly using
+empty coordinates, to avoid plotting anything). The number of returned dicts must be the same as in the
+number of traces in the initial figure (empty dicts should be used for traces that remain unchanged); also
+the layout is determined by the initial figure as only the trace data is modified.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.run" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.update_figure_layout">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">update_figure_layout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">figure</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.update_figure_layout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.update_figure_layout" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.use_chroma_features">
+<span class="sig-name descname"><span class="pre">use_chroma_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chroma-features'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.use_chroma_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.use_chroma_features" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.use_chroma_scape_features">
+<span class="sig-name descname"><span class="pre">use_chroma_scape_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'chroma-scape-features'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chroma_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.use_chroma_scape_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.use_chroma_scape_features" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.use_fourier_features">
+<span class="sig-name descname"><span class="pre">use_fourier_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fourier-features'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chroma_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.use_fourier_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.use_fourier_features" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="musicflower.webapp.WebApp.use_fourier_scape_features">
+<span class="sig-name descname"><span class="pre">use_fourier_scape_features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fourier-scape-features'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chroma_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/webapp.html#WebApp.use_fourier_scape_features"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.webapp.WebApp.use_fourier_scape_features" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="musicflower.webapp.waveform_visualiser.html" class="btn btn-neutral float-left" title="musicflower.webapp.waveform_visualiser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

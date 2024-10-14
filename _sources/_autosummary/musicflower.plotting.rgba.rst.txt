@@ -1,0 +1,6 @@
+musicflower.plotting.rgba
+=========================
+
+.. currentmodule:: musicflower.plotting
+
+.. autofunction:: rgba

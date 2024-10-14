@@ -28,8 +28,9 @@
    :template: custom-module-template.rst
    :recursive:
 
-   musicflower.istarmap
-   musicflower.loader
-   musicflower.plotting
-   musicflower.util
+   istarmap
+   loader
+   plotting
+   util
+   webapp
 

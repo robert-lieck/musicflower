@@ -1,24 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>musicflower.loader &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -29,12 +30,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../../index.html" class="icon icon-home"> MusicFlower
-            <img src="../../_static/logo_96.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MusicFlower
+              <img src="../../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -59,9 +64,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>musicflower.loader</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">musicflower.loader</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -77,6 +82,8 @@
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
 
 <span class="kn">from</span> <span class="nn">musicflower</span> <span class="kn">import</span> <span class="n">istarmap</span> <span class="c1"># patch Pool</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
@@ -92,8 +99,10 @@
 <span class="kn">from</span> <span class="nn">triangularmap</span> <span class="kn">import</span> <span class="n">TMap</span>
 
 
-<div class="viewcode-block" id="get_cache_file_path"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.get_cache_file_path.html#musicflower.loader.get_cache_file_path">[docs]</a><span class="k">def</span> <span class="nf">get_cache_file_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">remove_extension</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="get_cache_file_path">
+<a class="viewcode-back" href="../../_autosummary/musicflower.loader.get_cache_file_path.html#musicflower.loader.get_cache_file_path">[docs]</a>
+<span class="k">def</span> <span class="nf">get_cache_file_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">],</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">remove_extension</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    For a given file path and resolution, return the associated cache file path, which corresponds to the original file</span>
 <span class="sd">    path appended with `_&lt;n&gt;.pickle`, where `&lt;n&gt;` is replaced with the actual resolution.</span>
 
@@ -107,23 +116,35 @@
     <span class="k">if</span> <span class="n">remove_extension</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">file_path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_n</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">.pickle&quot;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">file_path</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_n</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">.pickle&quot;</span></div>
+        <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_n</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">.pickle&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="audio_scape"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.audio_scape.html#musicflower.loader.audio_scape">[docs]</a><span class="k">def</span> <span class="nf">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="n">top_down</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="audio_scape">
+<a class="viewcode-back" href="../../_autosummary/musicflower.loader.audio_scape.html#musicflower.loader.audio_scape">[docs]</a>
+<span class="k">def</span> <span class="nf">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">raw_chroma</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="n">top_down</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute a pitch scape from audio data.</span>
 
 <span class="sd">    :param n_time_intervals: number of time intervals</span>
 <span class="sd">    :param data: path to file or a tuple with audio data (passed on to :func:`~musicflower.loader.get_chroma`)</span>
+<span class="sd">    :param raw_chroma: pre-extracted raw chroma (ignore data)</span>
 <span class="sd">    :param normalise: normalise the pitch class distributions</span>
 <span class="sd">    :param top_down: use top-down order</span>
 <span class="sd">    :param kwargs: kwargs passed on to the :func:`~musicflower.loader.get_chroma` function</span>
 <span class="sd">    :return: array with pitch scape</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get chroma</span>
-    <span class="n">raw_chroma</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">raw_chroma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">raw_chroma</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;data&#39; was provided but will be ignored because &#39;raw_chroma&#39; was also provided&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
     <span class="n">n_bins</span> <span class="o">=</span> <span class="n">raw_chroma</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="c1"># sum over specified time intervals</span>
     <span class="n">chroma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_time_intervals</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
@@ -142,16 +163,19 @@
     <span class="n">flattened</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">scape</span><span class="p">)))</span>
     <span class="c1"># change to ordering used by pitchscapes library</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">top_down</span><span class="p">:</span>
-        <span class="n">flattened</span> <span class="o">=</span> <span class="n">flattened</span><span class="p">[</span><span class="n">TMap</span><span class="o">.</span><span class="n">get_reindex_start_end_from_top_down</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size1d</span><span class="p">(</span><span class="n">flattened</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="o">...</span><span class="p">]</span>
+        <span class="n">flattened</span> <span class="o">=</span> <span class="n">flattened</span><span class="p">[</span><span class="n">TMap</span><span class="o">.</span><span class="n">get_reindex_from_top_down_to_start_end</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size</span><span class="p">(</span><span class="n">flattened</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="o">...</span><span class="p">]</span>
     <span class="c1"># normalise</span>
     <span class="k">if</span> <span class="n">normalise</span><span class="p">:</span>
         <span class="n">flattened</span> <span class="o">/=</span> <span class="n">flattened</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">flattened</span></div>
 
 
-<div class="viewcode-block" id="load_file"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_file.html#musicflower.loader.load_file">[docs]</a><span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">recompute_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">audio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+
+<div class="viewcode-block" id="load_file">
+<a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_file.html#musicflower.loader.load_file">[docs]</a>
+<span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">recompute_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">audio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">audio_ext</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;.mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;.ogg&quot;</span><span class="p">),</span> <span class="n">top_down</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads a single file and computes its pitch scape with resolution *n*.</span>
 
 <span class="sd">    :param data: path to file or a tuple with audio data (see :func:`~musicflower.loader.get_chroma`)</span>
@@ -208,7 +232,7 @@
                              <span class="sa">f</span><span class="s2">&quot;    cache file: </span><span class="si">{</span><span class="n">cached_kwargs</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
                              <span class="sa">f</span><span class="s2">&quot;Use recompute_cache=True to recompute and overwrite&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">audio</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">audio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">audio_ext</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">audio</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">audio</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">audio_ext</span><span class="p">)):</span>
             <span class="n">pdc</span> <span class="o">=</span> <span class="n">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="o">=</span><span class="n">n</span><span class="p">,</span>
                               <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
                               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -221,22 +245,25 @@
                 <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">((</span><span class="n">pdc</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span> <span class="n">cache_file</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">top_down</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pdc</span><span class="p">[</span><span class="n">TMap</span><span class="o">.</span><span class="n">get_reindex_top_down_from_start_end</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size1d</span><span class="p">(</span><span class="n">pdc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="o">...</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pdc</span><span class="p">[</span><span class="n">TMap</span><span class="o">.</span><span class="n">get_reindex_from_start_end_to_top_down</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size</span><span class="p">(</span><span class="n">pdc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span> <span class="o">...</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pdc</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_parallel_load_file_wrapper</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper for parallelisation; takes kwargs provided as dict and unpacks them when calling</span>
 <span class="sd">    :meth:`~musicflower.loader.load_file`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">file_name</span><span class="p">,</span> <span class="n">load_file</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="load_corpus"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_corpus.html#musicflower.loader.load_corpus">[docs]</a><span class="k">def</span> <span class="nf">load_corpus</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parallel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sort_func</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+<div class="viewcode-block" id="load_corpus">
+<a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_corpus.html#musicflower.loader.load_corpus">[docs]</a>
+<span class="k">def</span> <span class="nf">load_corpus</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parallel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sort_func</span><span class="p">:</span> <span class="nb">callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is essentially a wrapper for parallelisation around the :meth:`~musicflower.loader.load_file` function, which</span>
 <span class="sd">    computes pitch scapes for a set of files.</span>
 
@@ -271,10 +298,13 @@
     <span class="k">return</span> <span class="n">final_array</span><span class="p">,</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="get_chroma"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.get_chroma.html#musicflower.loader.get_chroma">[docs]</a><span class="k">def</span> <span class="nf">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">cqt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">normal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">harm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-               <span class="nb">filter</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">asdict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="n">librosa</span><span class="o">.</span><span class="n">load</span>
-               <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="get_chroma">
+<a class="viewcode-back" href="../../_autosummary/musicflower.loader.get_chroma.html#musicflower.loader.get_chroma">[docs]</a>
+<span class="k">def</span> <span class="nf">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">cqt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">normal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">harm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+               <span class="nb">filter</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">asdict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+               <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get chroma features from audio data.</span>
 
 <span class="sd">    :param data: a path to an audio file, which is loaded using librosa&#39;s</span>
@@ -288,7 +318,8 @@
 <span class="sd">    :param smooth: apply a horizontal median filter (after non-local filtering)</span>
 <span class="sd">    :param asdict: return results as a dict (keys are &#39;cqt&#39;, &#39;normal&#39;, &#39;harm&#39;, &#39;filter&#39;, &#39;smooth&#39;)</span>
 <span class="sd">    :param loader: the loader to use (defaults to librosa.load)</span>
-<span class="sd">    :return: tuple or dict with results (cqt/normal/harm/filter/smooth as specified)</span>
+<span class="sd">    :param kwargs: kwargs passed to the cqt calls (librosa.cqt and/or librosa.feature.chroma_cqt)</span>
+<span class="sd">    :return: tuple, dict, or Numpy array with results (cqt/normal/harm/filter/smooth as specified)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># adapted from https://librosa.org/doc/main/auto_examples/plot_chroma.html</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># collect return values</span>
@@ -299,15 +330,15 @@
         <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">loader</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="c1"># CQT matrix</span>
     <span class="k">if</span> <span class="n">cqt</span><span class="p">:</span>
-        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;cqt&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">7</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))))</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;cqt&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">7</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))))</span>
     <span class="c1"># original chroma</span>
     <span class="k">if</span> <span class="n">normal</span><span class="p">:</span>
-        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)))</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)))</span>
     <span class="c1"># improvements</span>
     <span class="k">if</span> <span class="n">harm</span> <span class="ow">or</span> <span class="nb">filter</span> <span class="ow">or</span> <span class="n">smooth</span><span class="p">:</span>
         <span class="c1"># isolating harmonic component</span>
         <span class="n">y_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">harmonic</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-        <span class="n">chroma_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y_harm</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+        <span class="n">chroma_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y_harm</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">harm</span><span class="p">:</span>
             <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;harm&#39;</span><span class="p">,</span> <span class="n">chroma_harm</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">filter</span> <span class="ow">or</span> <span class="n">smooth</span><span class="p">:</span>
@@ -331,7 +362,10 @@
             <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ret</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="plot_chroma_comparison"><a class="viewcode-back" href="../../_autosummary/musicflower.loader.plot_chroma_comparison.html#musicflower.loader.plot_chroma_comparison">[docs]</a><span class="k">def</span> <span class="nf">plot_chroma_comparison</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+
+<div class="viewcode-block" id="plot_chroma_comparison">
+<a class="viewcode-back" href="../../_autosummary/musicflower.loader.plot_chroma_comparison.html#musicflower.loader.plot_chroma_comparison">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_chroma_comparison</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
     <span class="n">cqt</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
@@ -350,6 +384,7 @@
     <span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">smooth</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;chroma&#39;</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="n">ax</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Processed&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
+
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>

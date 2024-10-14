@@ -1,0 +1,6 @@
+musicflower.webapp.none\_feature
+================================
+
+.. currentmodule:: musicflower.webapp
+
+.. autofunction:: none_feature

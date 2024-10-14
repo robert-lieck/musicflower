@@ -1,0 +1,6 @@
+musicflower.util.tonal\_modulo
+==============================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: tonal_modulo

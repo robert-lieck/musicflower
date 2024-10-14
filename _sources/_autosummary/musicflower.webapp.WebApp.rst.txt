@@ -1,0 +1,14 @@
+musicflower.webapp.WebApp
+=========================
+
+.. currentmodule:: musicflower.webapp
+
+.. autoclass:: WebApp
+   :members:
+   :undoc-members:
+   :special-members:
+   :private-members:
+   :inherited-members:
+   :show-inheritance:
+
+   .. autoclasstoc::

@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_plot_triangular_maps.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_plot_triangular_maps.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -29,7 +29,7 @@ contains a total number of :math:`n(n+1)/2` pitch-class distributions.
 
 .. GENERATED FROM PYTHON SOURCE LINES 10-16
 
-.. code-block:: default
+.. code-block:: Python
 
     from musicflower.loader import load_file
     resolution = 10
@@ -43,9 +43,11 @@ contains a total number of :math:`n(n+1)/2` pitch-class distributions.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
+
+    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/music21/stream/base.py:3694: Music21DeprecationWarning:
+
+    .flat is deprecated.  Call .flatten() instead
 
     (55, 12)
     55.0
@@ -63,7 +65,7 @@ For multidimensional arrays, the first dimension is assumed to represent the tri
 
 .. GENERATED FROM PYTHON SOURCE LINES 22-28
 
-.. code-block:: default
+.. code-block:: Python
 
 
     from triangularmap import TMap
@@ -77,15 +79,13 @@ For multidimensional arrays, the first dimension is assumed to represent the tri
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-         ╱╲
-        ╱ 0╲
-       ╱╲  ╱╲
-      ╱ 1╲╱ 2╲
-     ╱╲  ╱╲  ╱╲
+         ╱╲     
+        ╱ 0╲    
+       ╱╲  ╱╲   
+      ╱ 1╲╱ 2╲  
+     ╱╲  ╱╲  ╱╲ 
     ╱ 3╲╱ 4╲╱ 5╲
 
 
@@ -97,18 +97,16 @@ The functionalities include slicing at a specific level/depth (this returns *vie
 
 .. GENERATED FROM PYTHON SOURCE LINES 30-33
 
-.. code-block:: default
+.. code-block:: Python
 
-    print(tmap.dslice(0))  # depth starts a 0 from the top
-    print(tmap.lslice(1))  # levels start at 1 from the bottom
+    print(tmap.dslice[0])  # depth starts a 0 from the top
+    print(tmap.lslice[1])  # levels start at 1 from the bottom
 
 
 
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -127,7 +125,7 @@ end-slices)
 
 .. GENERATED FROM PYTHON SOURCE LINES 38-40
 
-.. code-block:: default
+.. code-block:: Python
 
     print(tmap.sslice[0])  # start indices run from 0 to n - 1
     print(tmap.eslice[3])  # end indices run from 1 to n
@@ -136,8 +134,6 @@ end-slices)
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -150,28 +146,26 @@ end-slices)
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.504 seconds)
+   **Total running time of the script:** (0 minutes 0.360 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_triangular_maps.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: plot_triangular_maps.ipynb <plot_triangular_maps.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: plot_triangular_maps.py <plot_triangular_maps.py>`
 
-     :download:`Download Python source code: plot_triangular_maps.py <plot_triangular_maps.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_triangular_maps.ipynb <plot_triangular_maps.ipynb>`
+      :download:`Download zipped: plot_triangular_maps.zip <plot_triangular_maps.zip>`
 
 
 .. only:: html

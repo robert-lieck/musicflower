@@ -1,0 +1,6 @@
+musicflower.util.transpose\_profiles
+====================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: transpose_profiles

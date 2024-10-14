@@ -1,0 +1,6 @@
+musicflower.util.repeat\_kwargs
+===============================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: repeat_kwargs

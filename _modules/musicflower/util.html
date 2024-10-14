@@ -1,24 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>musicflower.util &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/sg_gallery-rendered-html.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -29,12 +30,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../../index.html" class="icon icon-home"> MusicFlower
-            <img src="../../_static/logo_96.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MusicFlower
+              <img src="../../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -59,9 +64,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>musicflower.util</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">musicflower.util</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -75,6 +80,7 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">repeat</span>
+<span class="kn">import</span> <span class="nn">math</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
@@ -83,33 +89,52 @@
 <span class="kn">from</span> <span class="nn">triangularmap</span> <span class="kn">import</span> <span class="n">TMap</span>
 
 
-<div class="viewcode-block" id="get_fourier_component"><a class="viewcode-back" href="../../_autosummary/musicflower.util.get_fourier_component.html#musicflower.util.get_fourier_component">[docs]</a><span class="k">def</span> <span class="nf">get_fourier_component</span><span class="p">(</span><span class="n">pcds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fourier_component</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute the amplitude and phase of a specific Fourier component.</span>
+<span class="n">rad_to_deg</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
-<span class="sd">    :param pcds: array of arbitrary shape, the Fourier transform is computed along the last dimension</span>
-<span class="sd">    :param fourier_component: component of the Fourier transform to extract (must not be larger than the last dimension</span>
-<span class="sd">     of `pcds`)</span>
-<span class="sd">    :return: amplitude, phase (arrays of same shape as `pcds` without the last dimension)</span>
+
+<div class="viewcode-block" id="get_fourier_component">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.get_fourier_component.html#musicflower.util.get_fourier_component">[docs]</a>
+<span class="k">def</span> <span class="nf">get_fourier_component</span><span class="p">(</span><span class="n">pcds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fourier_component</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the amplitude and phase of one or all Fourier components of a real-valued input.</span>
+
+<span class="sd">    :param pcds: array of arbitrary shape `(..., n)` with pitch-class distributions of size n along the last dimension,</span>
+<span class="sd">     along which the Fourier transform is computed using `numpy.fft.rfft`.</span>
+<span class="sd">    :param fourier_component: None (default) to return all components or int specifying the component to return (must</span>
+<span class="sd">     not be larger than ` n//2`)</span>
+<span class="sd">    :return:  array of shape (2, ..., n//2 + 1) with amplitude and phase along the first dimension and the different</span>
+<span class="sd">     Fourier components along the last dimension</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">pcds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))[</span><span class="o">...</span><span class="p">,</span> <span class="n">fourier_component</span><span class="p">]</span>
-    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">pcds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))[</span><span class="o">...</span><span class="p">,</span> <span class="n">fourier_component</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">phase</span></div>
+    <span class="n">pcds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">pcds</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">pcds</span> <span class="o">/=</span> <span class="n">pcds</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">pcds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fourier_component</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">ft</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">fourier_component</span><span class="p">]</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ft</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">amplitude</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">phase</span><span class="p">[</span><span class="kc">None</span><span class="p">]])</span></div>
 
 
-<div class="viewcode-block" id="start_duration"><a class="viewcode-back" href="../../_autosummary/musicflower.util.start_duration.html#musicflower.util.start_duration">[docs]</a><span class="k">def</span> <span class="nf">start_duration</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+
+<div class="viewcode-block" id="start_duration">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.start_duration.html#musicflower.util.start_duration">[docs]</a>
+<span class="k">def</span> <span class="nf">start_duration</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="n">start</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">duration</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="n">start</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
-        <span class="n">duration</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">-</span> <span class="n">idx</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+        <span class="n">duration</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">start</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="remap_to_xyz"><a class="viewcode-back" href="../../_autosummary/musicflower.util.remap_to_xyz.html#musicflower.util.remap_to_xyz">[docs]</a><span class="k">def</span> <span class="nf">remap_to_xyz</span><span class="p">(</span><span class="n">amplitude</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">inner_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">inverted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-                 <span class="n">spherical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">rescale_func</span><span class="p">:</span> <span class="n">callable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="remap_to_xyz">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.remap_to_xyz.html#musicflower.util.remap_to_xyz">[docs]</a>
+<span class="k">def</span> <span class="nf">remap_to_xyz</span><span class="p">(</span><span class="n">amplitude</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">inner_radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">inverted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">spherical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">rescale_func</span><span class="p">:</span> <span class="nb">callable</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">theta_r</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">scape2D</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Map a triangular map with amplitudes and phases to 3D space. The `axis` representing the triangular map must have a</span>
 <span class="sd">    size of :math:`k=n(n+1)/2` for some integer :math:`n` to represent a valid triangular map (:math:`n` is the</span>
 <span class="sd">    resolution of the triangular map). The default is `axis=-1`, that is, the last axis.</span>
@@ -124,6 +149,8 @@
 <span class="sd">    :param rescale_func: function to rescale amplitudes; this should monotonically rescale the interval :math:`[0, 1]`;</span>
 <span class="sd">     the default uses np.sqrt, which distorts towards high amplitudes, i.e., it &quot;opens up the top of the flower&quot;.</span>
 <span class="sd">    :param axis: axis of the input arrays that represents the triangular map</span>
+<span class="sd">    :param theta_r: also return theta an r if spherical=True</span>
+<span class="sd">    :param scape2D: map to a conventional 2D scape plot in the x-y-plane instead</span>
 <span class="sd">    :return: x, y, z: 1D arrays of length :math:`k` containing the Cartesian coordinates.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># check shapes</span>
@@ -132,39 +159,55 @@
     <span class="c1"># rescale</span>
     <span class="k">if</span> <span class="n">rescale_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">amplitude</span> <span class="o">=</span> <span class="n">rescale_func</span><span class="p">(</span><span class="n">amplitude</span><span class="p">)</span>
-    <span class="c1"># get the durations</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">start_duration</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size1d</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]))</span>
-    <span class="c1"># convert to radial component</span>
-    <span class="k">if</span> <span class="n">inverted</span><span class="p">:</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">duration</span><span class="p">)</span> <span class="o">+</span> <span class="n">inner_radius</span>
+    <span class="c1"># get start and duration of points</span>
+    <span class="n">start</span><span class="p">,</span> <span class="n">duration</span> <span class="o">=</span> <span class="n">start_duration</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]))</span>
+    <span class="c1"># 2D or 3D</span>
+    <span class="k">if</span> <span class="n">scape2D</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="n">duration</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">duration</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">radius</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="n">inner_radius</span>
-    <span class="c1"># adapt shape for broadcasting</span>
-    <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
-    <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-    <span class="c1"># compute Cartesian coordinates</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
-    <span class="k">if</span> <span class="n">spherical</span><span class="p">:</span>
-        <span class="c1"># theta is the angle from the horizontal plane to the zenith</span>
-        <span class="c1"># --&gt; map amplitude in [0, 1] to theta in [pi/2, 0]</span>
-        <span class="c1"># i.e. an amplitude of zero corresponds to theta=pi/2 (zenith)</span>
-        <span class="c1"># an amplitude of one corresponds to theta=0 (horizontal plane)</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">amplitude</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
-        <span class="n">x</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">amplitude</span>
-    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span></div>
+        <span class="c1"># convert to radial component</span>
+        <span class="k">if</span> <span class="n">inverted</span><span class="p">:</span>
+            <span class="n">radius</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">duration</span><span class="p">)</span> <span class="o">+</span> <span class="n">inner_radius</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">radius</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">+</span> <span class="n">inner_radius</span>
+        <span class="c1"># adapt shape for broadcasting</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">radius</span><span class="p">)</span>
+        <span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        <span class="c1"># compute Cartesian coordinates</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phase</span><span class="p">)</span> <span class="o">*</span> <span class="n">radius</span>
+        <span class="k">if</span> <span class="n">spherical</span><span class="p">:</span>
+            <span class="c1"># theta is the angle from the horizontal plane to the zenith</span>
+            <span class="c1"># --&gt; map amplitude in [0, 1] to theta in [pi/2, 0]</span>
+            <span class="c1"># i.e. an amplitude of zero corresponds to theta=pi/2 (zenith)</span>
+            <span class="c1"># an amplitude of one corresponds to theta=0 (horizontal plane)</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">amplitude</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">x</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">theta_r</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">radius</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">amplitude</span>
+            <span class="k">if</span> <span class="n">theta_r</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Can only return theta and r for spherical=True&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span></div>
 
 
-<div class="viewcode-block" id="get_time_traces"><a class="viewcode-back" href="../../_autosummary/musicflower.util.get_time_traces.html#musicflower.util.get_time_traces">[docs]</a><span class="k">def</span> <span class="nf">get_time_traces</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-                    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along rows. The</span>
-<span class="sd">    input arrays can have an arbitrary number of additional batch dimensions.</span>
+
+<div class="viewcode-block" id="get_time_traces">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.get_time_traces.html#musicflower.util.get_time_traces">[docs]</a>
+<span class="k">def</span> <span class="nf">get_time_traces</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">times</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute `n_steps` + 1 traces that run from the top of the triangular map to its bottom by interpolating along</span>
+<span class="sd">    rows. The input arrays can have an arbitrary number of additional batch dimensions.</span>
 
 <span class="sd">    Each trace has the same number of points as there are rows in the triangular map. As time runs from 0 to 1, the</span>
 <span class="sd">    points run from left to right along the rows, interpolating linearly between points.</span>
@@ -173,7 +216,8 @@
 <span class="sd">    :param y: array with y-coordinates</span>
 <span class="sd">    :param z: array with z-coordinates</span>
 <span class="sd">    :param colors: array with RGB colours (last dimension must correspond to colours and have size 3)</span>
-<span class="sd">    :param n_steps: create `n_steps` + 1 traces from time 0 to time 1</span>
+<span class="sd">    :param n_steps: create `n_steps` + 1 traces from time 0 to time 1 (instead of using explicit ``times``)</span>
+<span class="sd">    :param times: array with values in [0, 1]; create traces for these times (instead of ``n_steps`` equally spaced)</span>
 <span class="sd">    :param axis: Axis of the input arrays that corresponds to the triangular map. It must have a compatible length (i.e.</span>
 <span class="sd">     a length of :math:`n(n+1)/2` for some integer :math:`n`).</span>
 <span class="sd">    :return: xyz, colors: two arrays of shape (n_steps + 1, n, ..., 3) with xyz-coordinates and colours, where `...`</span>
@@ -182,6 +226,12 @@
     <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">assert</span> <span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">n_steps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">);</span> <span class="s2">&quot;exactly one of &#39;n_steps&#39; or &#39;times&#39; has to be provided&quot;</span>
+    <span class="k">if</span> <span class="n">n_steps</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">n_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">times</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">z</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">axis</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">xyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -196,17 +246,20 @@
         <span class="k">for</span> <span class="n">arr</span><span class="p">,</span> <span class="n">arr_out</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">xyz</span><span class="p">,</span> <span class="n">xyz_out</span><span class="p">),</span> <span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">colors_out</span><span class="p">)]:</span>
             <span class="c1"># for i in range(3):</span>
             <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">arr_out</span><span class="p">[:,</span> <span class="n">depth</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">(</span><span class="n">depth</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="n">arr_out</span><span class="p">[:,</span> <span class="n">depth</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">arr_out</span><span class="p">[:,</span> <span class="n">depth</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                                                              <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">(</span><span class="n">depth</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="p">:],</span>
+                                                              <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="p">:],</span>
                                                               <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                                              <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+                                                              <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">times</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xyz_out</span><span class="p">,</span> <span class="n">colors_out</span></div>
 
 
-<div class="viewcode-block" id="trisurf"><a class="viewcode-back" href="../../_autosummary/musicflower.util.trisurf.html#musicflower.util.trisurf">[docs]</a><span class="k">def</span> <span class="nf">trisurf</span><span class="p">(</span><span class="n">triangles</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="trisurf">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.trisurf.html#musicflower.util.trisurf">[docs]</a>
+<span class="k">def</span> <span class="nf">trisurf</span><span class="p">(</span><span class="n">triangles</span><span class="p">,</span> <span class="n">decimals</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a Nx3x3 array of N triangles in 3D space, defined via their corners, into x, y, z coordinate arrays, and</span>
 <span class="sd">    i, j, k index arrays as used by Plotly&#39;s Mesh3d function. Additionally, a return index r is return that can be used</span>
 <span class="sd">    to reconstruct information associated  with the original points.</span>
@@ -238,8 +291,11 @@
             <span class="n">return_index</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="surface_scape_indices"><a class="viewcode-back" href="../../_autosummary/musicflower.util.surface_scape_indices.html#musicflower.util.surface_scape_indices">[docs]</a><span class="k">def</span> <span class="nf">surface_scape_indices</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="surface_scape_indices">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.surface_scape_indices.html#musicflower.util.surface_scape_indices">[docs]</a>
+<span class="k">def</span> <span class="nf">surface_scape_indices</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return `i`, `j`, `k` point indices for triangles spanned between points of a triangular map.</span>
 
 <span class="sd">    A triangular map of resolution :math:`n=4` has :math:`n(n+1)/2=10` points (left), which define</span>
@@ -272,45 +328,84 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;If an array is provided for &#39;n&#39;, &#39;axis&#39; has to be specified, too.&quot;</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size1d</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">TMap</span><span class="o">.</span><span class="n">n_from_size</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
     <span class="c1"># get TMap of point indices</span>
-    <span class="n">index_map</span> <span class="o">=</span> <span class="n">TMap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">size1d_from_n</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+    <span class="n">index_map</span> <span class="o">=</span> <span class="n">TMap</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">TMap</span><span class="o">.</span><span class="n">size_from_n</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
     <span class="c1"># iterate through rows and construct triangles</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-        <span class="n">a_slice</span> <span class="o">=</span> <span class="n">index_map</span><span class="o">.</span><span class="n">dslice</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-        <span class="n">b_slice</span> <span class="o">=</span> <span class="n">index_map</span><span class="o">.</span><span class="n">dslice</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">a_slice</span> <span class="o">=</span> <span class="n">index_map</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">d</span><span class="p">]</span>
+        <span class="n">b_slice</span> <span class="o">=</span> <span class="n">index_map</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
         <span class="c1"># triangles with tip up</span>
         <span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a_slice</span><span class="p">)</span>
         <span class="n">j</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_slice</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
         <span class="n">k</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_slice</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="c1"># triangles with tip down</span>
         <span class="k">if</span> <span class="n">d</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">c_slice</span> <span class="o">=</span> <span class="n">index_map</span><span class="o">.</span><span class="n">dslice</span><span class="p">(</span><span class="n">d</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">c_slice</span> <span class="o">=</span> <span class="n">index_map</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
             <span class="n">i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_slice</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">j</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">b_slice</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
             <span class="n">k</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c_slice</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">i</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">j</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">k</span><span class="o">.</span><span class="n">shape</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> \
-        <span class="sa">f</span><span class="s2">&quot;i, j, k should have length </span><span class="si">{</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="si">}</span><span class="s2"> but have shape </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">j</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">k</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">. &quot;</span> \
+        <span class="sa">f</span><span class="s2">&quot;i, j, k should have length </span><span class="si">{</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="si">}</span><span class="s2"> but have shape </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">j</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">k</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">. &quot;</span> \
         <span class="sa">f</span><span class="s2">&quot;This is a bug in the code.&quot;</span>
     <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span></div>
 
 
-<div class="viewcode-block" id="assert_valid_corpus"><a class="viewcode-back" href="../../_autosummary/musicflower.util.assert_valid_corpus.html#musicflower.util.assert_valid_corpus">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">):</span>
+
+<div class="viewcode-block" id="assert_valid_corpus">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.assert_valid_corpus.html#musicflower.util.assert_valid_corpus">[docs]</a>
+<span class="k">def</span> <span class="nf">assert_valid_corpus</span><span class="p">(</span><span class="n">corpus</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="mi">2</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A corpus should be an array with 2 or 3 dimension, corresponding to a single or multiple &quot;</span>
                          <span class="sa">f</span><span class="s2">&quot;pieces, but the provided corpus has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="assert_valid_xyz_col"><a class="viewcode-back" href="../../_autosummary/musicflower.util.assert_valid_xyz_col.html#musicflower.util.assert_valid_xyz_col">[docs]</a><span class="k">def</span> <span class="nf">assert_valid_xyz_col</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+
+<div class="viewcode-block" id="assert_valid_xyz_col">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.assert_valid_xyz_col.html#musicflower.util.assert_valid_xyz_col">[docs]</a>
+<span class="k">def</span> <span class="nf">assert_valid_xyz_col</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span> <span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x, y, z must have the same shape; the first dimensions of colors must be the same as the &quot;</span>
                          <span class="sa">f</span><span class="s2">&quot;shape of x, y, and z; the last dimension of colors must be 3 or 4. We got (x/y/z/colors): &quot;</span>
                          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="iterable_or_repeat"><a class="viewcode-back" href="../../_autosummary/musicflower.util.iterable_or_repeat.html#musicflower.util.iterable_or_repeat">[docs]</a><span class="k">def</span> <span class="nf">iterable_or_repeat</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">()):</span>
+
+<div class="viewcode-block" id="transpose_profiles">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.transpose_profiles.html#musicflower.util.transpose_profiles">[docs]</a>
+<span class="k">def</span> <span class="nf">transpose_profiles</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">modulo</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns two arrays representing the circle of fifth profiles.</span>
+
+<span class="sd">    :param profile: array of arbitrary shape with profiles along first dimension</span>
+<span class="sd">    :param modulo: change from chromatic to fifth-based order or vice versa</span>
+<span class="sd">    :return: transposition of the key profile, reordered in the circle of fifth order.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dimension</span> <span class="o">=</span> <span class="n">profile</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># computing all possible transpositions</span>
+    <span class="n">transposed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">roll_idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span> <span class="k">for</span> <span class="n">roll_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dimension</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">modulo</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tonal_modulo</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">transposed</span></div>
+
+
+
+<div class="viewcode-block" id="tonal_modulo">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.tonal_modulo.html#musicflower.util.tonal_modulo">[docs]</a>
+<span class="k">def</span> <span class="nf">tonal_modulo</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">s</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="o">*</span> <span class="mi">7</span><span class="p">)</span> <span class="o">%</span> <span class="mi">12</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">s</span><span class="p">)]</span></div>
+
+
+
+<div class="viewcode-block" id="iterable_or_repeat">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.iterable_or_repeat.html#musicflower.util.iterable_or_repeat">[docs]</a>
+<span class="k">def</span> <span class="nf">iterable_or_repeat</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="p">()):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">exclude</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">it</span>
     <span class="k">try</span><span class="p">:</span>
@@ -320,14 +415,27 @@
         <span class="k">return</span> <span class="n">repeat</span><span class="p">(</span><span class="n">it</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="broadcast_func"><a class="viewcode-back" href="../../_autosummary/musicflower.util.broadcast_func.html#musicflower.util.broadcast_func">[docs]</a><span class="k">def</span> <span class="nf">broadcast_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="repeat_kwargs">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.repeat_kwargs.html#musicflower.util.repeat_kwargs">[docs]</a>
+<span class="k">def</span> <span class="nf">repeat_kwargs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">repeat</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+
+<div class="viewcode-block" id="broadcast_func">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.broadcast_func.html#musicflower.util.broadcast_func">[docs]</a>
+<span class="k">def</span> <span class="nf">broadcast_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">vals</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">values</span><span class="p">())):</span>
         <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">vals</span><span class="p">))))</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="bezier"><a class="viewcode-back" href="../../_autosummary/musicflower.util.bezier.html#musicflower.util.bezier">[docs]</a><span class="k">def</span> <span class="nf">bezier</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="bezier">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.bezier.html#musicflower.util.bezier">[docs]</a>
+<span class="k">def</span> <span class="nf">bezier</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -341,16 +449,23 @@
                                   <span class="s2">&quot;(linear, quadratic, cubic)&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="show_bezier"><a class="viewcode-back" href="../../_autosummary/musicflower.util.show_bezier.html#musicflower.util.show_bezier">[docs]</a><span class="k">def</span> <span class="nf">show_bezier</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+
+<div class="viewcode-block" id="show_bezier">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.show_bezier.html#musicflower.util.show_bezier">[docs]</a>
+<span class="k">def</span> <span class="nf">show_bezier</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">bezier</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../_autosummary/musicflower.util.main.html#musicflower.util.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+
+<div class="viewcode-block" id="main">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.main.html#musicflower.util.main">[docs]</a>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="n">show_bezier</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
                           <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
                           <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span></div>
+
 
     <span class="c1"># t = np.linspace(0, 1, 300)</span>
     <span class="c1"># p = np.array([0, 10, 0.9, 1])</span>

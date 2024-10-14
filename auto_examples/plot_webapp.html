@@ -1,0 +1,205 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web App Example &mdash; MusicFlower  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extract Data" href="plot_extract_data.html" />
+    <link rel="prev" title="Basic Example" href="plot_basic_example.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MusicFlower
+              <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">MusicFlower Gallery</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plot_triangular_maps.html">Triangular Maps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_time_traces.html">Time Traces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_basic_example.html">Basic Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Web App Example</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#custom-visualiser">Custom Visualiser</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plot_extract_data.html">Extract Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MusicFlower</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">MusicFlower Gallery</a></li>
+      <li class="breadcrumb-item active">Web App Example</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/robert-lieck/musicflower/blob/main/doc/auto_examples/plot_webapp.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-webapp-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="web-app-example">
+<span id="sphx-glr-auto-examples-plot-webapp-py"></span><h1>Web App Example<a class="headerlink" href="#web-app-example" title="Link to this heading"></a></h1>
+<p>This is a basic example for creating a MusicFlower web app with a custom visualiser.</p>
+<section id="custom-visualiser">
+<h2>Custom Visualiser<a class="headerlink" href="#custom-visualiser" title="Link to this heading"></a></h2>
+<p>Creating a web app with a custom visualiser is as easy as defining a single callback function</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+
+<span class="k">def</span> <span class="nf">my_custom_visualiser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">round</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))]</span>
+    <span class="p">)])</span>
+</pre></div>
+</div>
+<p>We can now register this function as a visualiser and start up the web app</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.webapp</span> <span class="kn">import</span> <span class="n">WebApp</span>
+
+<span class="n">WebApp</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">use_chroma_features</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">register_visualiser</span><span class="p">(</span><span class="s1">&#39;Chroma Bars&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;chroma-features&#39;</span><span class="p">],</span> <span class="n">my_custom_visualiser</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">init</span><span class="p">()</span> \
+    <span class="c1"># .run()  # (uncomment this line!)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;musicflower.webapp.WebApp object at 0x7f2021404760&gt;
+</pre></div>
+</div>
+<p>A slightly more elaborate version of the visualiser would be as follows</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pitchtypes</span> <span class="kn">import</span> <span class="n">EnharmonicPitchClass</span>
+
+<span class="k">def</span> <span class="nf">my_custom_visualiser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">WebApp</span><span class="o">.</span><span class="n">check_features</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">WebApp</span><span class="o">.</span><span class="n">position_idx</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">position</span><span class="p">]</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">EnharmonicPitchClass</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">)],</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">data</span>
+    <span class="p">)])</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="nb">range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">WebApp</span><span class="o">.</span><span class="n">update_figure_layout</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And the app can be set up with additional parameters</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">WebApp</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># print information about callbacks</span>
+<span class="n">app</span><span class="o">.</span><span class="n">use_chroma_features</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>  <span class="c1"># maximum time resolution</span>
+<span class="n">app</span><span class="o">.</span><span class="n">register_visualiser</span><span class="p">(</span><span class="s1">&#39;Chroma Bars&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;chroma-features&#39;</span><span class="p">],</span> <span class="n">my_custom_visualiser</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+    <span class="n">figure_height</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>  <span class="c1"># specify figure dimensions</span>
+    <span class="c1"># audio_file=&quot;/path/to/initial/audio/file.mp3&quot;,  # audio file to load at start up</span>
+<span class="p">)</span>
+<span class="c1"># app.run(debug=True)  # run app in debug mode (uncomment this line!)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>registered &#39;chroma-features&#39; feature extractor
+registered &#39;Chroma Bars&#39; visualiser
+initialised &#39;chroma-features&#39; feature extractor
+initialised &#39;Chroma Bars&#39; visualiser with callbacks for &#39;chroma-features&#39;
+
+&lt;musicflower.webapp.WebApp object at 0x7f201f3243d0&gt;
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.018 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-webapp-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/580df2c75246a0c9843414d3dcc88d3c/plot_webapp.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_webapp.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/28c74de43249fcc125e4d040c676fcae/plot_webapp.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_webapp.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../_downloads/c51c4aac3d4985dcbb928b79a5c1ec81/plot_webapp.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_webapp.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="plot_basic_example.html" class="btn btn-neutral float-left" title="Basic Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="plot_extract_data.html" class="btn btn-neutral float-right" title="Extract Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

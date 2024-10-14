@@ -1,0 +1,6 @@
+musicflower.webapp.normaliser
+=============================
+
+.. currentmodule:: musicflower.webapp
+
+.. autofunction:: normaliser

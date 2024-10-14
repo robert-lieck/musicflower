@@ -1,25 +1,26 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>musicflower.util.get_fourier_component &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/autoclasstoc.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/sg_gallery-rendered-html.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/autoclasstoc.css?v=08871587" />
+
   
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/doctools.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,12 +33,16 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search"  style="background: black" >
-            <a href="../index.html" class="icon icon-home"> MusicFlower
-            <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MusicFlower
+              <img src="../_static/logo_96.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -61,12 +66,16 @@
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.iterable_or_repeat.html">musicflower.util.iterable_or_repeat</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.main.html">musicflower.util.main</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.remap_to_xyz.html">musicflower.util.remap_to_xyz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.repeat_kwargs.html">musicflower.util.repeat_kwargs</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.show_bezier.html">musicflower.util.show_bezier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.start_duration.html">musicflower.util.start_duration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.surface_scape_indices.html">musicflower.util.surface_scape_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.tonal_modulo.html">musicflower.util.tonal_modulo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.transpose_profiles.html">musicflower.util.transpose_profiles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.trisurf.html">musicflower.util.trisurf</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.webapp.html">musicflower.webapp</a></li>
 </ul>
 </li>
 </ul>
@@ -86,11 +95,11 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../api_summary.html">API Summary</a> &raquo;</li>
-          <li><a href="musicflower.html">musicflower</a> &raquo;</li>
-          <li><a href="musicflower.util.html">musicflower.util</a> &raquo;</li>
-      <li>musicflower.util.get_fourier_component</li>
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../api_summary.html">API Summary</a></li>
+          <li class="breadcrumb-item"><a href="musicflower.html">musicflower</a></li>
+          <li class="breadcrumb-item"><a href="musicflower.util.html">musicflower.util</a></li>
+      <li class="breadcrumb-item active">musicflower.util.get_fourier_component</li>
       <li class="wy-breadcrumbs-aside">
               <a href="https://github.com/robert-lieck/musicflower/blob/main/doc/_autosummary/musicflower.util.get_fourier_component.rst" class="fa fa-github"> Edit on GitHub</a>
       </li>
@@ -101,24 +110,26 @@
            <div itemprop="articleBody">
              
   <section id="musicflower-util-get-fourier-component">
-<h1>musicflower.util.get_fourier_component<a class="headerlink" href="#musicflower-util-get-fourier-component" title="Permalink to this headline"></a></h1>
+<h1>musicflower.util.get_fourier_component<a class="headerlink" href="#musicflower-util-get-fourier-component" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="musicflower.util.get_fourier_component">
-<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">get_fourier_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fourier_component</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#get_fourier_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.get_fourier_component" title="Permalink to this definition"></a></dt>
-<dd><p>Compute the amplitude and phase of a specific Fourier component.</p>
+<span class="sig-prename descclassname"><span class="pre">musicflower.util.</span></span><span class="sig-name descname"><span class="pre">get_fourier_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pcds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fourier_component</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/musicflower/util.html#get_fourier_component"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#musicflower.util.get_fourier_component" title="Link to this definition"></a></dt>
+<dd><p>Compute the amplitude and phase of one or all Fourier components of a real-valued input.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>pcds</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>) – array of arbitrary shape, the Fourier transform is computed along the last dimension</p></li>
-<li><p><strong>fourier_component</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – component of the Fourier transform to extract (must not be larger than the last dimension
-of <cite>pcds</cite>)</p></li>
+<li><p><strong>pcds</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span>) – array of arbitrary shape <cite>(…, n)</cite> with pitch-class distributions of size n along the last dimension,
+along which the Fourier transform is computed using <cite>numpy.fft.rfft</cite>.</p></li>
+<li><p><strong>fourier_component</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]</span>) – None (default) to return all components or int specifying the component to return (must
+not be larger than ` n//2`)</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></span></p>
 </dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>amplitude, phase (arrays of same shape as <cite>pcds</cite> without the last dimension)</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array of shape (2, …, n//2 + 1) with amplitude and phase along the first dimension and the different
+Fourier components along the last dimension</p>
 </dd>
 </dl>
 </dd></dl>
