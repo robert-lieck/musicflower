@@ -62,7 +62,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]     50%|█████     | 1/2 [00:00<00:00,  2.96it/s]    100%|██████████| 2/2 [00:00<00:00,  5.84it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]     50%|█████     | 1/2 [00:00<00:00,  3.06it/s]    100%|██████████| 2/2 [00:00<00:00,  6.03it/s]
     (2, 1275, 12)
 
 
@@ -227,7 +227,7 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.432 seconds)
+   **Total running time of the script:** (0 minutes 0.416 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_extract_data.py:

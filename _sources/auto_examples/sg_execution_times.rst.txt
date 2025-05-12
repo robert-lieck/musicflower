@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:04.487** total execution time for 5 files **from auto_examples**:
+**00:04.400** total execution time for 5 files **from auto_examples**:
 
 .. container::
 
@@ -33,17 +33,17 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_plot_basic_example.py` (``plot_basic_example.py``)
-     - 00:02.634
+     - 00:02.596
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_time_traces.py` (``plot_time_traces.py``)
-     - 00:01.043
+     - 00:01.047
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_extract_data.py` (``plot_extract_data.py``)
-     - 00:00.432
+     - 00:00.416
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_triangular_maps.py` (``plot_triangular_maps.py``)
-     - 00:00.352
+     - 00:00.317
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_webapp.py` (``plot_webapp.py``)
-     - 00:00.027
+     - 00:00.025
      - 0.0
