@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Triangular Maps &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -96,18 +96,14 @@ to download the full example code.</p>
 <p>The array returned by <a class="reference internal" href="../_autosummary/musicflower.loader.load_file.html#musicflower.loader.load_file" title="musicflower.loader.load_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_file()</span></code></a> contains the triangular map of pitch-class distributions.
 To use NumPy’s efficient linear storage, it is flattened by starting at the top and then going row by row, thus, it
 contains a total number of <span class="math">n(n+1)/2</span> pitch-class distributions.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.loader</span> <span class="kn">import</span> <span class="n">load_file</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_file</span>
 <span class="n">resolution</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">scape</span> <span class="o">=</span> <span class="n">load_file</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;Prelude_No._1_BWV_846_in_C_Major.mxl&#39;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">resolution</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">scape</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">resolution</span> <span class="o">*</span> <span class="p">(</span><span class="n">resolution</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/music21/stream/base.py:3694: Music21DeprecationWarning:
-
-.flat is deprecated.  Call .flatten() instead
-
-(55, 12)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(55, 12)
 55.0
 </pre></div>
 </div>
@@ -116,8 +112,8 @@ contains a total number of <span class="math">n(n+1)/2</span> pitch-class distri
 a linear storage and allows for efficiently accessing its content as if it was a triangular map (see the
 <a class="reference external" href="https://robert-lieck.github.io/triangularmap/">TriangularMap documentation</a> for more details).
 For multidimensional arrays, the first dimension is assumed to represent the triangular map.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">triangularmap</span> <span class="kn">import</span> <a href="https://robert-lieck.github.io/triangularmap/_autosummary/triangularmap.tmap.TMap.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class"><span class="n">TMap</span></a>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">triangularmap</span><span class="w"> </span><span class="kn">import</span> <a href="https://robert-lieck.github.io/triangularmap/_autosummary/triangularmap.tmap.TMap.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class"><span class="n">TMap</span></a>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <a href="https://robert-lieck.github.io/triangularmap/_autosummary/triangularmap.tmap.TMap.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tmap</span></a> <span class="o">=</span> <a href="https://robert-lieck.github.io/triangularmap/_autosummary/triangularmap.tmap.TMap.html#triangularmap.tmap.TMap" title="triangularmap.tmap.TMap" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-class"><span class="n">TMap</span></a><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><a href="https://robert-lieck.github.io/triangularmap/_autosummary/triangularmap.tmap.TMap.html#triangularmap.tmap.TMap.pretty" title="triangularmap.tmap.TMap.pretty" class="sphx-glr-backref-module-triangularmap-tmap sphx-glr-backref-type-py-method"><span class="n">tmap</span><span class="o">.</span><span class="n">pretty</span></a><span class="p">())</span>
 </pre></div>
@@ -150,7 +146,7 @@ end-slices)</p>
 [0 2 5]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.321 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.352 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-triangular-maps-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/fd6ce481fd9b7c35b3b199e2c5fcf608/plot_triangular_maps.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_triangular_maps.ipynb</span></code></a></p>

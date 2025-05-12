@@ -45,10 +45,6 @@ contains a total number of :math:`n(n+1)/2` pitch-class distributions.
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/music21/stream/base.py:3694: Music21DeprecationWarning:
-
-    .flat is deprecated.  Call .flatten() instead
-
     (55, 12)
     55.0
 
@@ -146,7 +142,7 @@ end-slices)
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.321 seconds)
+   **Total running time of the script:** (0 minutes 0.352 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_triangular_maps.py:

@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Extract Data &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -111,9 +111,9 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 <a class="reference internal" href="../_autosummary/musicflower.loader.load_file.html#musicflower.loader.load_file" title="musicflower.loader.load_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_file()</span></code></a> function with the number of files as its first dimension. Note that the
 <cite>file_paths</cite> (and scapes in the corpus) may have a different order than the input <cite>file_paths</cite> (see documentation of
 <a class="reference internal" href="../_autosummary/musicflower.loader.load_corpus.html#musicflower.loader.load_corpus" title="musicflower.loader.load_corpus"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_corpus()</span></code></a> for details).</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">musicflower.loader</span> <span class="kn">import</span> <span class="n">load_corpus</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_corpus</span>
 <span class="n">file_path</span> <span class="o">=</span> <span class="s1">&#39;Prelude_No._1_BWV_846_in_C_Major.mxl&#39;</span>
 <span class="n">resolution</span> <span class="o">=</span> <span class="mi">50</span>
 <span class="n">corpus</span><span class="p">,</span> <span class="n">file_paths</span> <span class="o">=</span> <span class="n">load_corpus</span><span class="p">(</span>
@@ -126,8 +126,8 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/2 [00:00&lt;?, ?it/s]
- 50%|█████     | 1/2 [00:00&lt;00:00,  2.47it/s]
-100%|██████████| 2/2 [00:00&lt;00:00,  4.90it/s]
+ 50%|█████     | 1/2 [00:00&lt;00:00,  2.96it/s]
+100%|██████████| 2/2 [00:00&lt;00:00,  5.84it/s]
 (2, 1275, 12)
 </pre></div>
 </div>
@@ -135,8 +135,8 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 <section id="colours-and-3d-coordinates">
 <h2>Colours and 3D Coordinates<a class="headerlink" href="#colours-and-3d-coordinates" title="Link to this heading"></a></h2>
 <p>These data can be mapped to colours and 3D coordinates as shown in the <a class="reference internal" href="plot_basic_example.html"><span class="doc">Basic Example</span></a>, that is</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.plotting</span> <span class="kn">import</span> <span class="n">key_colors</span>
-<span class="kn">from</span> <span class="nn">musicflower.util</span> <span class="kn">import</span> <span class="n">get_fourier_component</span><span class="p">,</span> <span class="n">remap_to_xyz</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">key_colors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_fourier_component</span><span class="p">,</span> <span class="n">remap_to_xyz</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="n">key_colors</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">remap_to_xyz</span><span class="p">(</span><span class="o">*</span><span class="n">get_fourier_component</span><span class="p">(</span><span class="n">pcds</span><span class="o">=</span><span class="n">corpus</span><span class="p">,</span> <span class="n">fourier_component</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">colors</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
@@ -154,7 +154,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 and wrapped” in 3D space. The point indices of the respective triangles can be obtained with the
 <a class="reference internal" href="../_autosummary/musicflower.util.surface_scape_indices.html#musicflower.util.surface_scape_indices" title="musicflower.util.surface_scape_indices"><code class="xref py py-func docutils literal notranslate"><span class="pre">surface_scape_indices()</span></code></a> function. The resolution can either be explicitly specified or via an
 array dimension.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.util</span> <span class="kn">import</span> <span class="n">surface_scape_indices</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">surface_scape_indices</span>
 <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">surface_scape_indices</span><span class="p">(</span><span class="n">colors</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># from array dimension</span>
 <span class="n">i_</span><span class="p">,</span> <span class="n">j_</span><span class="p">,</span> <span class="n">k_</span> <span class="o">=</span> <span class="n">surface_scape_indices</span><span class="p">(</span><span class="n">resolution</span><span class="p">)</span>   <span class="c1"># from resolution</span>
 <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">([</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">],</span> <span class="p">[</span><span class="n">i_</span><span class="p">,</span> <span class="n">j_</span><span class="p">,</span> <span class="n">k_</span><span class="p">])</span>          <span class="c1"># result is the same</span>
@@ -172,7 +172,7 @@ array dimension.</p>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>1st vertex (i): 0.884285110785993 0.6458259160397136 0.490865286014064
-2nd vertex (j): 0.869942217870529 0.6339019966114718 0.48349642838235596
+2nd vertex (j): 0.869942217870529 0.6339019966114717 0.48349642838235596
 3rd vertex (k): 0.86378671495546 0.6398644626106169 0.48666824485935084
 </pre></div>
 </div>
@@ -195,7 +195,7 @@ They are computed by interpolating along rows of the triangular map using the
 <a class="reference internal" href="../_autosummary/musicflower.util.get_time_traces.html#musicflower.util.get_time_traces" title="musicflower.util.get_time_traces"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_time_traces()</span></code></a> function. In the output, the first dimension are time steps, the second runs
 along the traces (from the top of the triangle to the bottom), and the last one are xyz-coordinates or RGB-colours,
 respectively. The third (batch) dimension are the different pieces in this case.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.util</span> <span class="kn">import</span> <span class="n">get_time_traces</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_time_traces</span>
 <span class="n">xyz_traces</span><span class="p">,</span> <span class="n">colors_traces</span> <span class="o">=</span> <span class="n">get_time_traces</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="n">z</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">xyz_traces</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">colors_traces</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
@@ -203,7 +203,7 @@ respectively. The third (batch) dimension are the different pieces in this case.
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(201, 50, 2, 3) (201, 50, 2, 3)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.488 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.432 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-extract-data-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/a499ce84646ebeb42dba720ee90c6650/plot_extract_data.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_extract_data.ipynb</span></code></a></p>

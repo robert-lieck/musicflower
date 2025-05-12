@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>musicflower.loader &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -78,30 +78,30 @@
   <h1>Source code for musicflower.loader</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  Copyright (c) Robert Lieck 2022.</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="kn">import</span> <span class="nn">pathlib</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
 
-<span class="kn">from</span> <span class="nn">musicflower</span> <span class="kn">import</span> <span class="n">istarmap</span> <span class="c1"># patch Pool</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">musicflower</span><span class="w"> </span><span class="kn">import</span> <span class="n">istarmap</span> <span class="c1"># patch Pool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">multiprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy</span>
 
-<span class="kn">import</span> <span class="nn">librosa</span>
-<span class="kn">import</span> <span class="nn">librosa.display</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">librosa.display</span>
 
-<span class="kn">import</span> <span class="nn">pitchscapes.reader</span> <span class="k">as</span> <span class="nn">rd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pitchscapes.reader</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rd</span>
 
-<span class="kn">from</span> <span class="nn">triangularmap</span> <span class="kn">import</span> <span class="n">TMap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">triangularmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">TMap</span>
 
 
 <div class="viewcode-block" id="get_cache_file_path">
 <a class="viewcode-back" href="../../_autosummary/musicflower.loader.get_cache_file_path.html#musicflower.loader.get_cache_file_path">[docs]</a>
-<span class="k">def</span> <span class="nf">get_cache_file_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">],</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">remove_extension</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_cache_file_path</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">],</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">remove_extension</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    For a given file path and resolution, return the associated cache file path, which corresponds to the original file</span>
 <span class="sd">    path appended with `_&lt;n&gt;.pickle`, where `&lt;n&gt;` is replaced with the actual resolution.</span>
@@ -122,7 +122,7 @@
 
 <div class="viewcode-block" id="audio_scape">
 <a class="viewcode-back" href="../../_autosummary/musicflower.loader.audio_scape.html#musicflower.loader.audio_scape">[docs]</a>
-<span class="k">def</span> <span class="nf">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                 <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">raw_chroma</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">normalise</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -173,7 +173,7 @@
 
 <div class="viewcode-block" id="load_file">
 <a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_file.html#musicflower.loader.load_file">[docs]</a>
-<span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">recompute_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">audio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_file</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">recompute_cache</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">audio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
               <span class="n">audio_ext</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;.wav&quot;</span><span class="p">,</span> <span class="s2">&quot;.mp3&quot;</span><span class="p">,</span> <span class="s2">&quot;.ogg&quot;</span><span class="p">),</span> <span class="n">top_down</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads a single file and computes its pitch scape with resolution *n*.</span>
@@ -251,7 +251,7 @@
 
 
 
-<span class="k">def</span> <span class="nf">_parallel_load_file_wrapper</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_parallel_load_file_wrapper</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrapper for parallelisation; takes kwargs provided as dict and unpacks them when calling</span>
 <span class="sd">    :meth:`~musicflower.loader.load_file`.</span>
@@ -261,7 +261,7 @@
 
 <div class="viewcode-block" id="load_corpus">
 <a class="viewcode-back" href="../../_autosummary/musicflower.loader.load_corpus.html#musicflower.loader.load_corpus">[docs]</a>
-<span class="k">def</span> <span class="nf">load_corpus</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parallel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sort_func</span><span class="p">:</span> <span class="nb">callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_corpus</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">parallel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">sort_func</span><span class="p">:</span> <span class="nb">callable</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span>
                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This is essentially a wrapper for parallelisation around the :meth:`~musicflower.loader.load_file` function, which</span>
@@ -301,7 +301,7 @@
 
 <div class="viewcode-block" id="get_chroma">
 <a class="viewcode-back" href="../../_autosummary/musicflower.loader.get_chroma.html#musicflower.loader.get_chroma">[docs]</a>
-<span class="k">def</span> <span class="nf">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">cqt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">normal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">harm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_chroma</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span> <span class="n">cqt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">normal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">harm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                <span class="nb">filter</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">asdict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
                <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -365,8 +365,8 @@
 
 <div class="viewcode-block" id="plot_chroma_comparison">
 <a class="viewcode-back" href="../../_autosummary/musicflower.loader.plot_chroma_comparison.html#musicflower.loader.plot_chroma_comparison">[docs]</a>
-<span class="k">def</span> <span class="nf">plot_chroma_comparison</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
-    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_chroma_comparison</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
     <span class="n">cqt</span><span class="p">,</span> <span class="n">normal</span><span class="p">,</span> <span class="n">smooth</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span>
         <span class="n">data</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span>
         <span class="n">cqt</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>

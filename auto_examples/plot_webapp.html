@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Web App Example &mdash; MusicFlower  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -100,16 +100,16 @@ to download the full example code.</p>
 <section id="custom-visualiser">
 <h2>Custom Visualiser<a class="headerlink" href="#custom-visualiser" title="Link to this heading"></a></h2>
 <p>Creating a web app with a custom visualiser is as easy as defining a single callback function</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="k">as</span> <span class="nn">go</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">plotly.graph_objects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">go</span>
 
-<span class="k">def</span> <span class="nf">my_custom_visualiser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_custom_visualiser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span>
         <span class="n">y</span><span class="o">=</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nb">round</span><span class="p">(</span><span class="n">position</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))]</span>
     <span class="p">)])</span>
 </pre></div>
 </div>
 <p>We can now register this function as a visualiser and start up the web app</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">musicflower.webapp</span> <span class="kn">import</span> <span class="n">WebApp</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.webapp</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebApp</span>
 
 <span class="n">WebApp</span><span class="p">()</span> \
     <span class="o">.</span><span class="n">use_chroma_features</span><span class="p">()</span> \
@@ -118,13 +118,13 @@ to download the full example code.</p>
     <span class="c1"># .run()  # (uncomment this line!)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;musicflower.webapp.WebApp object at 0x7f8125c887c0&gt;
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;musicflower.webapp.WebApp object at 0x7fd2aa80b2b0&gt;
 </pre></div>
 </div>
 <p>A slightly more elaborate version of the visualiser would be as follows</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pitchtypes</span> <span class="kn">import</span> <span class="n">EnharmonicPitchClass</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pitchtypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnharmonicPitchClass</span>
 
-<span class="k">def</span> <span class="nf">my_custom_visualiser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_custom_visualiser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">features</span> <span class="o">=</span> <span class="n">WebApp</span><span class="o">.</span><span class="n">check_features</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
     <span class="n">position</span> <span class="o">=</span> <span class="n">WebApp</span><span class="o">.</span><span class="n">position_idx</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">)</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">position</span><span class="p">]</span>
@@ -152,10 +152,10 @@ registered &#39;Chroma Bars&#39; visualiser
 initialised &#39;chroma-features&#39; feature extractor
 initialised &#39;Chroma Bars&#39; visualiser with callbacks for &#39;chroma-features&#39;
 
-&lt;musicflower.webapp.WebApp object at 0x7f8123b2c610&gt;
+&lt;musicflower.webapp.WebApp object at 0x7fd2a7e82c80&gt;
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.016 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.027 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-webapp-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/580df2c75246a0c9843414d3dcc88d3c/plot_webapp.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_webapp.ipynb</span></code></a></p>
