@@ -963,48 +963,51 @@ def fourier_visualiser(*, features, position, app, binary_profiles=False, incl=N
             showlegend=False,
         ), row=row, col=col)
         # plot landmarks
+        def get_landmarks(profile, component):
+            profiles = transpose_profiles(np.array(profile))  # (trans, pitch)
+            fourier_profiles = fourier_features(features=[profiles])  # (mag/phase, trans, component)
+            return fourier_profiles[..., component]  # (mag/phase, trans)
         angularaxis = {}
-        if component == 5:
+        fourier_profiles = None
+        pitch_names = [str(EnharmonicPitchClass(n)).replace('#', '♯').replace('b', '♭') for n in range(12)]
+        if component == 1:
+            fourier_profiles = get_landmarks([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], component)
+            angularaxis['ticktext'] = np.array([f"{n}" for n in pitch_names])
+        elif component == 2:
+            fourier_profiles = get_landmarks([1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], component)[:, :6]
+            angularaxis['ticktext'] = [f"{pitch_names[i]}T" for i in range(6)]
+        elif component == 3:
+            fourier_profiles = get_landmarks([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], component)[:, :4]
+            angularaxis['ticktext'] = [f"{pitch_names[i]}+" for i in range(4)]
+        elif component == 4:
+            fourier_profiles = get_landmarks([1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0], component)[:, :3]
+            angularaxis['ticktext'] = [f"{pitch_names[i]}º" for i in range(3)]
+        elif component == 5:
             if binary_profiles:
                 # key signatures represented by binary profiles
-                profiles = np.array([1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1]) / 7
-                profiles = transpose_profiles(profiles)  # (trans, pitch)
-                fourier_profiles = fourier_features(features=[profiles])  # (mag/phase, trans, component)
-                fig.add_trace(go.Scatterpolar(
-                    hoverinfo='skip',
-                    r=fourier_profiles[0, :, component],
-                    theta=fourier_profiles[1, :, component] * rad_to_deg,
-                    mode='markers',
-                    marker=dict(size=4, color='black'),
-                    showlegend=False,
-                ), row=row, col=col)
-                # set ticks
-                angularaxis = dict(
-                    tickmode='array',
-                    tickvals=np.mod(fourier_profiles[1, :, component] * rad_to_deg, 360),
-                    ticktext=tonal_modulo(np.array(
-                        ["♮", "♯", "2♯", "3♯", "4♯", "5♯", "6♯", "5♭", "4♭", "3♭", "2♭", "♭"]
-                    )),
-                )
+                fourier_profiles = get_landmarks([1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1], component)
+                angularaxis['ticktext'] = tonal_modulo(np.array(
+                    ["♮", "♯", "2♯", "3♯", "4♯", "5♯", "6♯", "5♭", "4♭", "3♭", "2♭", "♭"]
+                ))
             else:
                 # major/minor keys represented by Albrecht profiles
                 fourier_profiles = fourier_features(features=[WebApp.major_minor_profiles])  # (mag/phase, mode, trans, component)
-                fig.add_trace(go.Scatterpolar(
-                    hoverinfo='skip',
-                    r=fourier_profiles[0, :, :, component].flatten(),
-                    theta=fourier_profiles[1, :, :, component].flatten() * rad_to_deg,
-                    mode='markers',
-                    marker=dict(size=4, color='black'),
-                    showlegend=False,
-                ), row=row, col=col)
-                # set ticks
-                pitch_names = [str(EnharmonicPitchClass(n)) for n in range(12)]
-                ma_mi_phase = np.concatenate([fourier_profiles[1, 0, :, component], fourier_profiles[1, 1, :, component]])
-                angularaxis = dict(
-                    tickmode='array',
-                    tickvals=np.mod(ma_mi_phase * rad_to_deg, 360),
-                    ticktext=np.array([[f"{n}ma", f"{n}mi"] for n in pitch_names]).T.flatten()
-                )
+                # concatenate major/minor mode
+                fourier_profiles = np.concatenate([fourier_profiles[:, 0, :, component],
+                                                   fourier_profiles[:, 1, :, component]], axis=1)
+                # get ticks
+                angularaxis['ticktext'] = np.array([f"{n}ma" for n in pitch_names] + [f"{n}mi" for n in pitch_names])
+        if fourier_profiles is not None:
+            angularaxis['tickmode'] = 'array'
+            angularaxis['tickvals'] = np.mod(fourier_profiles[1, :] * rad_to_deg, 360)
+            fig.add_trace(go.Scatterpolar(
+                hoverinfo='skip',
+                r=fourier_profiles[0, :],
+                theta=fourier_profiles[1, :] * rad_to_deg,
+                mode='markers',
+                marker=dict(size=4, color='black'),
+                showlegend=False,
+            ), row=row, col=col)
         # adjust axes
         fig.update_polars(
             radialaxis=dict(range=[0, 1], showticklabels=False, ticks=''),
@@ -1028,6 +1031,7 @@ def fourier_visualiser(*, features, position, app, binary_profiles=False, incl=N
             # y=features[0, idx, (0, 6)] * np.cos(features[1, idx, (0, 6)]),
         ), row=2, col=3)
         fig.update_yaxes(range=[-1.1, 1.1], row=2, col=3)
+    kwargs = {**dict(margin=dict(t=30, b=10, l=0, r=0),), **kwargs}
     return app.update_figure_layout(fig, **kwargs)
 
 
