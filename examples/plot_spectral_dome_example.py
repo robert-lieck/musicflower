@@ -1,8 +1,8 @@
 """
-Basic Example
-===========================
+Spectral Dome Example
+=====================
 
-This is a brief walk through some basic MusicFlower functionality.
+This shows how the spectral dome visualisation can be used independently of the web app and also with symbolic data.
 """
 
 # %%
@@ -15,9 +15,10 @@ This is a brief walk through some basic MusicFlower functionality.
 from musicflower.loader import load_file
 
 # path to file
-file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'
+file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'  # could also be audio file
+# file_path = '../J.S. Bach - Prelude in C Major.mp3'
 # split piece into this many equal-sized time intervals
-resolution = 50
+resolution = 200
 # get pitch scape at specified resolution
 scape = load_file(data=file_path, n=resolution)
 print(scape.shape)
