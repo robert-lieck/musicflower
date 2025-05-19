@@ -1,6 +1,0 @@
-musicflower.webapp.spectral\_dome
-=================================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: spectral_dome

@@ -1,0 +1,6 @@
+musicflower.visualisers.circle\_of\_fifths\_visualiser
+======================================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: circle_of_fifths_visualiser

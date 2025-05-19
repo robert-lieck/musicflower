@@ -1,0 +1,6 @@
+musicflower.visualisers.heatmap\_visualiser
+===========================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: heatmap_visualiser

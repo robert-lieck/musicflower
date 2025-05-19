@@ -1,0 +1,6 @@
+musicflower.features.normaliser
+===============================
+
+.. currentmodule:: musicflower.features
+
+.. autofunction:: normaliser

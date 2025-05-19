@@ -22,7 +22,6 @@ musicflower.plotting
       ellipse_coords
       grouplegend_kwargs
       key_colors
-      main
       make_meridians
       make_parallels
       plot_all

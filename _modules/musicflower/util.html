@@ -84,12 +84,19 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">interpolate</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pitchscapes.keyfinding</span><span class="w"> </span><span class="kn">import</span> <span class="n">KeyEstimator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">triangularmap</span><span class="w"> </span><span class="kn">import</span> <span class="n">TMap</span>
 
 
 <span class="n">rad_to_deg</span> <span class="o">=</span> <span class="mi">360</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="feature_exists">
+<a class="viewcode-back" href="../../_autosummary/musicflower.util.feature_exists.html#musicflower.util.feature_exists">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">feature_extractors</span> <span class="ow">or</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">app</span><span class="o">.</span><span class="n">feature_remappers</span></div>
+
 
 
 <div class="viewcode-block" id="get_fourier_component">
@@ -249,9 +256,9 @@
                 <span class="n">arr_out</span><span class="p">[:,</span> <span class="n">depth</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">arr_out</span><span class="p">[:,</span> <span class="n">depth</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
-                                                              <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="p">:],</span>
-                                                              <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                                              <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">times</span><span class="p">)</span>
+                                                                 <span class="n">arr</span><span class="o">.</span><span class="n">dslice</span><span class="p">[</span><span class="n">depth</span><span class="p">][</span><span class="o">...</span><span class="p">,</span> <span class="p">:],</span>
+                                                                 <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                                 <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)(</span><span class="n">times</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xyz_out</span><span class="p">,</span> <span class="n">colors_out</span></div>
 
 
@@ -433,49 +440,10 @@
 
 
 
-<div class="viewcode-block" id="bezier">
-<a class="viewcode-back" href="../../_autosummary/musicflower.util.bezier.html#musicflower.util.bezier">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">bezier</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-    <span class="k">elif</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">t</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">t</span> <span class="o">**</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Bezier curve only implemented for 2–4 points, i.e., 0–2 control points &quot;</span>
-                                  <span class="s2">&quot;(linear, quadratic, cubic)&quot;</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="show_bezier">
-<a class="viewcode-back" href="../../_autosummary/musicflower.util.show_bezier.html#musicflower.util.show_bezier">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">show_bezier</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">bezier</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="n">p</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">p</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></div>
-
-
-
-<div class="viewcode-block" id="main">
-<a class="viewcode-back" href="../../_autosummary/musicflower.util.main.html#musicflower.util.main">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-    <span class="n">show_bezier</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                          <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                          <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span></div>
-
-
-    <span class="c1"># t = np.linspace(0, 1, 300)</span>
-    <span class="c1"># p = np.array([0, 10, 0.9, 1])</span>
-    <span class="c1"># plt.plot(t, bezier(t, p).T, &#39;-&#39;)</span>
-    <span class="c1"># # plt.plot(p[:, 0], p[:, 1], &#39;o-&#39;)</span>
-    <span class="c1"># plt.show()</span>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
+<span class="n">major_minor_profiles</span> <span class="o">=</span> <span class="n">KeyEstimator</span><span class="o">.</span><span class="n">profiles</span><span class="p">[</span><span class="s1">&#39;albrecht&#39;</span><span class="p">]</span>
+<span class="n">major_minor_profiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">major_minor_profiles</span><span class="p">[</span><span class="s1">&#39;major&#39;</span><span class="p">],</span> <span class="n">major_minor_profiles</span><span class="p">[</span><span class="s1">&#39;minor&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># (pitch, mode)</span>
+<span class="n">major_minor_profiles</span> <span class="o">=</span> <span class="n">transpose_profiles</span><span class="p">(</span><span class="n">major_minor_profiles</span><span class="p">)</span>  <span class="c1"># (trans, pitch, mode)</span>
+<span class="n">major_minor_profiles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">major_minor_profiles</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># (mode, trans, pitch)</span>
 </pre></div>
 
            </div>

@@ -1,0 +1,6 @@
+musicflower.visualisers.use\_keyscape\_visualiser
+=================================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: use_keyscape_visualiser

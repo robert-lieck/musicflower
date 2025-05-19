@@ -1,0 +1,6 @@
+musicflower.visualisers.spectral\_dome\_visualiser
+==================================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: spectral_dome_visualiser

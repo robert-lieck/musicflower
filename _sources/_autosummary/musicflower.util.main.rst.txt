@@ -1,6 +1,0 @@
-musicflower.util.main
-=====================
-
-.. currentmodule:: musicflower.util
-
-.. autofunction:: main

@@ -1,0 +1,6 @@
+musicflower.features.use\_chroma\_features
+==========================================
+
+.. currentmodule:: musicflower.features
+
+.. autofunction:: use_chroma_features

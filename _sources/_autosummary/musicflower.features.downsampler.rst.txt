@@ -1,0 +1,6 @@
+musicflower.features.downsampler
+================================
+
+.. currentmodule:: musicflower.features
+
+.. autofunction:: downsampler

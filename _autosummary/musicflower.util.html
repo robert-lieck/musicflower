@@ -53,21 +53,20 @@
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">MusicFlower Gallery</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../api_summary.html">API Summary</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="musicflower.html">musicflower</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="musicflower.features.html">musicflower.features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="musicflower.istarmap.html">musicflower.istarmap</a></li>
 <li class="toctree-l3"><a class="reference internal" href="musicflower.loader.html">musicflower.loader</a></li>
 <li class="toctree-l3"><a class="reference internal" href="musicflower.plotting.html">musicflower.plotting</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">musicflower.util</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.assert_valid_corpus.html">musicflower.util.assert_valid_corpus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.assert_valid_xyz_col.html">musicflower.util.assert_valid_xyz_col</a></li>
-<li class="toctree-l4"><a class="reference internal" href="musicflower.util.bezier.html">musicflower.util.bezier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.broadcast_func.html">musicflower.util.broadcast_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="musicflower.util.feature_exists.html">musicflower.util.feature_exists</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.get_fourier_component.html">musicflower.util.get_fourier_component</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.get_time_traces.html">musicflower.util.get_time_traces</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.iterable_or_repeat.html">musicflower.util.iterable_or_repeat</a></li>
-<li class="toctree-l4"><a class="reference internal" href="musicflower.util.main.html">musicflower.util.main</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.remap_to_xyz.html">musicflower.util.remap_to_xyz</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.repeat_kwargs.html">musicflower.util.repeat_kwargs</a></li>
-<li class="toctree-l4"><a class="reference internal" href="musicflower.util.show_bezier.html">musicflower.util.show_bezier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.start_duration.html">musicflower.util.start_duration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.surface_scape_indices.html">musicflower.util.surface_scape_indices</a></li>
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.tonal_modulo.html">musicflower.util.tonal_modulo</a></li>
@@ -75,6 +74,7 @@
 <li class="toctree-l4"><a class="reference internal" href="musicflower.util.trisurf.html">musicflower.util.trisurf</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="musicflower.visualisers.html">musicflower.visualisers</a></li>
 <li class="toctree-l3"><a class="reference internal" href="musicflower.webapp.html">musicflower.webapp</a></li>
 </ul>
 </li>
@@ -119,10 +119,10 @@
 <tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.assert_valid_xyz_col.html#musicflower.util.assert_valid_xyz_col" title="musicflower.util.assert_valid_xyz_col"><code class="xref py py-obj docutils literal notranslate"><span class="pre">assert_valid_xyz_col</span></code></a>(x, y, z, colors)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.bezier.html#musicflower.util.bezier" title="musicflower.util.bezier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bezier</span></code></a>(t, p)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.broadcast_func.html#musicflower.util.broadcast_func" title="musicflower.util.broadcast_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast_func</span></code></a>(func, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.broadcast_func.html#musicflower.util.broadcast_func" title="musicflower.util.broadcast_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">broadcast_func</span></code></a>(func, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.feature_exists.html#musicflower.util.feature_exists" title="musicflower.util.feature_exists"><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature_exists</span></code></a>(app, name)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.get_fourier_component.html#musicflower.util.get_fourier_component" title="musicflower.util.get_fourier_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fourier_component</span></code></a>(pcds[, fourier_component])</p></td>
@@ -134,16 +134,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.iterable_or_repeat.html#musicflower.util.iterable_or_repeat" title="musicflower.util.iterable_or_repeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iterable_or_repeat</span></code></a>(it[, exclude])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.main.html#musicflower.util.main" title="musicflower.util.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>()</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.remap_to_xyz.html#musicflower.util.remap_to_xyz" title="musicflower.util.remap_to_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remap_to_xyz</span></code></a>(amplitude, phase[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.remap_to_xyz.html#musicflower.util.remap_to_xyz" title="musicflower.util.remap_to_xyz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remap_to_xyz</span></code></a>(amplitude, phase[, ...])</p></td>
 <td><p>Map a triangular map with amplitudes and phases to 3D space.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.repeat_kwargs.html#musicflower.util.repeat_kwargs" title="musicflower.util.repeat_kwargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat_kwargs</span></code></a>(kwargs)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.show_bezier.html#musicflower.util.show_bezier" title="musicflower.util.show_bezier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_bezier</span></code></a>(p)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="musicflower.util.repeat_kwargs.html#musicflower.util.repeat_kwargs" title="musicflower.util.repeat_kwargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">repeat_kwargs</span></code></a>(kwargs)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="musicflower.util.start_duration.html#musicflower.util.start_duration" title="musicflower.util.start_duration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">start_duration</span></code></a>(n)</p></td>

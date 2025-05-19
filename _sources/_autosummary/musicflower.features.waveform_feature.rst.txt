@@ -1,0 +1,6 @@
+musicflower.features.waveform\_feature
+======================================
+
+.. currentmodule:: musicflower.features
+
+.. autofunction:: waveform_feature

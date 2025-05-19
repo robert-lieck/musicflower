@@ -1,0 +1,6 @@
+musicflower.features.none\_feature
+==================================
+
+.. currentmodule:: musicflower.features
+
+.. autofunction:: none_feature

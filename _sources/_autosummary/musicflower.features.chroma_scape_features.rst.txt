@@ -1,0 +1,6 @@
+musicflower.features.chroma\_scape\_features
+============================================
+
+.. currentmodule:: musicflower.features
+
+.. autofunction:: chroma_scape_features

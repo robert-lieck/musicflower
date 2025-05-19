@@ -1,6 +1,0 @@
-musicflower.webapp.get\_downsampler
-===================================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: get_downsampler

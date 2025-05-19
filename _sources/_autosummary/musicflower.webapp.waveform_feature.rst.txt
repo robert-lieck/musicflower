@@ -1,6 +1,0 @@
-musicflower.webapp.waveform\_feature
-====================================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: waveform_feature

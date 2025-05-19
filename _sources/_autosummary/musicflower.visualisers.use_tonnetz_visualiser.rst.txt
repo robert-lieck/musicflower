@@ -1,0 +1,6 @@
+musicflower.visualisers.use\_tonnetz\_visualiser
+================================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: use_tonnetz_visualiser

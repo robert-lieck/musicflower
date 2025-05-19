@@ -1,6 +1,0 @@
-musicflower.webapp.keyscape
-===========================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: keyscape

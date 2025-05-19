@@ -28,9 +28,11 @@
    :template: custom-module-template.rst
    :recursive:
 
+   features
    istarmap
    loader
    plotting
    util
+   visualisers
    webapp
 

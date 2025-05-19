@@ -48,18 +48,35 @@ Here are some examples of how to use the MusicFlower package.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This is a brief walk through some basic MusicFlower functionality.">
+    <div class="sphx-glr-thumbcontainer" tooltip="The relevant data can be extracted from the Spectral Dome representation as described below, for instance, if a different visualisation backend than Plotly should be used (see plot_spectral_dome_example for basic functionality).">
 
 .. only:: html
 
-  .. image:: /auto_examples/images/thumb/sphx_glr_plot_basic_example_thumb.png
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_spectral_dome_extract_data_thumb.png
     :alt:
 
-  :ref:`sphx_glr_auto_examples_plot_basic_example.py`
+  :ref:`sphx_glr_auto_examples_plot_spectral_dome_extract_data.py`
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Basic Example</div>
+      <div class="sphx-glr-thumbnail-title">Spectral Dome: Extract Data</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This shows how the spectral dome visualisation can be used independently of the web app and also with symbolic data.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_spectral_dome_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_spectral_dome_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Spectral Dome: Stand-Alone Example</div>
     </div>
 
 
@@ -76,24 +93,7 @@ Here are some examples of how to use the MusicFlower package.
 
 .. raw:: html
 
-      <div class="sphx-glr-thumbnail-title">Web App Example</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="The relevant data can be extracted as described below, for instance, if a different visualisation backend than Plotly should be used (see plot_basic_example for basic functionality).">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_plot_extract_data_thumb.png
-    :alt:
-
-  :ref:`sphx_glr_auto_examples_plot_extract_data.py`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Extract Data</div>
+      <div class="sphx-glr-thumbnail-title">WebApp Example</div>
     </div>
 
 
@@ -109,9 +109,9 @@ Here are some examples of how to use the MusicFlower package.
 
    /auto_examples/plot_triangular_maps
    /auto_examples/plot_time_traces
-   /auto_examples/plot_basic_example
+   /auto_examples/plot_spectral_dome_extract_data
+   /auto_examples/plot_spectral_dome_example
    /auto_examples/plot_webapp
-   /auto_examples/plot_extract_data
 
 
 .. only:: html

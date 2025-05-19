@@ -1,0 +1,6 @@
+musicflower.visualisers.use\_fourier\_visualiser
+================================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: use_fourier_visualiser

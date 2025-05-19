@@ -1,0 +1,6 @@
+musicflower.util.feature\_exists
+================================
+
+.. currentmodule:: musicflower.util
+
+.. autofunction:: feature_exists

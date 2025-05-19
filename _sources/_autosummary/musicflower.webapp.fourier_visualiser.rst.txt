@@ -1,6 +1,0 @@
-musicflower.webapp.fourier\_visualiser
-======================================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: fourier_visualiser

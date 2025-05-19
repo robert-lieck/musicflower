@@ -1,6 +1,0 @@
-musicflower.util.bezier
-=======================
-
-.. currentmodule:: musicflower.util
-
-.. autofunction:: bezier

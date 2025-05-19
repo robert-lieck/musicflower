@@ -1,0 +1,283 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>musicflower.features &mdash; MusicFlower  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/autoclasstoc.css?v=08871587" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: black" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MusicFlower
+              <img src="../../_static/logo_96.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">MusicFlower Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_summary.html">API Summary</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: black" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MusicFlower</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">musicflower.features</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for musicflower.features</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright (c) 2025 Robert Lieck.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tempfile</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTemporaryFile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_chroma</span><span class="p">,</span> <span class="n">audio_scape</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_fourier_component</span><span class="p">,</span> <span class="n">feature_exists</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">musicflower.webapp</span><span class="w"> </span><span class="kn">import</span> <span class="n">WebApp</span>
+
+
+<div class="viewcode-block" id="none_feature">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.none_feature.html#musicflower.features.none_feature">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">none_feature</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[]</span></div>
+
+
+
+<div class="viewcode-block" id="waveform_feature">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.waveform_feature.html#musicflower.features.waveform_feature">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">waveform_feature</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">,</span> <span class="n">use_real_file</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">use_real_file</span><span class="p">:</span>
+        <span class="c1"># create temporary file as librosa.load works better with a real file</span>
+        <span class="n">tf</span> <span class="o">=</span> <span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># write audio content to temporary file</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">audio</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="c1"># load audio from file</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="c1"># close and remove temporary file</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">audio</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">sr</span></div>
+
+
+
+<div class="viewcode-block" id="spectrogram_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.spectrogram_features.html#musicflower.features.spectrogram_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">spectrogram_features</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">):</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">waveform_feature</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">use_real_file</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">S_db</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">D</span><span class="p">),</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">S_db</span><span class="o">.</span><span class="n">T</span></div>
+
+
+
+<div class="viewcode-block" id="chroma_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.chroma_features.html#musicflower.features.chroma_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chroma_features</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">,</span> <span class="n">normalised</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">waveform_feature</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">use_real_file</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">chroma</span> <span class="o">=</span> <span class="n">get_chroma</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">),</span>
+        <span class="c1"># hop_length=512,  # default</span>
+        <span class="c1"># hop_length=2048,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">if</span> <span class="n">normalised</span><span class="p">:</span>
+        <span class="n">chroma</span> <span class="o">=</span> <span class="n">normaliser</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="n">chroma</span><span class="p">],</span> <span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chroma</span></div>
+
+
+
+<div class="viewcode-block" id="use_chroma_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.use_chroma_features.html#musicflower.features.use_chroma_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">use_chroma_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;chroma-features&#39;</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ignore_existing</span> <span class="ow">and</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">app</span><span class="o">.</span><span class="n">register_feature_extractor</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">chroma_features</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">chroma_features_n</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">chroma_features</span><span class="p">(</span><span class="n">audio</span><span class="o">=</span><span class="n">audio</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">normalised</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">downsampler</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="n">f</span><span class="p">],</span> <span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">f</span> <span class="o">=</span> <span class="n">normaliser</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="p">[</span><span class="n">f</span><span class="p">],</span> <span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">f</span>
+
+        <span class="n">app</span><span class="o">.</span><span class="n">register_feature_extractor</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">chroma_features_n</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="chroma_scape_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.chroma_scape_features.html#musicflower.features.chroma_scape_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">chroma_scape_features</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">check_features</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">audio_scape</span><span class="p">(</span><span class="n">n_time_intervals</span><span class="o">=</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">raw_chroma</span><span class="o">=</span><span class="n">features</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">top_down</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="use_chroma_scape_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.use_chroma_scape_features.html#musicflower.features.use_chroma_scape_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">use_chroma_scape_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;chroma-scape-features&#39;</span><span class="p">,</span> <span class="n">chroma_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ignore_existing</span> <span class="ow">and</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">chroma_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chroma_name</span> <span class="o">=</span> <span class="s1">&#39;chroma-features&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">chroma_name</span><span class="p">):</span>
+            <span class="n">use_chroma_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">chroma_name</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_feature_remapper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">chroma_name</span><span class="p">],</span> <span class="n">chroma_scape_features</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="normaliser">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.normaliser.html#musicflower.features.normaliser">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">normaliser</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">check_features</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">features</span> <span class="o">/=</span> <span class="n">features</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">features</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">features</span> <span class="o">/</span> <span class="n">features</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="fourier_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.fourier_features.html#musicflower.features.fourier_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fourier_features</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the amplitude and phase of all Fourier components using `get_fourier_component`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">check_features</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">get_fourier_component</span><span class="p">(</span><span class="n">features</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="use_fourier_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.use_fourier_features.html#musicflower.features.use_fourier_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">use_fourier_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fourier-features&#39;</span><span class="p">,</span> <span class="n">chroma_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ignore_existing</span> <span class="ow">and</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">chroma_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chroma_name</span> <span class="o">=</span> <span class="s1">&#39;chroma-features&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">chroma_name</span><span class="p">):</span>
+            <span class="n">use_chroma_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">chroma_name</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_feature_remapper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">chroma_name</span><span class="p">],</span> <span class="n">fourier_features</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="use_fourier_scape_features">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.use_fourier_scape_features.html#musicflower.features.use_fourier_scape_features">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">use_fourier_scape_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;fourier-scape-features&#39;</span><span class="p">,</span> <span class="n">chroma_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ignore_existing</span> <span class="ow">and</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span>
+    <span class="k">if</span> <span class="n">chroma_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chroma_name</span> <span class="o">=</span> <span class="s1">&#39;chroma-scape-features&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">feature_exists</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">chroma_name</span><span class="p">):</span>
+            <span class="n">use_chroma_features</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">chroma_name</span><span class="p">)</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">register_feature_remapper</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">[</span><span class="n">chroma_name</span><span class="p">],</span> <span class="n">fourier_features</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="downsampler">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.downsampler.html#musicflower.features.downsampler">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">downsampler</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">WebApp</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="c1"># downsample by computing mean over window</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">check_features</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot downsample: requested size (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">) is larger than input size (</span><span class="si">{</span><span class="n">length</span><span class="si">}</span><span class="s2">), returning input&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">features</span>
+    <span class="n">batch_shape</span> <span class="o">=</span> <span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">downsampled</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,)</span> <span class="o">+</span> <span class="n">batch_shape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">downsampled</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">length</span> <span class="o">*</span> <span class="n">idx</span> <span class="o">/</span> <span class="n">n</span><span class="p">):</span><span class="nb">int</span><span class="p">(</span><span class="n">length</span> <span class="o">*</span> <span class="p">(</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span><span class="p">),</span> <span class="o">...</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">downsampled</span></div>
+
+
+
+<div class="viewcode-block" id="get_downsampler">
+<a class="viewcode-back" href="../../_autosummary/musicflower.features.get_downsampler.html#musicflower.features.get_downsampler">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_downsampler</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">features</span><span class="p">:</span> <span class="n">downsampler</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Robert Lieck.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

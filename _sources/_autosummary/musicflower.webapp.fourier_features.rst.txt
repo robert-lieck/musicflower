@@ -1,6 +1,0 @@
-musicflower.webapp.fourier\_features
-====================================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: fourier_features

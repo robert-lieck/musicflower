@@ -1,6 +1,0 @@
-musicflower.webapp.advanced\_chroma\_visualiser\_fast
-=====================================================
-
-.. currentmodule:: musicflower.webapp
-
-.. autofunction:: advanced_chroma_visualiser_fast

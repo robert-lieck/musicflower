@@ -1,0 +1,6 @@
+musicflower.visualisers.waveform\_visualiser
+============================================
+
+.. currentmodule:: musicflower.visualisers
+
+.. autofunction:: waveform_visualiser

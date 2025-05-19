@@ -1,0 +1,42 @@
+musicflower.features
+====================
+
+.. automodule:: musicflower.features
+
+   
+   
+   
+
+   
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+   
+      chroma_features
+      chroma_scape_features
+      downsampler
+      fourier_features
+      get_downsampler
+      none_feature
+      normaliser
+      spectrogram_features
+      use_chroma_features
+      use_chroma_scape_features
+      use_fourier_features
+      use_fourier_scape_features
+      waveform_feature
+   
+   
+
+   
+   
+   
+
+   
+   
+   
+
+
+
