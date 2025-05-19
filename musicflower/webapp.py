@@ -146,42 +146,6 @@ class WebApp:
             n = len(features)
         return int(round(position * (n - 1)))
 
-    def use_chroma_features(self, n=None, name='chroma-features'):
-        if n is None:
-            self.register_feature_extractor(name, chroma_features)
-        else:
-            def chroma_features_n(*, audio, app, n=n):
-                f = chroma_features(audio=audio, app=app, normalised=False)
-                f = downsampler(features=[f], app=app, n=n)
-                f = normaliser(features=[f], app=app)
-                return f
-            self.register_feature_extractor(name, chroma_features_n)
-        return self
-
-    def use_chroma_scape_features(self, name='chroma-scape-features', chroma_name=None):
-        if chroma_name is None:
-            chroma_name = 'chroma-features'
-            if chroma_name not in self.feature_extractors and chroma_name not in self.feature_remappers:
-                self.use_chroma_features(name=chroma_name)
-        self.register_feature_remapper(name, [chroma_name], chroma_scape_features)
-        return self
-
-    def use_fourier_features(self, name='fourier-features', chroma_name=None):
-        if chroma_name is None:
-            chroma_name = 'chroma-features'
-            if chroma_name not in self.feature_extractors and chroma_name not in self.feature_remappers:
-                self.use_chroma_features(name=chroma_name)
-        self.register_feature_remapper(name, [chroma_name], fourier_features)
-        return self
-
-    def use_fourier_scape_features(self, name='fourier-scape-features', chroma_name=None):
-        if chroma_name is None:
-            chroma_name = 'chroma-scape-features'
-            if chroma_name not in self.feature_extractors and chroma_name not in self.feature_remappers:
-                self.use_chroma_features(name=chroma_name)
-        self.register_feature_remapper(name, [chroma_name], fourier_features)
-        return self
-
     def register_feature_extractor(self, name, func):
         """
         Register a feature extractor with given name that computes features from an audio file. The returned features
@@ -763,85 +727,6 @@ class WebApp:
 
     def run(self, *args, **kwargs):
         self.app.run(*args, **kwargs)
-
-
-def none_feature(*, audio, app):
-    return []
-
-
-def waveform_feature(*, audio, app, use_real_file=True):
-    if use_real_file:
-        # create temporary file as librosa.load works better with a real file
-        tf = NamedTemporaryFile(delete=False)
-        # write audio content to temporary file
-        tf.write(audio.read())
-        # load audio from file
-        y, sr = librosa.load(tf.name)
-        # close and remove temporary file
-        tf.close()
-        os.unlink(tf.name)
-    else:
-        y, sr = librosa.load(audio)
-    return y, sr
-
-
-def spectrogram_features(*, audio, app):
-    y, sr = waveform_feature(audio=audio, app=app, use_real_file=True)
-    D = librosa.stft(y)
-    S_db = librosa.amplitude_to_db(np.abs(D), ref=np.max)
-    return S_db.T
-
-
-def chroma_features(*, audio, app, normalised=True):
-    y, sr = waveform_feature(audio=audio, app=app, use_real_file=True)
-    chroma = get_chroma(
-        data=(y, sr),
-        # hop_length=512,  # default
-        # hop_length=2048,
-    ).T
-    if normalised:
-        chroma = normaliser(features=[chroma], app=app)
-    return chroma
-
-
-def chroma_scape_features(*, features, app=None):
-    features = WebApp.check_features(features)
-    return audio_scape(n_time_intervals=features.shape[0], raw_chroma=features.T, top_down=True)
-
-
-def normaliser(*, features, app=None, inplace=True, axis=-1):
-    features = WebApp.check_features(features)
-    if inplace:
-        features /= features.sum(axis=axis, keepdims=True)
-        return features
-    else:
-        return features / features.sum(axis=axis, keepdims=True)
-
-
-def fourier_features(*, features, app=None):
-    """
-    Compute the amplitude and phase of all Fourier components using `get_fourier_component`.
-    """
-    features = WebApp.check_features(features)
-    return get_fourier_component(features)
-
-
-def downsampler(*, features, app=None, n):
-    # downsample by computing mean over window
-    features = WebApp.check_features(features)
-    length = features.shape[0]
-    if length < n:
-        warn(f"Cannot downsample: requested size ({n}) is larger than input size ({length}), returning input")
-        return features
-    batch_shape = features.shape[1:]
-    downsampled = np.zeros((n,) + batch_shape)
-    for idx in range(n):
-        downsampled[idx, ...] = features[int(length * idx / n):int(length * (idx + 1) / n), ...].mean(axis=0)
-    return downsampled
-
-
-def get_downsampler(n):
-    return lambda features: downsampler(features=features, n=n)
 
 
 def waveform_visualiser(*, features, position, app, update=True, **kwargs):
