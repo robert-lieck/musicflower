@@ -3,35 +3,20 @@ import base64
 from io import BytesIO
 from itertools import chain
 from warnings import warn
-from tempfile import NamedTemporaryFile, TemporaryDirectory
+from tempfile import TemporaryDirectory
 import logging
 from pathlib import Path
 
-import plotly.graph_objects as go
-import plotly.express as px
-from plotly.subplots import make_subplots
 import numpy as np
-import librosa
 
 from dash import Dash, dcc, html, no_update, ctx
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 
-from pitchscapes.keyfinding import KeyEstimator
-from pitchtypes import EnharmonicPitchClass, SpelledPitchClass
-
-from musicflower.loader import get_chroma, audio_scape
-from musicflower.util import get_fourier_component, transpose_profiles, rad_to_deg, tonal_modulo, remap_to_xyz
-from musicflower.plotting import (rgba, rgba_lighter, rgba_mix, plot_all, key_colors, add_key_markers, plot_time_traces,
-                                  create_fig, ellipse_3d)
+from musicflower.util import feature_exists
 
 
 class WebApp:
-
-    major_minor_profiles = KeyEstimator.profiles['albrecht']
-    major_minor_profiles = np.array([major_minor_profiles['major'], major_minor_profiles['minor']]).T  # (pitch, mode)
-    major_minor_profiles = transpose_profiles(major_minor_profiles)  # (trans, pitch, mode)
-    major_minor_profiles = np.moveaxis(major_minor_profiles, 2, 0)  # (mode, trans, pitch)
 
     def __init__(self, verbose=False):
         self.app = None
@@ -176,7 +161,7 @@ class WebApp:
         self._register(key=remapper_name, value=(feature_names, func),
                        registry='feature_remappers', msg_name="feature remapper")
         for fname in feature_names:
-            if fname not in self.feature_extractors and fname not in self.feature_remappers:
+            if not feature_exists(self, fname):
                 warn(f"feature remapper '{remapper_name}' requires '{fname}', but no feature extractor or "
                       f"remapper with this name is registered so far", RuntimeWarning)
             return self
@@ -213,7 +198,7 @@ class WebApp:
         self._register(key=visualiser_name, value=(feature_names, func, update),
                        registry="visualisers", msg_name="visualiser")
         for fname in feature_names:
-            if fname not in self.feature_extractors and fname not in self.feature_remappers:
+            if not feature_exists(self, fname):
                 warn(f"visualiser '{visualiser_name}' requires '{fname}', but no feature extractor or "
                      f"remapper with this name is registered so far", RuntimeWarning)
         return self

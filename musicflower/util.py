@@ -6,12 +6,16 @@ import math
 
 import numpy as np
 from scipy import interpolate
-import matplotlib.pyplot as plt
 
+from pitchscapes.keyfinding import KeyEstimator
 from triangularmap import TMap
 
 
 rad_to_deg = 360 / (2 * math.pi)
+
+
+def feature_exists(app, name):
+    return name in app.feature_extractors or name in app.feature_remappers
 
 
 def get_fourier_component(pcds: np.ndarray, fourier_component: int = None) -> np.ndarray:
@@ -160,9 +164,9 @@ def get_time_traces(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndar
                 arr_out[:, depth, ..., :] = arr.dslice[depth][0, ..., :]
             else:
                 arr_out[:, depth, ..., :] = interpolate.interp1d(np.linspace(0, 1, depth + 1),
-                                                              arr.dslice[depth][..., :],
-                                                              axis=0,
-                                                              copy=False)(times)
+                                                                 arr.dslice[depth][..., :],
+                                                                 axis=0,
+                                                                 copy=False)(times)
     return xyz_out, colors_out
 
 
@@ -316,37 +320,7 @@ def broadcast_func(func, **kwargs):
     return tuple(ret)
 
 
-def bezier(t, p):
-    if len(p.shape) > 1:
-        t = t[:, None]
-    if p.shape[0] == 2:
-        return (1 - t) * p[0] + t * p[1]
-    elif p.shape[0] == 3:
-        return (1 - t) * ((1 - t) * p[0] + t * p[1]) + t * ((1 - t) * p[1] + t * p[2])
-    elif p.shape[0] == 4:
-        return (1 - t) ** 3 * p[0] + 3 * (1 - t) ** 2 * t * p[1] + 3 * (1 - t) * t ** 2 * p[2] + t ** 3 * p[3]
-    else:
-        raise NotImplementedError("Bezier curve only implemented for 2–4 points, i.e., 0–2 control points "
-                                  "(linear, quadratic, cubic)")
-
-
-def show_bezier(p):
-    plt.plot(*bezier(np.linspace(0, 1, 300), p).T, '-')
-    plt.plot(p[:, 0], p[:, 1], 'o-')
-    plt.show()
-
-
-def main():
-    show_bezier(np.array([[0, 0],
-                          [0, 1],
-                          [1, 1]]))
-
-    # t = np.linspace(0, 1, 300)
-    # p = np.array([0, 10, 0.9, 1])
-    # plt.plot(t, bezier(t, p).T, '-')
-    # # plt.plot(p[:, 0], p[:, 1], 'o-')
-    # plt.show()
-
-
-if __name__ == "__main__":
-    main()
+major_minor_profiles = KeyEstimator.profiles['albrecht']
+major_minor_profiles = np.array([major_minor_profiles['major'], major_minor_profiles['minor']]).T  # (pitch, mode)
+major_minor_profiles = transpose_profiles(major_minor_profiles)  # (trans, pitch, mode)
+major_minor_profiles = np.moveaxis(major_minor_profiles, 2, 0)  # (mode, trans, pitch)
