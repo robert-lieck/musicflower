@@ -384,15 +384,16 @@ class WebApp:
                     print(f"saving figure: {name}")
                 kwargs, features = app._unpack_visualiser_args(*args)
                 figure = app._visualiser_callbacks[name](features=features, position=position, app=app, figure=figure, **kwargs)
-                return dcc.send_bytes(
-                    # figure.write_image,
-                    lambda *a, **k: figure.write_image(*a, **k,
-                                                       engine="kaleido",  # (default) marker size incorrect + problems when only ambient lighting is on
-                                                       # engine="orca",   # only marker size incorrect
-                                                       width=kwargs['width'],
-                                                       height=kwargs['height'],
-                                                       ),
-                    "figure.png")
+                with TemporaryDirectory() as tmpdir:
+                    figure_file = str(Path(tmpdir) / 'figure.png')
+                    figure.write_image(
+                        file=figure_file,
+                        engine="kaleido",  # (default) marker size incorrect + problems when only ambient lighting is on
+                        # engine="orca",   # only marker size incorrect
+                        width=kwargs['width'],
+                        height=kwargs['height'],
+                    )
+                    return dcc.send_file(figure_file)
 
             ################
             #  SAVE VIDEO  #
