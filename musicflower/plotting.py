@@ -296,6 +296,7 @@ def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fi
              do_plot_border: bool = True, do_plot_time_traces: bool = False,
              plot_points_kwargs=(), plot_tip_kwargs=(), plot_surface_kwargs=(),
              plot_border_kwargs=(), plot_time_traces_kwargs=(),
+             key_markers=False,
              ):
     # convert default kwargs to dicts
     plot_points_kwargs = dict(plot_points_kwargs)
@@ -367,6 +368,15 @@ def plot_all(x: np.ndarray, y: np.ndarray, z: np.ndarray, colors: np.ndarray, fi
             time_traces = [plot_time_traces(x=x, y=y, z=z, colors=colors, group=group, n_steps=n_time_traces, **plot_time_traces_kwargs)]
         # add time traces
         add_time_slider(frame_traces=time_traces, fig=fig)
+    # add key markers
+    if key_markers:
+        add_key_markers(
+            fig,
+            r=1,
+            parallels_kwargs=dict(opacity=0.5),
+            meridians_kwargs=dict(opacity=0.5),
+            label_kwargs=()
+        )
     # return figure
     return fig
 
@@ -522,11 +532,3 @@ def ellipse_coords(r1, r2, centre=(0, 0, 0), n=100, plane=None):
 def ellipse_3d(r1, r2, centre=(0, 0, 0), n=100, plane=None, **kwargs):
     x, y, z, i, j, k = ellipse_coords(r1=r1, r2=r2, centre=centre, n=n, plane=plane)
     return go.Mesh3d(x=x, y=y, z=z, i=i, j=j, k=k, **kwargs)
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
