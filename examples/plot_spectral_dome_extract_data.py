@@ -1,10 +1,10 @@
 """
-Extract Data
+Spectral Dome: Extract Data
 ===========================
 
-The relevant data can be extracted as described below, for instance, if a different visualisation backend than Plotly
-should be used (see :doc:`plot_basic_example` for basic functionality).
-"""
+The relevant data can be extracted from the Spectral Dome representation as described below, for instance,
+if a different visualisation backend than Plotly should be used (see :doc:`plot_spectral_dome_example` for basic
+functionality)."""
 
 # %%
 # Loading Files
@@ -33,7 +33,7 @@ print(corpus.shape)
 # %%
 # Colours and 3D Coordinates
 # --------------------------
-# These data can be mapped to colours and 3D coordinates as shown in the :doc:`plot_basic_example`, that is
+# These data can be mapped to colours and 3D coordinates as shown in the :doc:`plot_spectral_dome_example`, that is
 
 from musicflower.plotting import key_colors
 from musicflower.util import get_fourier_component, remap_to_xyz
@@ -74,7 +74,7 @@ print(xyz[piece, ijk[idx]])
 # %%
 # Time Traces
 # -----------
-# In :doc:`plot_basic_example` the time traces were plotted, but we did not extract the actual data for them.
+# In :doc:`plot_spectral_dome_example` the time traces were plotted, but we did not extract the actual data for them.
 # They are computed by interpolating along rows of the triangular map using the
 # :func:`~musicflower.util.get_time_traces` function. In the output, the first dimension are time steps, the second runs
 # along the traces (from the top of the triangle to the bottom), and the last one are xyz-coordinates or RGB-colours,

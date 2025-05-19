@@ -1,39 +1,50 @@
 """
-Spectral Dome Example
-=====================
+Spectral Dome: Stand-Alone Example
+==================================
 
 This shows how the spectral dome visualisation can be used independently of the web app and also with symbolic data.
 """
 
 # %%
-# Loading a File
-# ------------------------
+# Basic Example
+# -------------
 #
-# We are using a MusicXML file as it is small enough to ship with the documentation.
-# It can be loaded using the :func:`~musicflower.loader.load_file` function
+# The :func:`~musicflower.loader.load_file` function can be used to get chroma scape features independently of the
+# web app (here, we are using a MusicXML file as it is small enough to ship with the documentation). The feature
+# remappers and visualisers can be used as stand-alone functions
 
 from musicflower.loader import load_file
+from musicflower.features import fourier_features
+from musicflower.visualisers import spectral_dome_visualiser
 
 # path to file
 file_path = 'Prelude_No._1_BWV_846_in_C_Major.mxl'  # could also be audio file
-# file_path = '../J.S. Bach - Prelude in C Major.mp3'
 # split piece into this many equal-sized time intervals
 resolution = 200
-# get pitch scape at specified resolution
-scape = load_file(data=file_path, n=resolution)
-print(scape.shape)
+# get chroma and fourier scape features
+chroma_scape_features = load_file(data=file_path, n=resolution)
+fourier_scape_features = fourier_features(features=[chroma_scape_features])
+# visualise piece
+spectral_dome_visualiser(features=[fourier_scape_features, chroma_scape_features], position=0)
+
 
 # %%
-# The result is an array with pitch-class distributions (PCDs), stored in a triangular map (see
-# :doc:`plot_triangular_maps`). You can load multiple pieces using the :func:`~musicflower.loader.load_corpus`
-# function
+# Loading Multiple Files
+# ----------------------
+#
+# The output of the `load_file` function is an array with pitch-class distributions (PCDs), stored in a triangular
+# map (see :doc:`plot_triangular_maps`). You can load multiple pieces using the
+# :func:`~musicflower.loader.load_corpus` function
+
 from musicflower.loader import load_corpus
 corpus, files = load_corpus(data=[file_path, file_path], n=resolution)
 print(corpus.shape)
 
 # %%
-# The resulting array has the different pieces as its first dimension. Since we have loaded the same pices twice, we
-# will transpose one version by a semitone to fake a different second piece
+# The resulting array has the different pieces as its first dimension, the (flattened) scape as second,
+# and the pitch classes (chroma values) as third. Since we have loaded the same pieces twice, we will transpose one
+# version by a semitone to fake a different second piece
+
 import numpy as np
 corpus[1] = np.roll(corpus[1], shift=1, axis=-1)
 

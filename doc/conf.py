@@ -80,6 +80,9 @@ intersphinx_mapping = {
     'pitchscapes': ('https://robert-lieck.github.io/pitchscapes', None),
 }
 
+# include all Python files in example gallery (not just files starting with "plot_" as the default)
+sphinx_gallery_conf = {"filename_pattern": ''}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
