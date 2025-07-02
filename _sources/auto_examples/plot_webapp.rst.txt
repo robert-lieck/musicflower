@@ -73,7 +73,7 @@ The default version of the web app, which you can run with `python -m musicflowe
     initialised 'Tonnetz' visualiser with callbacks for 'chroma-features'
     initialised 'Spectral Dome' visualiser with callbacks for 'fourier-scape-features', 'chroma-scape-features'
 
-    <musicflower.webapp.WebApp object at 0x7f4841dcc1c0>
+    <musicflower.webapp.WebApp object at 0x7f8a04e0d840>
 
 
 
@@ -154,7 +154,7 @@ required dependencies. A more explicit version of the startup script would look 
     initialised 'Tonnetz' visualiser with callbacks for 'chroma-features'
     initialised 'Spectral Dome' visualiser with callbacks for 'fourier-scape-features', 'chroma-scape-features'
 
-    <musicflower.webapp.WebApp object at 0x7f4768792770>
+    <musicflower.webapp.WebApp object at 0x7f892f87df00>
 
 
 
@@ -218,7 +218,7 @@ facilitate debugging
     initialised 'chroma-features' feature extractor
     initialised 'Chroma Bars' visualiser with callbacks for 'chroma-features'
 
-    <musicflower.webapp.WebApp object at 0x7f4851f14490>
+    <musicflower.webapp.WebApp object at 0x7f892faf5e10>
 
 
 
@@ -263,14 +263,14 @@ A slightly more elaborate version of the visualiser could look as follows
     initialised 'chroma-features' feature extractor
     initialised 'Chroma Bars' visualiser with callbacks for 'chroma-features'
 
-    <musicflower.webapp.WebApp object at 0x7f4841dcf670>
+    <musicflower.webapp.WebApp object at 0x7f8a04e0c610>
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.055 seconds)
+   **Total running time of the script:** (0 minutes 0.054 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_webapp.py:

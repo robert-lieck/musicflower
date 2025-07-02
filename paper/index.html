@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .video-container {
+            background: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .video-title {
+            margin: 10px 0;
+            font-size: 1rem;
+            text-align: center;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Video Gallery</h1>
+    <div class="gallery">
+
+        <div class="video-container">
+            <div class="video-title">J.S. Bach - Prelude in C Major - Fourier</div>
+            <video controls src="J.S. Bach - Prelude in C Major - Fourier.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">J.S. Bach - Prelude in C Major - Keyscape</div>
+            <video controls src="J.S. Bach - Prelude in C Major - Keyscape.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">J.S. Bach - Prelude in C Major - Spectral Dome</div>
+            <video controls src="J.S. Bach - Prelude in C Major - Spectral Dome.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">J.S. Bach - Prelude in C Major - Tonnetz</div>
+            <video controls src="J.S. Bach - Prelude in C Major - Tonnetz.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">Rising Fifths Chords Fourier</div>
+            <video controls src="Rising_Fifths_Chords_Fourier.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">Rising Fifths Chords Keyscape</div>
+            <video controls src="Rising_Fifths_Chords_Keyscape.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">Rising Fifths Chords Spectral Dome</div>
+            <video controls src="Rising_Fifths_Chords_Spectral_Dome.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">Rising Fifths Chords Tonnetz</div>
+            <video controls src="Rising_Fifths_Chords_Tonnetz.mp4"></video>
+        </div>
+
+        <div class="video-container">
+            <div class="video-title">Shepard Tone Fourier</div>
+            <video controls src="Shepard_Tone_Fourier.mp4"></video>
+        </div>
+
+    </div>
+</body>
+</html>

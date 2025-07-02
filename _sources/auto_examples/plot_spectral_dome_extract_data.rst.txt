@@ -63,7 +63,7 @@ result from the first run). The resulting corpus corresponds to a concatenation 
 
  .. code-block:: none
 
-      0%|          | 0/2 [00:00<?, ?it/s]     50%|█████     | 1/2 [00:00<00:00,  2.86it/s]    100%|██████████| 2/2 [00:00<00:00,  5.71it/s]
+      0%|          | 0/2 [00:00<?, ?it/s]     50%|█████     | 1/2 [00:00<00:00,  1.91it/s]    100%|██████████| 2/2 [00:00<00:00,  3.74it/s]
     (2, 1275, 12)
 
 
@@ -157,7 +157,7 @@ The triangle with a specific index can be obtained as
  .. code-block:: none
 
     1st vertex (i): 0.884285110785993 0.6458259160397136 0.490865286014064
-    2nd vertex (j): 0.869942217870529 0.6339019966114717 0.48349642838235596
+    2nd vertex (j): 0.869942217870529 0.6339019966114718 0.48349642838235596
     3rd vertex (k): 0.86378671495546 0.6398644626106169 0.48666824485935084
 
 
@@ -228,7 +228,7 @@ respectively. The third (batch) dimension are the different pieces in this case.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.485 seconds)
+   **Total running time of the script:** (0 minutes 0.677 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_spectral_dome_extract_data.py:
