@@ -11,9 +11,7 @@
 [![doc](https://github.com/robert-lieck/musicflower/actions/workflows/doc.yml/badge.svg)](https://github.com/robert-lieck/musicflower/actions/workflows/doc.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-MusicFlower provides a web app and python framework for interactive music visualisation as described in the associated paper.
-
-See below for a quick start and have a look at the [documentation](https://robert-lieck.github.io/musicflower/) for more information and examples.
+MusicFlower provides a web app and python framework for interactive music visualisation. See below for a quick start and have a look at the [documentation](https://robert-lieck.github.io/musicflower/) for more information and examples.
 
 ## Quickstart
 
