@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:26.920** total execution time for 5 files **from auto_examples**:
+**00:27.717** total execution time for 5 files **from auto_examples**:
 
 .. container::
 
@@ -33,17 +33,17 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_plot_spectral_dome_example.py` (``plot_spectral_dome_example.py``)
-     - 00:24.740
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_plot_time_traces.py` (``plot_time_traces.py``)
-     - 00:01.068
+     - 00:25.070
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_spectral_dome_extract_data.py` (``plot_spectral_dome_extract_data.py``)
-     - 00:00.677
+     - 00:01.178
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plot_time_traces.py` (``plot_time_traces.py``)
+     - 00:01.060
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_triangular_maps.py` (``plot_triangular_maps.py``)
-     - 00:00.380
+     - 00:00.353
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_webapp.py` (``plot_webapp.py``)
-     - 00:00.054
+     - 00:00.055
      - 0.0
